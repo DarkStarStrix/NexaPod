@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "job_id": "fold_ensemble_v1",
+  "type": "protein_folding",
+  "input_files": ["input1.fasta", "params.json"],
+  "docker_image": "nexapod/folding:latest",
+  "estimated_flops": 1.2e12,
+  "tier": 1,
+  "requirements": {"gpu": true, "ram_gb": 8},
+  "input_uri": "s3://nexapod-inputs/fold_ensemble_v1/",
+  "tolerance": 0.01,
+  "credit_rate": 1.0
+}
+

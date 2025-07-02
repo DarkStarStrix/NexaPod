@@ -1,0 +1,27 @@
+[project]
+name = "nexapod"
+version = "0.1.0"
+description = "NexaPod project"
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+requires-python = ">=3.8"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+    "cryptography>=45.0.5",
+    "docker-py>=1.10.6",
+    "fastapi==0.115.14",
+    "psutil>=7.0.0",
+    "pytest>=8.3.5",
+    "pyyaml>=6.0.2",
+    "requests>=2.25.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/nexapod"
+Repository = "https://github.com/yourusername/nexapod"
+Issues = "https://github.com/yourusername/nexapod/issues"
+
+[tool.setuptools]
+
+[tool.uv]
+python-preference = "system"  # Use activated venv or system Python

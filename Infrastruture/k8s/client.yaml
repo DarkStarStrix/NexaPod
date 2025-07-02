@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexapod-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nexapod-client
+  template:
+    metadata:
+      labels:
+        app: nexapod-client
+    spec:
+      containers:
+      - name: client
+        image: nexapod-client:latest
+        env:
+        - name: COORDINATOR_URL
+          value: "http://nexapod-server:8000"
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.yaml
+          subPath: config.yaml
+      volumes:
+      - name: config
+        configMap:
+          name: nexapod-client-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexapod-client
+spec:
+  selector:
+    app: nexapod-client
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+

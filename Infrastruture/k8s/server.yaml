@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexapod-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nexapod-server
+  template:
+    metadata:
+      labels:
+        app: nexapod-server
+    spec:
+      containers:
+      - name: server
+        image: nexapod-server:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: config
+          mountPath: /app/config.yaml
+          subPath: config.yaml
+      volumes:
+      - name: config
+        configMap:
+          name: nexapod-server-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexapod-server
+spec:
+  selector:
+    app: nexapod-server
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+

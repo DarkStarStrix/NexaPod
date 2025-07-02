@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package nexapod;
+
+message NodeProfile {
+  string cpu = 1;
+  int32 cores = 2;
+  int32 threads = 3;
+  float ram_gb = 4;
+  string os = 5;
+  repeated GPUInfo gpu = 6;
+}
+
+message GPUInfo {
+  string name = 1;
+  float memory_gb = 2;
+}
+
+message JobRequest {
+  string node_id = 1;
+}
+
+message JobDescriptor {
+  string schema_version = 1;
+  string job_id = 2;
+  string type = 3;
+  repeated string input_files = 4;
+  string docker_image = 5;
+  double estimated_flops = 6;
+  int32 tier = 7;
+  map<string, string> requirements = 8;
+  string input_uri = 9;
+  double tolerance = 10;
+  double credit_rate = 11;
+}
+
+message JobResult {
+  string job_id = 1;
+  string node_id = 2;
+  string output = 3;
+  string status = 4;
+  int64 timestamp = 5;
+  string sha256 = 6;
+  string signature = 7;
+}
+
+service Nexapod {
+  rpc RegisterNode (NodeProfile) returns (JobRequest);
+  rpc PollJob (JobRequest) returns (JobDescriptor);
+  rpc SubmitResult (JobResult) returns (JobRequest);
+}
+

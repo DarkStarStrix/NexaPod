@@ -1,0 +1,11 @@
+# NEXAPod Client Configuration
+
+# Node-specific settings for the client agent
+
+node_id: null  # Will be generated on first run
+private_key_path: "~/.nexapod/client_ed25519.key"
+coordinator_url: "http://localhost:8000"
+tier: 1
+poll_interval: 10  # seconds
+log_level: INFO
+
