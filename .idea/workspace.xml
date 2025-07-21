@@ -5,7 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add initial project files and configuration for GitToolBox integration">
+      <change afterPath="$PROJECT_DIR$/Client/archiver.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/dashboard.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/descriptor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/input_fetch.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/ledger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/network.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/reputation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Docs/Doc.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/database.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/nexapod.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/node.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/output_validator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/perf_estimator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/rate_limiter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/replication.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/runner.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/scheduler.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Infrastruture/validator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Protocol/incentives/bounties.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Protocol/incentives/credits.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Protocol/security/p2p.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Protocol/security/security.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/quantum_sim.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/surrogate_material.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/weather_ensemble.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nexapod/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/contributor_wall.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tier.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/NexaPod.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NexaPod.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/comms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/comms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Docs/API.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/API.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Docs/ARCHITECTURE.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/ARCHITECTURE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Docs/PROTOCOL.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/PROTOCOL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uv.lock" beforeDir="false" afterPath="$PROJECT_DIR$/uv.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,7 +57,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -21,16 +65,19 @@
     &quot;assignee&quot;: &quot;DarkStarStrix&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/DarkStarStrix/DataStream.git&quot;,
-    &quot;accountId&quot;: &quot;138b32ea-18a8-49cc-9639-12c0b010e1bc&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/DarkStarStrix/NexaPod.git",
+    "accountId": "138b32ea-18a8-49cc-9639-12c0b010e1bc"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2zK7F1fwVMoifJmrzcI2QANPhJx" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -44,7 +91,13 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/kunya/PycharmProjects/Auto_Api",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
     "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": []
@@ -53,7 +106,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-53e2683a6804-9cdd278e9d02-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.26094.141" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-PY-251.26927.90" />
+        <option value="bundled-python-sdk-41e8cd69c857-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.90" />
       </set>
     </attachedChunks>
   </component>
@@ -67,7 +121,13 @@
     </task>
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
     <MESSAGE value="Add initial project files and configuration for NEXAPod" />
     <MESSAGE value="Add initial project files and configuration for GitToolBox integration" />
     <option name="LAST_COMMIT_MESSAGE" value="Add initial project files and configuration for GitToolBox integration" />

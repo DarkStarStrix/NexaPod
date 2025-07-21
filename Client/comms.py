@@ -26,3 +26,32 @@ class CoordinatorClient:
         if not resp.ok:
             raise Exception(f"Result submission failed: {resp.text}")
 
+    def submit_job(self, param):
+        resp = requests.post(f"{self.url}/submit", json=param)
+        if not resp.ok:
+            raise Exception(f"Job submission failed: {resp.text}")
+        return resp.json()
+
+def get_node_profile():
+    # Simulated profile data
+    return {
+        'cpu': 'Intel Xeon',
+        'ram_gb': 32,
+        'cores': 16,
+        'node_id': 'testnode'
+    }
+
+def execute_job(job):
+    # Simulated job execution
+    print(f"Executing job {job['job_id']} with image {job['docker_image']}")
+    time.sleep(2)  # Simulate time taken to execute the job
+    return {
+        'status': 'completed',
+        'output': f"Output of job {job['job_id']}"
+    }
+
+def log_result(result, config):
+    log_file = f"nexapod_{result['job_id']}_log.json"
+    with open(log_file, 'w') as f:
+        f.write(str(result))
+    print(f"Result logged to {log_file}")

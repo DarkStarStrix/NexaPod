@@ -10,10 +10,15 @@ dependencies = [
     "cryptography>=45.0.5",
     "docker-py>=1.10.6",
     "fastapi==0.115.14",
+    "flask>=3.0.3",
+    "networkx>=3.1",
     "psutil>=7.0.0",
     "pytest>=8.3.5",
+    "pyvis>=0.3.2",
     "pyyaml>=6.0.2",
     "requests>=2.25.1",
+    "streamlit>=1.40.1",
+    "uvicorn>=0.33.0",
 ]
 
 [project.urls]
