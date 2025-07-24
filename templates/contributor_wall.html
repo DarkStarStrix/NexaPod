@@ -2,189 +2,725 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Nexa Pod: permissionless Science at Scale</title>
+  <title>NEXAPod: Powering the Future of Science - Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    /* Futuristic cyberpunk dark theme, streamlined layout */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0d0d0d;
-      color: #e0e0e0;
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
+
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: #b8c5d6;
+      --accent-cyan: #00d4ff;
+      --accent-purple: #8b5cf6;
+      --accent-green: #10b981;
+      --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--dark-gradient);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Animated background particles */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      opacity: 0.1;
+      animation: float 20s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); }
+      100% { transform: translateY(-100px) rotate(360deg); }
+    }
+
+    /* Header section */
     header {
+      position: relative;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(26, 26, 46, 0.9));
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 2rem 0;
       text-align: center;
-      padding: 20px 40px;
-      background: linear-gradient(90deg, #000000, #001f00);
-      border-bottom: 2px solid #39FF14;
+      overflow: hidden;
     }
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      color: #39FF14;
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: var(--shadow-glow);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    /* Main container */
     .container {
-      max-width: 960px;
-      margin: 40px auto;
-      background-color: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.8);
+      max-width: 1400px;
+      margin: 3rem auto;
+      padding: 0 2rem;
     }
-    h2 {
-      color: #39FF14;
-      border-bottom: 1px solid #333;
-      padding-bottom: 8px;
-      margin-bottom: 20px;
+
+    /* Stats overview */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
     }
+
+    .stat-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary-gradient);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Section headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-cyan), transparent);
+    }
+
+    /* Contributors table */
+    .contributors-section {
+      margin-bottom: 4rem;
+    }
+
+    .table-container {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
     }
-    th, td {
-      padding: 12px 15px;
-      border-bottom: 1px solid #333;
-      text-align: left;
+
+    thead {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
     }
+
     th {
-      background-color: #121212;
-      color: #39FF14;
-      font-weight: bold;
+      padding: 1.5rem 2rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    tr:hover {
-      background-color: #262626;
+
+    td {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
     }
-    .profile-tags {
-      font-size: 0.9em;
-      color: #8aff8a;
+
+    tr:hover td {
+      background: rgba(102, 126, 234, 0.1);
+      transform: scale(1.01);
     }
-    /* Leaderboard section styling */
-    .leaderboard {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #333;
+
+    .contributor-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      position: relative;
     }
-    .leaderboard-item {
+
+    .compute-value {
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tags {
       display: flex;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
-    .leaderboard-item:last-child {
-      border: none;
+
+    .tag {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid;
     }
-    .leaderboard-item img {
-      border-radius: 50%;
+
+    .tag.gpu {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+
+    .tag.cpu {
+      background: rgba(139, 92, 246, 0.2);
+      color: var(--accent-purple);
+      border-color: var(--accent-purple);
+    }
+
+    .tag.active {
+      background: rgba(0, 212, 255, 0.2);
+      color: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+    }
+
+    .tag.inactive {
+      background: rgba(156, 163, 175, 0.2);
+      color: #9ca3af;
+      border-color: #6b7280;
+    }
+
+    /* Leaderboard */
+    .leaderboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .leaderboard-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .leaderboard-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--secondary-gradient);
+    }
+
+    .leaderboard-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .rank-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
       width: 40px;
       height: 40px;
-      border: 2px solid #39FF14;
-      margin-right: 15px;
-    }
-    .leaderboard-item span {
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
       font-size: 1.1rem;
-      font-weight: bold;
-      color: #39FF14;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
     }
-    @media (max-width: 600px) {
-      header {
-        padding: 20px;
+
+    .contributor-profile {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      position: relative;
+    }
+
+    .avatar::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      z-index: -1;
+      animation: rotate 3s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .contributor-info h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .contributor-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-item .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      display: block;
+    }
+
+    .stat-item .label {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+        margin: 2rem auto;
       }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
       th, td {
-        padding: 10px;
+        padding: 1rem;
       }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      .leaderboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* Loading animation */
+    @keyframes shimmer {
+      0% { background-position: -200px 0; }
+      100% { background-position: calc(200px + 100%) 0; }
+    }
+
+    .loading {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      background-size: 200px 100%;
+      animation: shimmer 1.5s infinite;
     }
   </style>
 </head>
 <body>
+  <!-- Animated background -->
+  <div class="bg-animation" id="bgAnimation"></div>
+
   <header>
-    <h1>Nexa Pod: Persmissionaless Science at Scale</h1>
-    <!-- Removed user profile from header -->
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-network-wired"></i>
+        </div>
+        <div>
+          <h1>NEXAPod</h1>
+          <p class="subtitle">Powering the Future of Science</p>
+        </div>
+      </div>
+    </div>
   </header>
+
   <div class="container">
-    <h2>Contributors</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Compute Contributed</th>
-          <th>Tags</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Contributor 1</td>
-          <td>1050 GFLOPS</td>
-          <td class="profile-tags">CPU, Inactive</td>
-        </tr>
-        <tr>
-          <td>Contributor 2</td>
-          <td>1100 GFLOPS</td>
-          <td class="profile-tags">GPU, Active</td>
-        </tr>
-        <tr>
-          <td>Contributor 3</td>
-          <td>1150 GFLOPS</td>
-          <td class="profile-tags">CPU, Inactive</td>
-        </tr>
-        <tr>
-          <td>Contributor 4</td>
-          <td>1200 GFLOPS</td>
-          <td class="profile-tags">GPU, Active</td>
-        </tr>
-        <tr>
-          <td>Contributor 5</td>
-          <td>1250 GFLOPS</td>
-          <td class="profile-tags">CPU, Inactive</td>
-        </tr>
-        <tr>
-          <td>Contributor 6</td>
-          <td>1300 GFLOPS</td>
-          <td class="profile-tags">GPU, Active</td>
-        </tr>
-        <tr>
-          <td>Contributor 7</td>
-          <td>1350 GFLOPS</td>
-          <td class="profile-tags">CPU, Inactive</td>
-        </tr>
-        <tr>
-          <td>Contributor 8</td>
-          <td>1400 GFLOPS</td>
-          <td class="profile-tags">GPU, Active</td>
-        </tr>
-        <tr>
-          <td>Contributor 9</td>
-          <td>1450 GFLOPS</td>
-          <td class="profile-tags">CPU, Inactive</td>
-        </tr>
-        <tr>
-          <td>Contributor 10</td>
-          <td>1500 GFLOPS</td>
-          <td class="profile-tags">GPU, Active</td>
-        </tr>
-        <!-- ...existing code... -->
-      </tbody>
-    </table>
-    <!-- New Leaderboard Section -->
-    <div class="leaderboard">
-      <h2>Leaderboard</h2>
-      <div class="leaderboard-item">
-        <img src="https://via.placeholder.com/40" alt="User Profile Picture">
-        <span>John Doe</span>
+    <!-- Disclaimer -->
+    <div style="text-align:center; padding:10px; background:#f8d7da; color:#721c24; border:1px solid #f5c6cb;">
+      Disclaimer: This data is for demo purposes only and not live.
+    </div>
+
+    <!-- Network Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
+          <i class="fas fa-server"></i>
+        </div>
+        <div class="stat-value" id="totalNodes">2,847</div>
+        <div class="stat-label">Active Compute Nodes</div>
       </div>
-      <div class="leaderboard-item">
-        <img src="https://via.placeholder.com/40" alt="User Profile Picture">
-        <span>Jane Smith</span>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+          <i class="fas fa-microchip"></i>
+        </div>
+        <div class="stat-value" id="totalCompute">15.2 PF</div>
+        <div class="stat-label">Total Compute Power</div>
       </div>
-      <div class="leaderboard-item">
-        <img src="https://via.placeholder.com/40" alt="User Profile Picture">
-        <span>Alice Brown</span>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #06b6d4, #67e8f9);">
+          <i class="fas fa-tasks"></i>
+        </div>
+        <div class="stat-value" id="jobsCompleted">1.2M+</div>
+        <div class="stat-label">Jobs Completed</div>
       </div>
-      <!-- ...additional leaderboard items... -->
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+          <i class="fas fa-coins"></i>
+        </div>
+        <div class="stat-value" id="creditsDistributed">$2.8M</div>
+        <div class="stat-label">Credits Distributed</div>
+      </div>
+    </div>
+
+    <!-- Contributors Section -->
+    <div class="contributors-section">
+      <div class="section-header">
+        <h2 class="section-title">Network Contributors</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th><i class="fas fa-user"></i> Contributor</th>
+              <th><i class="fas fa-tachometer-alt"></i> Compute Power</th>
+              <th><i class="fas fa-tags"></i> Node Type</th>
+              <th><i class="fas fa-chart-line"></i> Performance</th>
+            </tr>
+          </thead>
+          <tbody id="contributorsTable">
+            <!-- Dynamic content will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="section-header">
+      <h2 class="section-title">Top Performers</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="leaderboard-grid" id="leaderboard">
+      <!-- Dynamic content will be inserted here -->
     </div>
   </div>
-  <!-- ...existing code... -->
+
+  <script>
+    // Sample data for contributors
+    const contributors = [
+      { name: "Dr. Sarah Chen", compute: "2.4 TFLOPS", type: "HPC", status: "Active", performance: "99.8%", avatar: "SC" },
+      { name: "Alex Rodriguez", compute: "1.8 TFLOPS", type: "GPU", status: "Active", performance: "98.2%", avatar: "AR" },
+      { name: "Emma Thompson", compute: "1.5 TFLOPS", type: "GPU", status: "Active", performance: "97.9%", avatar: "ET" },
+      { name: "Michael Park", compute: "1.2 TFLOPS", type: "CPU", status: "Active", performance: "96.5%", avatar: "MP" },
+      { name: "Lisa Wang", compute: "1.1 TFLOPS", type: "GPU", status: "Inactive", performance: "95.1%", avatar: "LW" },
+      { name: "David Kumar", compute: "980 GFLOPS", type: "CPU", status: "Active", performance: "94.7%", avatar: "DK" },
+      { name: "Rachel Green", compute: "850 GFLOPS", type: "GPU", status: "Active", performance: "93.2%", avatar: "RG" },
+      { name: "Tom Anderson", compute: "720 GFLOPS", type: "CPU", status: "Inactive", performance: "92.8%", avatar: "TA" },
+      { name: "Maria Santos", compute: "650 GFLOPS", type: "GPU", status: "Active", performance: "91.4%", avatar: "MS" },
+      { name: "James Wilson", compute: "580 GFLOPS", type: "CPU", status: "Active", performance: "90.9%", avatar: "JW" }
+    ];
+
+    // Animate background particles
+    function createParticles() {
+      const container = document.getElementById('bgAnimation');
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+        container.appendChild(particle);
+      }
+    }
+
+    // Populate contributors table
+    function populateContributors() {
+      const tableBody = document.getElementById('contributorsTable');
+      tableBody.innerHTML = contributors.map((contributor, index) => `
+        <tr style="animation-delay: ${index * 0.1}s;">
+          <td>
+            <div class="contributor-name">${contributor.name}</div>
+          </td>
+          <td>
+            <span class="compute-value">${contributor.compute}</span>
+          </td>
+          <td>
+            <div class="tags">
+              <span class="tag ${contributor.type.toLowerCase()}">${contributor.type}</span>
+              <span class="tag ${contributor.status.toLowerCase()}">${contributor.status}</span>
+            </div>
+          </td>
+          <td>
+            <span style="color: var(--accent-green); font-weight: 600;">${contributor.performance}</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Populate leaderboard
+    function populateLeaderboard() {
+      const leaderboard = document.getElementById('leaderboard');
+      const topContributors = contributors.slice(0, 6);
+
+      leaderboard.innerHTML = topContributors.map((contributor, index) => `
+        <div class="leaderboard-card" style="animation-delay: ${index * 0.15}s;">
+          <div class="rank-badge">${index + 1}</div>
+          <div class="contributor-profile">
+            <div class="avatar">${contributor.avatar}</div>
+            <div class="contributor-info">
+              <h3>${contributor.name}</h3>
+              <div class="tags">
+                <span class="tag ${contributor.type.toLowerCase()}">${contributor.type}</span>
+                <span class="tag ${contributor.status.toLowerCase()}">${contributor.status}</span>
+              </div>
+            </div>
+          </div>
+          <div class="contributor-stats">
+            <div class="stat-item">
+              <span class="value">${contributor.compute}</span>
+              <span class="label">Compute Power</span>
+            </div>
+            <div class="stat-item">
+              <span class="value">${contributor.performance}</span>
+              <span class="label">Uptime</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Animate counters
+    function animateCounters() {
+      const counters = [
+        { id: 'totalNodes', target: 2847, suffix: '' },
+        { id: 'jobsCompleted', target: 1.2, suffix: 'M+' },
+        { id: 'creditsDistributed', target: 2.8, suffix: 'M', prefix: '$' }
+      ];
+
+      counters.forEach(counter => {
+        const element = document.getElementById(counter.id);
+        if (!element) return;
+
+        let current = 0;
+        const increment = counter.target / 100;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= counter.target) {
+            current = counter.target;
+            clearInterval(timer);
+          }
+
+          const prefix = counter.prefix || '';
+          const suffix = counter.suffix || '';
+          const value = counter.target > 10 ? Math.floor(current) : current.toFixed(1);
+          element.textContent = `${prefix}${value}${suffix}`;
+        }, 20);
+      });
+    }
+
+    // Real-time updates simulation
+    function simulateRealTimeUpdates() {
+      setInterval(() => {
+        // Update random stats
+        const nodes = document.getElementById('totalNodes');
+        const current = parseInt(nodes.textContent.replace(/,/g, ''));
+        nodes.textContent = (current + Math.floor(Math.random() * 5)).toLocaleString();
+
+        // Randomly update contributor status
+        const rows = document.querySelectorAll('#contributorsTable tr');
+        const randomRow = rows[Math.floor(Math.random() * rows.length)];
+        if (randomRow) {
+          const statusTag = randomRow.querySelector('.tag.active, .tag.inactive');
+          if (statusTag) {
+            const isActive = statusTag.classList.contains('active');
+            statusTag.classList.toggle('active', !isActive);
+            statusTag.classList.toggle('inactive', isActive);
+            statusTag.textContent = isActive ? 'Inactive' : 'Active';
+          }
+        }
+      }, 5000);
+    }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      populateContributors();
+      populateLeaderboard();
+
+      // Delayed animations
+      setTimeout(animateCounters, 500);
+      setTimeout(simulateRealTimeUpdates, 2000);
+    });
+
+    // Add smooth scroll and hover effects
+    document.addEventListener('mousemove', (e) => {
+      const cards = document.querySelectorAll('.stat-card, .leaderboard-card');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+          card.style.transform = `perspective(1000px) rotateX(${(y - rect.height/2) / 20}deg) rotateY(${(x - rect.width/2) / 20}deg) translateZ(10px)`;
+        } else {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+        }
+      });
+    });
+  </script>
 </body>
 </html>

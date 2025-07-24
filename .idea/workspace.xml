@@ -4,52 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add initial project files and configuration for GitToolBox integration">
-      <change afterPath="$PROJECT_DIR$/Client/archiver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/dashboard.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/descriptor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/input_fetch.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/ledger.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/network.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/reputation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Docs/Doc.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/nexapod.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/node.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/output_validator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/perf_estimator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/rate_limiter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/replication.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/runner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/scheduler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Infrastruture/validator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Protocol/incentives/bounties.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Protocol/incentives/credits.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Protocol/security/p2p.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Protocol/security/security.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/quantum_sim.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/surrogate_material.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/weather_ensemble.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nexapod/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/contributor_wall.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tier.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/NexaPod.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NexaPod.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add initial implementation of NexaPod components and structure">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/comms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/comms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Docs/API.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/API.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Docs/ARCHITECTURE.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/ARCHITECTURE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Docs/PROTOCOL.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/PROTOCOL.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/scheduler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uv.lock" beforeDir="false" afterPath="$PROJECT_DIR$/uv.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,12 +21,12 @@
     &quot;assignee&quot;: &quot;DarkStarStrix&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/DarkStarStrix/NexaPod.git",
-    "accountId": "138b32ea-18a8-49cc-9639-12c0b010e1bc"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/DarkStarStrix/NexaPod.git&quot;,
+    &quot;accountId&quot;: &quot;138b32ea-18a8-49cc-9639-12c0b010e1bc&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -83,26 +39,26 @@
     <option name="showLibraryContents" value="true" />
     <option name="showScratchesAndConsoles" value="false" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/kunya/PycharmProjects/Auto_Api",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kunya/PycharmProjects/Auto_Api&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": []
+  &quot;keyToStringList&quot;: {
+    &quot;stardust.markdown.MarkdownSplitEditorSuppressor:keyList&quot;: []
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -130,6 +86,7 @@
     </ignored-roots>
     <MESSAGE value="Add initial project files and configuration for NEXAPod" />
     <MESSAGE value="Add initial project files and configuration for GitToolBox integration" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add initial project files and configuration for GitToolBox integration" />
+    <MESSAGE value="Add initial implementation of NexaPod components and structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add initial implementation of NexaPod components and structure" />
   </component>
 </project>

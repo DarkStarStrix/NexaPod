@@ -18,3 +18,4 @@ PyYAML~=6.0.2
 uvicorn~=0.35.0
 fastapi~=0.116.1
 pydantic~=2.11.7
+numpy~=2.2.6
