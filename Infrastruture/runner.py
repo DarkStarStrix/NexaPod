@@ -15,7 +15,10 @@ class ContainerRunner:
             desc.image,
             command=None,
             volumes=volumes,
-            detach=True
+            detach=True,
+            read_only=True,  # enforce minimal write access
+            cap_drop=["ALL"],  # drop all Linux capabilities
+            security_opt=["no-new-privileges"]  # prevent privilege escalation
         )
         result = container.wait()
         logs = container.logs().decode()

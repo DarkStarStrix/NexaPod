@@ -202,64 +202,46 @@ Untrusted:
 - Unregistered nodes
 ```
 
-## Technology Stack
+## Installation & Setup
 
-| Component      | Technology             | Purpose            |
-|----------------|------------------------|--------------------|
-| **API Server** | Flask/FastAPI          | REST endpoints     |
-| **Database**   | SQLite → PostgreSQL    | Data persistence   |
-| **Queue**      | Python Queue → Redis   | Job scheduling     |
-| **Containers** | Docker                 | Job isolation      |
-| **Crypto**     | Ed25519 (cryptography) | Digital signatures |
-| **P2P**        | libp2p (future)        | Mesh networking    |
-| **Frontend**   | Streamlit + HTML       | User interfaces    |
-| **Monitoring** | Prometheus (future)    | System metrics     |
-
-## Deployment Patterns
-
-### Development Setup
+### Quick Start (Docker Compose)
 ```bash
-# Single machine, all components
-python -m nexapod.api &
-streamlit run dashboard.py &
-python client/worker.py
+# Clone and change directory
+git clone https://github.com/your-org/nexapod.git
+cd nexapod
+
+# Build and start all services
+docker-compose up --build -d
 ```
 
-### Production Setup
+### Quick Start (Kubernetes)
 ```bash
-# Containerized deployment
-docker-compose up coordinator
-docker-compose scale worker=10
+# Apply all manifests
+kubectl apply -f Infrastruture/k8s/
+
+# Verify deployments
+kubectl rollout status deployment/nexapod-server
+kubectl rollout status deployment/nexapod-client
 ```
 
-### Kubernetes Setup
-```yaml
-# Multi-pod deployment with persistent storage
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nexapod-coordinator
-# ... see k8s/ directory for full manifests
-```
+## Onboarding & First Contribution
 
-## Future Architecture Evolution
-
-### Phase 2: Field Agnostic
-- Pluggable job descriptors
-- Generic container runtime
-- S3/IPFS integration
-
-### Phase 3: P2P Mesh  
-- Coordinator federation
-- Direct node-to-node communication
-- Blockchain integration
-
-### Phase 4: Incentive Layer
-- Token economics
-- Marketplace mechanisms
-- Governance protocols
-
----
-
-*For implementation details, see [PROTOCOL.md](PROTOCOL.md) and [API.md](API.md).*
-*For complete system documentation, see [Doc.md](Doc.md).*
+1. Generate or ensure you have an Ed25519 private key:
+   ```bash
+   python Client/nexapod_client.py join
+   ```
+   - This will generate `~/.nexapod/client_ed25519.key` and register your node with the coordinator.
+2. Start the client runner:
+   ```bash
+   python Client/nexapod_client.py run
+   ```
+3. Monitor your node metrics:
+   - Prometheus scrape at http://<client-host>:9000/metrics
+4. Submit your first job as a researcher:
+   ```bash
+   curl -X POST http://<coordinator-host>:8000/jobs \
+     -H "Content-Type: application/json" \
+     -d '{"job_id":"job_001","docker_image":"python:3.9","requirements":{"ram_gb":1.0}}'
+   ```
+5. Observe assignment, execution, and quorum finalization in logs and dashboard.
+````

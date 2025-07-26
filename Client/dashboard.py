@@ -6,7 +6,6 @@ import networkx as nx
 import numpy as np
 import plotly.graph_objects as go
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="NEXAPod Dashboard",

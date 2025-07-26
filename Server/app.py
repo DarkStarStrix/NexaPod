@@ -1,10 +1,12 @@
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response, HTTPException
 from Server.scheduler import Scheduler
 from Server.db import DB
 from Server.reputation import Reputation
 import yaml
 import os
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
+from Infrastruture.output_validator import load_checker
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.yaml')
 
@@ -14,34 +16,88 @@ def load_config():
 
 def create_app():
     config = load_config()
+    # Load result validation plugin and quorum
+    validator = load_checker(config['validator_plugin'])
+    quorum = config.get('quorum', 1)
     db = DB(config)
     scheduler = Scheduler(db, config)
     reputation = Reputation(db, config)
     app = FastAPI()
 
+    # Prometheus metrics counters
+    node_register_counter = Counter('nexapod_node_register_total', 'Total number of node registrations')
+    job_assigned_counter = Counter('nexapod_job_assigned_total', 'Total number of jobs assigned')
+    job_result_success_counter = Counter('nexapod_job_result_success_total', 'Total number of successful job results')
+    job_result_failure_counter = Counter('nexapod_job_result_failure_total', 'Total number of failed job results')
+    job_submitted_counter = Counter('nexapod_job_submitted_total', 'Total number of jobs submitted')
+
     @app.post('/register')
     async def register_node(request: Request):
-        profile = await request.json()
-        node_id = db.register_node(profile)
+        payload = await request.json()
+        signature_hex = payload.pop('signature', None)
+        public_key_hex = payload.pop('public_key', None)
+        if not signature_hex or not public_key_hex:
+            raise HTTPException(status_code=400, detail="Missing signature or public_key")
+        profile_data = payload
+        # Verify signature on node profile
+        message = json.dumps(profile_data, sort_keys=True).encode()
+        public_key = Ed25519PublicKey.from_public_bytes(bytes.fromhex(public_key_hex))
+        try:
+            public_key.verify(bytes.fromhex(signature_hex), message)
+        except Exception:
+            raise HTTPException(status_code=400, detail="Invalid signature")
+        # Store public_key with profile
+        profile_data['public_key'] = public_key_hex
+        node_id = db.register_node(profile_data)
+        node_register_counter.inc()
         return {"node_id": node_id}
 
     @app.get('/job')
     async def get_job(node_id: str):
         job = scheduler.assign_job(node_id)
+        if job:
+            job_assigned_counter.inc()
         return job or {}
 
     @app.post('/result')
     async def submit_result(request: Request):
         result = await request.json()
-        db.store_result(result)
-        reputation.update_credits(result)
-        return {"status": "ok"}
+        # Validate output via plugin
+        try:
+            valid = validator(result)
+        except Exception as e:
+            job_result_failure_counter.inc()
+            raise HTTPException(status_code=400, detail=f"Validation error: {e}")
+        if not valid:
+            job_result_failure_counter.inc()
+            raise HTTPException(status_code=400, detail="Result validation failed")
+        # Record vote and check quorum
+        db.add_vote(result)
+        votes = db.count_votes(result['job_id'], result['sha256'])
+        if votes >= quorum:
+            # finalize once quorum reached
+            final = db.get_vote_result(result['job_id'], result['sha256'])
+            db.finalize_job(final)
+            reputation.update_credits(final)
+            job_result_success_counter.inc()
+            return {"status": "finalized", "votes": votes}
+        return {"status": "vote recorded", "votes": votes}
 
     @app.post('/jobs')
     async def submit_job(request: Request):
         job = await request.json()
         db.add_job(job)
+        job_submitted_counter.inc()
         return {"status": "job added"}
+
+    @app.get('/metrics')
+    async def metrics():
+        data = generate_latest()
+        return Response(content=data, media_type=CONTENT_TYPE_LATEST)
+
+    @app.get('/health')
+    async def health():
+        return {"status": "ok"}
 
     return app
 
@@ -51,4 +107,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

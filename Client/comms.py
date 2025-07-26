@@ -23,11 +23,12 @@ class CoordinatorClient:
 
     def submit_result(self, result):
         resp = requests.post(f"{self.url}/result", json=result)
-        if not resp.ok:
-            raise Exception(f"Result submission failed: {resp.text}")
+        if resp.ok:
+            return resp.json()
+        raise Exception(f"Result submission failed: {resp.text}")
 
     def submit_job(self, param):
-        resp = requests.post(f"{self.url}/submit", json=param)
+        resp = requests.post(f"{self.url}/jobs", json=param)
         if not resp.ok:
             raise Exception(f"Job submission failed: {resp.text}")
         return resp.json()

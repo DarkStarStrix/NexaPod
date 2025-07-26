@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20.10-dind
+        privileged: true
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          flake8 .
+      - name: Run tests
+        run: |
+          pytest --junitxml=reports/results.xml
+      - name: Build Docker images
+        run: |
+          docker build -t nexapod-server:ci -f Infrastruture/Dockerfile.server Infrastruture
+          docker build -t nexapod-client:ci -f Infrastruture/Dockerfile.client Infrastruture
+      - name: Push images (optional)
+        if: github.event_name == 'push'
+        run: |
+          echo "PUSH LOGIC HERE"
+

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nexapod-client-config
+data:
+  config.yaml: |-
+    node_id: null
+    private_key_path: "~/.nexapod/client_ed25519.key"
+    coordinator_url: "http://nexapod-server:8000"
+    tier: 1
+    poll_interval: 10
+    log_level: INFO
+

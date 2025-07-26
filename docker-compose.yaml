@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  nexapod-server:
+    build:
+      context: Infrastruture
+      dockerfile: Dockerfile.server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Infrastruture/k8s/nexapod-server-config.yaml:/app/config.yaml
+  nexapod-client:
+    build:
+      context: Infrastruture
+      dockerfile: Dockerfile.client
+    depends_on:
+      - nexapod-server
+    environment:
+      COORDINATOR_URL: "http://nexapod-server:8000"
+    volumes:
+      - ~/.nexapod:/root/.nexapod
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./Infrastruture/k8s/prometheus-scrape-nexapod.yaml:/etc/prometheus/prometheus.yml:ro
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+

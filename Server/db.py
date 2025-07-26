@@ -25,6 +25,12 @@ class DB:
             node_id TEXT,
             result TEXT
         )''')
+        c.execute('''CREATE TABLE IF NOT EXISTS votes (
+            job_id TEXT,
+            sha256 TEXT,
+            node_id TEXT,
+            result TEXT
+        )''')
         self.conn.commit()
 
     def register_node(self, profile):
@@ -58,3 +64,45 @@ class DB:
         c.execute('UPDATE jobs SET status = ? WHERE job_id = ?', ('completed', result['job_id']))
         self.conn.commit()
 
+    def add_vote(self, result):
+        c = self.conn.cursor()
+        c.execute('INSERT INTO votes (job_id, sha256, node_id, result) VALUES (?, ?, ?, ?)',
+                  (result['job_id'], result['sha256'], result.get('node_id', ''), json.dumps(result)))
+        self.conn.commit()
+
+    def count_votes(self, job_id, sha256):
+        c = self.conn.cursor()
+        c.execute('SELECT COUNT(DISTINCT node_id) FROM votes WHERE job_id = ? AND sha256 = ?', (job_id, sha256))
+        row = c.fetchone()
+        return row[0] if row else 0
+
+    def get_vote_result(self, job_id, sha256):
+        c = self.conn.cursor()
+        c.execute('SELECT result FROM votes WHERE job_id = ? AND sha256 = ? LIMIT 1', (job_id, sha256))
+        row = c.fetchone()
+        return json.loads(row[0]) if row else None
+
+    def finalize_job(self, result):
+        # store final result and mark job completed
+        self.store_result(result)
+
+    def get_node_profile(self, node_id):
+        """Retrieve stored node profile JSON for a given node_id"""
+        c = self.conn.cursor()
+        c.execute('SELECT profile FROM nodes WHERE node_id = ?', (node_id,))
+        row = c.fetchone()
+        return json.loads(row[0]) if row else None
+
+    def get_pending_jobs(self):
+        """Return list of (job_id, job dict) for all pending jobs"""
+        c = self.conn.cursor()
+        c.execute('SELECT job_id, job FROM jobs WHERE status = ?', ('pending',))
+        rows = c.fetchall()
+        return [(job_id, json.loads(job_json)) for job_id, job_json in rows]
+
+    def assign_job_to_node(self, job_id, node_id):
+        """Mark a job as assigned to a node"""
+        c = self.conn.cursor()
+        c.execute('UPDATE jobs SET assigned_node = ?, status = ? WHERE job_id = ?',
+                  (node_id, 'assigned', job_id))
+        self.conn.commit()

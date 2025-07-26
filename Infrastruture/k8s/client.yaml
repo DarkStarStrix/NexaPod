@@ -22,6 +22,23 @@ spec:
         - name: config
           mountPath: /app/config.yaml
           subPath: config.yaml
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+        livenessProbe:
+          exec:
+            command: ["pgrep", "-f", "nexapod_client.py"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command: ["pgrep", "-f", "nexapod_client.py"]
+          initialDelaySeconds: 5
+          periodSeconds: 5
       volumes:
       - name: config
         configMap:
@@ -38,4 +55,3 @@ spec:
     - protocol: TCP
       port: 9000
       targetPort: 9000
-

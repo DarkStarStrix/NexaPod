@@ -2,10 +2,17 @@
   <dictionary name="project">
     <words>
       <w>boinc</w>
+      <w>currentvalue</w>
       <w>nexapod</w>
+      <w>nframes</w>
+      <w>postgre</w>
       <w>testjob</w>
       <w>testnode</w>
+      <w>tflo</w>
       <w>trustless</w>
+      <w>usdc</w>
+      <w>xanchor</w>
+      <w>yanchor</w>
     </words>
   </dictionary>
 </component>

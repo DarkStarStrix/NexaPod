@@ -1,6 +1,8 @@
 FROM python:3.11-slim
+ENV APP_USER=nexapod
+RUN addgroup --system $APP_USER && adduser --system --ingroup $APP_USER $APP_USER
 WORKDIR /app
 COPY ../Server /app
 RUN pip install --no-cache-dir -r requirements.txt
+USER $APP_USER
 CMD ["python", "app.py"]
-

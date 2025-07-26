@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add initial implementation of NexaPod components and structure">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add contributor wall app and update dependencies in requirements" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,6 +85,7 @@
     <MESSAGE value="Add initial project files and configuration for NEXAPod" />
     <MESSAGE value="Add initial project files and configuration for GitToolBox integration" />
     <MESSAGE value="Add initial implementation of NexaPod components and structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add initial implementation of NexaPod components and structure" />
+    <MESSAGE value="Add contributor wall app and update dependencies in requirements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add contributor wall app and update dependencies in requirements" />
   </component>
 </project>

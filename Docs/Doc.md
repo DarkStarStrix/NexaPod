@@ -60,16 +60,16 @@ For detailed architecture documentation, see **[ARCHITECTURE.md](ARCHITECTURE.md
 
 ### Technology Stack Summary
 
-| Layer | Component | Technology |
-|-------|-----------|------------|
-| **Frontend** | Dashboard | Streamlit |
-| **Frontend** | Contributor Wall | HTML/CSS/JS |
-| **API** | REST Endpoints | Flask |
-| **Core** | Job Scheduler | Python + Threading |
-| **Data** | Database | SQLite → PostgreSQL |
-| **Security** | Cryptography | Ed25519 + SHA-256 |
-| **Execution** | Containers | Docker |
-| **Communication** | Mesh Network | libp2p (planned) |
+| Layer             | Component        | Technology          |
+|-------------------|------------------|---------------------|
+| **Frontend**      | Dashboard        | Streamlit           |
+| **Frontend**      | Contributor Wall | HTML/CSS/JS         |
+| **API**           | REST Endpoints   | Flask               |
+| **Core**          | Job Scheduler    | Python + Threading  |
+| **Data**          | Database         | SQLite → PostgreSQL |
+| **Security**      | Cryptography     | Ed25519 + SHA-256   |
+| **Execution**     | Containers       | Docker              |
+| **Communication** | Mesh Network     | libp2p (planned)    |
 
 ---
 
@@ -131,14 +131,14 @@ Secure job execution environment:
 ### 7. API Layer (`nexapod/api.py`)
 RESTful endpoints for system interaction. For complete API documentation, see **[API.md](API.md)**.
 
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/register` | POST | Register new compute node |
-| `/submit-job` | POST | Submit computational job |
-| `/status` | GET | Query system status |
-| `/jobs/{id}` | GET | Get job details |
-| `/nodes` | GET | List registered nodes |
-| `/credits/{node_id}` | GET | Get credit balance |
+| Endpoint             | Method | Purpose                   |
+|----------------------|--------|---------------------------|
+| `/register`          | POST   | Register new compute node |
+| `/submit-job`        | POST   | Submit computational job  |
+| `/status`            | GET    | Query system status       |
+| `/jobs/{id}`         | GET    | Get job details           |
+| `/nodes`             | GET    | List registered nodes     |
+| `/credits/{node_id}` | GET    | Get credit balance        |
 
 ### 8. Dashboard (`dashboard.py`)
 Real-time system monitoring:
@@ -291,61 +291,86 @@ For detailed security architecture, see **[ARCHITECTURE.md](ARCHITECTURE.md#secu
 
 ## Installation & Setup
 
-### Prerequisites
-- Python 3.8+
-- Docker
-- Git
+Add detailed K8s and Docker Compose onboarding, plus CLI steps.
 
-### Quick Start
+### Quick Start (Docker Compose)
 ```bash
-# Clone repository
-git clone https://github.com/your-org/nexapod
+# Clone and change directory
+git clone https://github.com/your-org/nexapod.git
 cd nexapod
 
-# Install dependencies
+# Build and start all services (server, client, Prometheus, Grafana)
+docker-compose up --build -d
+```
+
+### Quick Start (Kubernetes)
+```bash
+# Apply all manifests
+kubectl apply -f Infrastruture/k8s/
+
+# Verify deployments
+kubectl rollout status deployment/nexapod-server
+kubectl rollout status deployment/nexapod-client
+```
+
+### Register Your Node (Onboarding)
+1. Ensure you have a private key (generated on first join).
+2. Run the join command on your node machine:
+   ```bash
+   python Client/nexapod_client.py join
+   ```
+3. You should see "Node registered with coordinator." and your `node_id` saved in config.
+
+### Start Polling for Jobs
+```bash
+python Client/nexapod_client.py run
+```
+The client will expose metrics on port 9000 (`/metrics`).
+
+### Access Dashboard & Monitoring
+- **Streamlit Dashboard**: `streamlit run Client/dashboard.py`
+- **Prometheus**: http://localhost:9090
+- **Grafana**: http://localhost:3000 (add Prometheus data source)
+
+---
+
+## Onboarding & First Contribution
+
+Follow these steps to get started as a compute contributor:
+
+1. Fork the NexaPod repository and clone your fork:
+   ```bash
+git clone https://github.com/<your-username>/nexapod.git
+cd nexapod
+   ```
+2. Install prerequisites:
+   ```bash
 pip install -r requirements.txt
-
-# Start coordinator
-python -m nexapod.api
-
-# Start dashboard (new terminal)
-streamlit run dashboard.py
-
-# Register a node (new terminal)
-python scripts/register_node.py
+docker-compose --version
+kubectl version --client
+   ```
+3. Build and deploy the system with Docker Compose or Kubernetes (see above).
+4. Register your compute node:
+   ```bash
+python Client/nexapod_client.py join
+``` 
+   - This generates your Ed25519 key if needed and registers you as a node.
+5. Start your runner:
+   ```bash
+python Client/nexapod_client.py run
 ```
+6. Monitor your node:
+   - Check client logs and metrics on http://localhost:9000/metrics
+   - View overall system status in dashboard and Grafana.
+7. Submit your first job (as a researcher):
+   ```bash
+curl -X POST http://localhost:8000/jobs \
+  -H "Content-Type: application/json" \
+  -d '{"job_id":"job_001","docker_image":"python:3.9","requirements":{"ram_gb":1.0}}'
+```
+8. Observe job assignment and execution in logs, then result finalization via quorum on the server.
 
-### Project Structure
-```
-NexaPod/
-├── nexapod/           # Core package
-│   ├── __init__.py
-│   ├── api.py         # REST API endpoints
-│   ├── scheduler.py   # Job scheduling engine
-│   ├── database.py    # Data persistence
-│   ├── validator.py   # Result validation
-│   └── ...
-├── examples/          # Scientific workload examples
-├── tests/             # Test suite
-├── scripts/           # Utility scripts
-├── Docs/              # Documentation
-│   ├── Doc.md         # This file
-│   ├── API.md         # API reference
-│   ├── PROTOCOL.md    # Protocol specification
-│   └── ARCHITECTURE.md # System architecture
-└── templates/         # Web UI templates
-```
-
-### Configuration
-Create `~/.nexapod/config.yaml`:
-```yaml
-coordinator_url: "http://localhost:5000"
-node_id: "my_node_001"
-private_key_path: "~/.nexapod/node_key.pem"
-poll_interval: 10
-database_path: "./nexapod.db"
-log_level: "INFO"
-```
+Congratulations, you are now part of the NexaPod compute mesh!
 
 ---
 

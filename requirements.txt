@@ -1,7 +1,6 @@
 docker
 boto3
 ipfshttpclient
-qiskit
 cryptography~=45.0.5
 flask~=3.1.1
 flask-limiter
@@ -16,6 +15,9 @@ docker-py~=1.10.6
 psutil~=7.0.0
 PyYAML~=6.0.2
 uvicorn~=0.35.0
-fastapi~=0.116.1
+fastapi~=0.115.14
 pydantic~=2.11.7
 numpy~=2.2.6
+plotly~=6.2.0
+pandas~=2.3.1
+prometheus_client

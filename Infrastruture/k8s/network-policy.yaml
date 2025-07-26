@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-nexapod-traffic
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # allow client->server calls
+  - from:
+    - podSelector:
+        matchLabels:
+          app: nexapod-client
+    ports:
+    - protocol: TCP
+      port: 8000
+  # allow monitoring probes
+  - from:
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 8000
+  egress:
+  # allow pods to talk to server
+  - to:
+    - podSelector:
+        matchLabels:
+          app: nexapod-server
+    ports:
+    - protocol: TCP
+      port: 8000
+  # allow DNS
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nexapod-server-config
+data:
+  config.yaml: |-
+    db_path: "nexapod.db"
+    port: 8000
+    log_level: INFO
+    quorum: 3
+    validator_plugin: "../Infrastruture/output_validator.py"
+
