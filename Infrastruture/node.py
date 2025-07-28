@@ -1,16 +1,24 @@
-from tier import Tier
+"""
+Node model representing a cluster participant.
+"""
+
 import platform
+from .tier import Tier
+
 
 class Node:
-    def __init__(self, id, tier: Tier):
+    """Represents a compute node with profiling data."""
+
+    def __init__(self, id: str, tier: Tier):
         self.id = id
         self.tier = tier
         self.profile = self._profile_node()
 
-    def _profile_node(self):
-        # Perform basic profiling (this can be expanded)
+    @staticmethod
+    def _profile_node() -> dict:
+        """Collect and return basic system profile."""
         return {
             "os": platform.system(),
             "os_version": platform.version(),
-            "processor": platform.processor()
+            "processor": platform.processor(),
         }

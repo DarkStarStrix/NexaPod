@@ -12,7 +12,6 @@ jobs:
     services:
       docker:
         image: docker:20.10-dind
-        privileged: true
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -32,10 +31,9 @@ jobs:
           pytest --junitxml=reports/results.xml
       - name: Build Docker images
         run: |
-          docker build -t nexapod-server:ci -f Infrastruture/Dockerfile.server Infrastruture
-          docker build -t nexapod-client:ci -f Infrastruture/Dockerfile.client Infrastruture
+          docker build -t nexapod-server:ci -f Infrastructure/Dockerfile.server Infrastructure
+          docker build -t nexapod-client:ci -f Infrastructure/Dockerfile.client Infrastructure
       - name: Push images (optional)
         if: github.event_name == 'push'
         run: |
           echo "PUSH LOGIC HERE"
-

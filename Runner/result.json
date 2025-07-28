@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Protein Secondary Structure Prediction Result",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "sequence": {
+        "type": "string"
+      },
+      "predicted_secondary_structure": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "sequence",
+      "predicted_secondary_structure"
+    ],
+    "additionalProperties": false
+  }
+}

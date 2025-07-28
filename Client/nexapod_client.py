@@ -1,14 +1,15 @@
 import argparse
+import json
+import os
+import yaml
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+from prometheus_client import Counter, start_http_server
 from comms import CoordinatorClient
-from profiles import get_node_profile
 from executor import execute_job
 from logger import log_result
-import yaml
-import os
-import json
-from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-from cryptography.hazmat.primitives import serialization
-from prometheus_client import Counter, start_http_server
+from profiles import get_node_profile
+
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.yaml')
 
@@ -17,11 +18,15 @@ jobs_polled_counter = Counter('nexapod_client_jobs_polled_total', 'Total number 
 jobs_executed_success_counter = Counter('nexapod_client_job_success_total', 'Total number of successful job executions')
 jobs_executed_failure_counter = Counter('nexapod_client_job_failure_total', 'Total number of failed job executions')
 
-def load_config():
+
+def load_config() -> dict:
+    """Load and return YAML configuration."""
     with open(CONFIG_PATH, 'r') as f:
         return yaml.safe_load(f)
 
+
 def main():
+    """Entry point for NEXAPod client node."""
     parser = argparse.ArgumentParser(description='NEXAPod Client Node')
     parser.add_argument('command', choices=['join', 'run'], help='join: register node, run: poll and execute jobs')
     args = parser.parse_args()
@@ -71,6 +76,7 @@ def main():
                     jobs_executed_failure_counter.inc()
                 log_result(result, config)
                 client.submit_result(result)
+
 
 if __name__ == '__main__':
     main()

@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
-# Cleanup all NexaPod Kubernetes resources
-set -e
-kubectl delete -f Infrastruture/k8s/ --ignore-not-found
-kubectl delete configmap prometheus-scrape-nexapod -n monitoring --ignore-not-found
-echo "NexaPod resources cleaned up successfully."
+# shellcheck disable=SC2289
+"""
+Cleanup NexaPod Kubernetes resources.
+"""
+set -euo pipefail
+IFS=$'\n\t'
 
+: "${KUBE_NAMESPACE:=default}"
+
+kubectl delete -f ../Infrastruture/k8s/ -n "$KUBE_NAMESPACE" --ignore-not-found
+kubectl delete configmap prometheus-scrape-nexapod -n monitoring --ignore-not-found
+echo "NexaPod resources cleaned up from namespace '$KUBE_NAMESPACE'."

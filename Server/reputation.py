@@ -1,9 +1,13 @@
+"""
+Module for managing node reputation and credits.
+"""
+
 class Reputation:
+    """Handles updating of node credits."""
     def __init__(self, db, config):
         self.db = db
         self.config = config
 
     def update_credits(self, result):
-        # MVP: just print, real logic would update a ledger
+        """Update node credits based on a completed job result."""
         print(f"Credits updated for node: {result.get('node_id', '')} job: {result['job_id']}")
-

@@ -1,11 +1,27 @@
-class ReputationManager:
-    def __init__(self):
-        # ...existing code...
-        self.reputation = 0.0
+"""
+Module for managing user reputation.
+"""
 
-    def update_reputation(self, change: float) -> float:
-        """Update reputation by applying the change and clamping the result between 0 and 100."""
-        # ...existing code...
+class ReputationManager:
+    """Handles reputation value and updates."""
+    def __init__(self, initial_value: int = 0):
+        self.reputation = initial_value
+
+    def update_reputation(self, change: int) -> int:
+        """Update reputation by change and return new value."""
         self.reputation += change
-        self.reputation = max(0.0, min(self.reputation, 100.0))
         return self.reputation
+
+
+def main():
+    """Demo script for ReputationManager."""
+    manager = ReputationManager()
+    print("Initial reputation:", manager.reputation)
+    changes = [10, -20, 15, -5, 25]
+    for change in changes:
+        new_reputation = manager.update_reputation(change)
+        print(f"Applied change {change}: Reputation is now {new_reputation}")
+
+
+if __name__ == "__main__":
+    main()

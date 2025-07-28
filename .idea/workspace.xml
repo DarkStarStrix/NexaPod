@@ -4,11 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add contributor wall app and update dependencies in requirements" />
+    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add Kubernetes manifests, Prometheus integration, and enhance client-server communication">
+      <change afterPath="$PROJECT_DIR$/Runner/Bio_Runner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Runner/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/fold_job.json" beforeDir="false" afterPath="$PROJECT_DIR$/Runner/fold_job.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/quantum_sim.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/surrogate_material.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/weather_ensemble.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -37,26 +52,27 @@
     <option name="showLibraryContents" value="true" />
     <option name="showScratchesAndConsoles" value="false" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kunya/PycharmProjects/Auto_Api&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "C:\\Users\\kunya\\AppData\\Roaming\\JetBrains\\PyCharm2025.1\\plugins\\Shell Script\\shellcheck.exe",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/kunya/PycharmProjects/Auto_Api",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;stardust.markdown.MarkdownSplitEditorSuppressor:keyList&quot;: []
+  "keyToStringList": {
+    "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": []
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -86,6 +102,7 @@
     <MESSAGE value="Add initial project files and configuration for GitToolBox integration" />
     <MESSAGE value="Add initial implementation of NexaPod components and structure" />
     <MESSAGE value="Add contributor wall app and update dependencies in requirements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add contributor wall app and update dependencies in requirements" />
+    <MESSAGE value="Add Kubernetes manifests, Prometheus integration, and enhance client-server communication" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Kubernetes manifests, Prometheus integration, and enhance client-server communication" />
   </component>
 </project>

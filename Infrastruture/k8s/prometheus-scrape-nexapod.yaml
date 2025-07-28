@@ -13,4 +13,3 @@ data:
       metrics_path: '/metrics'
       static_configs:
         - targets: ['nexapod-client:9000']
-

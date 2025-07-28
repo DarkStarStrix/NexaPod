@@ -1,19 +1,23 @@
+"""
+Module for job replication strategies.
+"""
 import logging
-from descriptor import JobDescriptor
+from nexapod.descriptor import JobDescriptor
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class Replicator:
+    """Performs replication logic for computed jobs."""
     def __init__(self):
-        logging.basicConfig(level=logging.INFO)
+        pass
 
     def replicate(self, job: JobDescriptor) -> bool:
-        """Replicate computation based on job descriptor.
-           Returns True if replication was performed.
-        """
-        logging.info(f"Starting replication for job: {job.id}")
+        """Replicate computation based on job descriptor."""
+        logger.info("Starting replication for job: %s", job.id)
         if getattr(job, "needs_replication", False):
-            logging.info("Replication needed, performing replication.")
-            # ...existing replication code...
+            logger.info("Replication required for job: %s", job.id)
+            # ...existing code...
             return True
-        else:
-            logging.info("Replication not required.")
-            return False
+        logger.info("No replication required for job: %s", job.id)
+        return False
