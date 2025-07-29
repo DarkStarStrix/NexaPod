@@ -1,6 +1,7 @@
 """
 Module for job replication strategies.
 """
+
 import logging
 from nexapod.descriptor import JobDescriptor
 
@@ -21,3 +22,8 @@ class Replicator:
             return True
         logger.info("No replication required for job: %s", job.id)
         return False
+
+
+def replicate_data():
+    # ...existing code...
+    pass

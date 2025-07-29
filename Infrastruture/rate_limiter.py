@@ -21,7 +21,7 @@ class RateLimiter:
                 now = time.time()
                 cutoff = now - self.period
                 self._timestamps = [ts for ts in self._timestamps
-                                   if ts > cutoff]
+                                    if ts > cutoff]
                 if len(self._timestamps) < self.max_calls:
                     self._timestamps.append(now)
                     return
