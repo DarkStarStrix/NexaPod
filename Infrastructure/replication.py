@@ -314,8 +314,7 @@ class Replicator:
             return success
         except Exception as e:
             logger.error(
-                f"Consensus replication failed for job {job.id}: "
-                f"{e}"
+                f"Consensus replication failed for job {job.id}: {e}"
             )
             return False
 

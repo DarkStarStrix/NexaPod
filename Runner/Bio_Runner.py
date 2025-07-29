@@ -8,7 +8,7 @@ import torch
 from Bio import SeqIO
 from safetensors.torch import load_file
 from comms import CoordinatorClient
-from Infrastruture.database import Database
+from Infrastructure.database import Database
 
 
 logging.basicConfig(level=logging.INFO)

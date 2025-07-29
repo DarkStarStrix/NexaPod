@@ -3,7 +3,7 @@ services:
   nexapod-server:
     restart: always
     build:
-      context: Infrastruture
+      context: Infrastructure
       dockerfile: Dockerfile.server
     ports:
       - "8000:8000"
@@ -13,7 +13,7 @@ services:
   nexapod-client:
     restart: always
     build:
-      context: Infrastruture
+      context: Infrastructure
       dockerfile: Dockerfile.client
     depends_on:
       - nexapod-server

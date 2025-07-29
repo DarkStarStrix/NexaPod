@@ -11,7 +11,7 @@ from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 from Server.scheduler import Scheduler
 from Server.db import DB
 from Server.reputation import Reputation
-from Infrastruture.output_validator import load_checker
+from Infrastructure.output_validator import load_checker
 
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.yaml")
