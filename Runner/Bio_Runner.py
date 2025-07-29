@@ -21,7 +21,8 @@ def load_model(model_path: str) -> torch.nn.Module:
         def __init__(self):
             super().__init__()
             self.cnn = torch.nn.Conv1d(21, 128, kernel_size=3, padding=1)
-            self.bilstm = torch.nn.LSTM(128, 64, bidirectional=True, batch_first=True)
+            self.bilstm = torch.nn.LSTM(128, 64, bidirectional=True,
+                                        batch_first=True)
             self.classifier = torch.nn.Linear(128, 3)
 
         def forward(self, x):

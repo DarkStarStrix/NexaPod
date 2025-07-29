@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List
 
+
 @dataclass
 class JobDescriptor:
     """Descriptor for job configuration and validation."""

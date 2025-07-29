@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 job_queue = queue.Queue()
 
+
 class Scheduler:
     """Responsible for job scheduling and execution across nodes."""
     def __init__(self):
@@ -81,21 +82,26 @@ class Scheduler:
             combined = f"{job['id']}_{node_id}"
             hash_result = hashlib.sha256(combined.encode()).hexdigest()
             signature = generate_signature(str(job['id']).encode())
-            return {"id": job['id'], "hash": hash_result, "signature": signature}
+            return {"id": job['id'], "hash": hash_result,
+                    "signature": signature}
         finally:
             self.node_busy[node_id] = False
+
 
 def start_scheduler() -> threading.Thread:
     """Initialize and start the scheduler in a background thread."""
     scheduler = Scheduler()
-    thread = threading.Thread(target=scheduler.match_and_schedule, daemon=True)
+    thread = threading.Thread(target=scheduler.match_and_schedule,
+                              daemon=True)
     thread.start()
     return thread
+
 
 def main():
     """Entry point to start the scheduler module."""
     thread = start_scheduler()
     thread.join()
+
 
 if __name__ == '__main__':
     main()

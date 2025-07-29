@@ -1,5 +1,6 @@
 import os
 import shutil
+import datetime
 
 
 class Archiver:
@@ -18,7 +19,8 @@ class Archiver:
 
             # Move the directory
             shutil.move(source_dir, destination_dir)
-            print(f"Directory '{source_dir}' archived to '{destination_dir}'")
+            print(f"Directory '{source_dir}' archived to "
+                  f"'{destination_dir}'")
             return destination_dir
         except Exception as e:
             print(f"Error archiving directory '{source_dir}': {e}")
@@ -29,7 +31,8 @@ class Archiver:
         try:
             # Move the directory back
             shutil.move(archive_path, destination_dir)
-            print(f"Directory '{archive_path}' restored to '{destination_dir}'")
+            print(f"Directory '{archive_path}' restored to "
+                  f"'{destination_dir}'")
             return destination_dir
         except Exception as e:
             print(f"Error restoring directory '{archive_path}': {e}")

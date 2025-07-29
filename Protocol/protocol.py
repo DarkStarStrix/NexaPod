@@ -1,5 +1,6 @@
 import pydantic
 
+
 class NodeProfile(pydantic.BaseModel):
     cpu: str
     cores: int
@@ -8,8 +9,10 @@ class NodeProfile(pydantic.BaseModel):
     os: str
     gpu: list
 
+
 class JobRequest(pydantic.BaseModel):
     node_id: str
+
 
 class JobDescriptor(pydantic.BaseModel):
     schema_version: str
@@ -24,6 +27,7 @@ class JobDescriptor(pydantic.BaseModel):
     tolerance: float
     credit_rate: float
 
+
 class JobResult(pydantic.BaseModel):
     job_id: str
     node_id: str
@@ -32,4 +36,3 @@ class JobResult(pydantic.BaseModel):
     timestamp: int
     sha256: str
     signature: str
-

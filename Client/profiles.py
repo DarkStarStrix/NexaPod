@@ -5,7 +5,7 @@ import subprocess
 
 def get_node_profile() -> dict:
     """
-    Collect system profile including CPU, cores, threads, RAM, OS, and GPU info.
+    Collect system profile including CPU, cores, threads, RAM, OS, and GPU.
     """
     profile = {
         'cpu': platform.processor(),

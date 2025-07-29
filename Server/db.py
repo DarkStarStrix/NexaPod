@@ -63,7 +63,8 @@ class DB:
         """Insert a new job with pending status."""
         c = self.conn.cursor()
         c.execute(
-            "INSERT INTO jobs (job_id, job, assigned_node, status) VALUES (?, ?, ?, ?)",
+            "INSERT INTO jobs (job_id, job, assigned_node, status) "
+            "VALUES (?, ?, ?, ?)",
             (job["job_id"], json.dumps(job), None, "pending")
         )
         self.conn.commit()
@@ -103,8 +104,10 @@ class DB:
         """Record a vote for a job result from a node."""
         c = self.conn.cursor()
         c.execute(
-            "INSERT INTO votes (job_id, sha256, node_id, result) VALUES (?, ?, ?, ?)",
-            (result["job_id"], result["sha256"], result.get("node_id", ""), json.dumps(result))
+            "INSERT INTO votes (job_id, sha256, node_id, result) "
+            "VALUES (?, ?, ?, ?)",
+            (result["job_id"], result["sha256"], result.get("node_id", ""),
+             json.dumps(result))
         )
         self.conn.commit()
 
@@ -112,7 +115,8 @@ class DB:
         """Count distinct votes for a given job_id and hash."""
         c = self.conn.cursor()
         c.execute(
-            "SELECT COUNT(DISTINCT node_id) FROM votes WHERE job_id = ? AND sha256 = ?",
+            "SELECT COUNT(DISTINCT node_id) FROM votes "
+            "WHERE job_id = ? AND sha256 = ?",
             (job_id, sha256)
         )
         row = c.fetchone()
@@ -122,7 +126,8 @@ class DB:
         """Retrieve the recorded result for a job and hash."""
         c = self.conn.cursor()
         c.execute(
-            "SELECT result FROM votes WHERE job_id = ? AND sha256 = ? LIMIT 1",
+            "SELECT result FROM votes "
+            "WHERE job_id = ? AND sha256 = ? LIMIT 1",
             (job_id, sha256)
         )
         row = c.fetchone()

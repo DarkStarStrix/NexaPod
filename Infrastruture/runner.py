@@ -4,6 +4,7 @@ Container runner using Docker to execute jobs in isolation.
 import docker
 from nexapod.descriptor import JobDescriptor
 
+
 class ContainerRunner:
     """Executes job containers based on job descriptors."""
     def __init__(self):

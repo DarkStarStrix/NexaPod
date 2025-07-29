@@ -40,13 +40,16 @@ def create_app() -> FastAPI:
         "nexapod_job_assigned_total", "Total number of jobs assigned"
     )
     job_result_success_counter = Counter(
-        "nexapod_job_result_success_total", "Total number of successful job results"
+        "nexapod_job_result_success_total",
+        "Total number of successful job results"
     )
     job_result_failure_counter = Counter(
-        "nexapod_job_result_failure_total", "Total number of failed job results"
+        "nexapod_job_result_failure_total",
+        "Total number of failed job results"
     )
     job_submitted_counter = Counter(
-        "nexapod_job_submitted_total", "Total number of jobs submitted"
+        "nexapod_job_submitted_total",
+        "Total number of jobs submitted"
     )
 
     @app.post("/register")

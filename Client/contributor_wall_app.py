@@ -157,7 +157,7 @@ class ContributorWallApp:
 
 def main():
     root = tk.Tk()
-    app = ContributorWallApp(root)
+    ContributorWallApp(root)
     root.mainloop()
 
 

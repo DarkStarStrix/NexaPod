@@ -68,9 +68,8 @@ class SpinningGlobeNetwork:
         self.nodes_data = nodes_data
         self.num_nodes = len(nodes_data)
 
-    def fibonacci_sphere_distribution(self
-                                      ) -> Tuple[np.ndarray, np.ndarray,
-                                                   np.ndarray]:
+    def fibonacci_sphere_distribution(self) -> Tuple[np.ndarray, np.ndarray,
+                                                     np.ndarray]:
         """Generate optimal node positions using Fibonacci spiral."""
         n = self.num_nodes
         indices = np.arange(n) + 0.5
@@ -163,7 +162,7 @@ class SpinningGlobeNetwork:
             showlegend=False
         )
 
-    def generate_animation_frames(self, node_positions: Tuple[np.ndarray, ...],
+    def generate_animation_frames(self, node_positions: Tuple[np.ndarray, ...>,
                                   num_frames: int = 60) -> List[Dict]:
         """
         Generate animation frames for camera rotation and node pulsing.
@@ -178,7 +177,8 @@ class SpinningGlobeNetwork:
             angle = 2 * np.pi * i / num_frames
             cam_eye = dict(x=2 * np.cos(angle), y=2 * np.sin(angle), z=0.5)
             node_sizes = [
-                12 + 3 * ((np.sin(2 * np.pi * i / num_frames + phases[j]) + 1) / 2)
+                12 + 3 * ((np.sin(2 * np.pi * i / num_frames + phases[j]) + 1)
+                          / 2)
                 for j in range(self.num_nodes)
             ]
             frame = dict(
@@ -222,9 +222,9 @@ class SpinningGlobeNetwork:
                     "method": "animate"
                 }, {
                     "args": [[None], {"frame": {"duration": 0,
-                                                 "redraw": True},
-                                      "mode": "immediate",
-                                      "transition": {"duration": 0}}],
+                                                "redraw": True},
+                                     "mode": "immediate",
+                                     "transition": {"duration": 0}}],
                     "label": "Pause",
                     "method": "animate"
                 }],
