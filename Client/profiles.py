@@ -2,8 +2,11 @@ import platform
 import psutil
 import subprocess
 
+
 def get_node_profile() -> dict:
-    """Collect system profile including CPU, cores, threads, RAM, OS, and GPU info."""
+    """
+    Collect system profile including CPU, cores, threads, RAM, OS, and GPU info.
+    """
     profile = {
         'cpu': platform.processor(),
         'cores': psutil.cpu_count(logical=False),
@@ -14,7 +17,11 @@ def get_node_profile() -> dict:
     }
     try:
         result = subprocess.run(
-            ['nvidia-smi', '--query-gpu=name,memory.total', '--format=csv,noheader'],
+            [
+                'nvidia-smi',
+                '--query-gpu=name,memory.total',
+                '--format=csv,noheader'
+            ],
             capture_output=True,
             text=True,
             check=True

@@ -6,10 +6,12 @@ import importlib.util
 import os
 from typing import Protocol, Dict, Any
 
+
 class ResultChecker(Protocol):
     """Protocol for result checker callables."""
     def __call__(self, outputs: Dict[str, Any]) -> bool:
         ...
+
 
 def load_checker(path: str) -> ResultChecker:
     """Load and return a result-checker plugin."""

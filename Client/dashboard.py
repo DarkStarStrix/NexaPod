@@ -53,20 +53,24 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
 class SpinningGlobeNetwork:
     """
     3D Spinning Globe Network Visualization
 
-    Creates an interactive 3D visualization of a complete graph network with nodes
-    distributed on a sphere using a Fibonacci spiral. Nodes use larger markers and
-    show single-line JSON hover information. Live animation rotates the globe and pulses
-    nodes; the animation frames now only update the node trace for stability.
+    Creates an interactive 3D visualization of a complete graph
+    network with nodes distributed on a sphere using a Fibonacci
+    spiral. Nodes use larger markers and show single-line JSON hover
+    information. Live animation rotates the globe and pulses nodes;
+    the animation frames now only update the node trace for stability.
     """
     def __init__(self, nodes_data: List[Dict]):
         self.nodes_data = nodes_data
         self.num_nodes = len(nodes_data)
 
-    def fibonacci_sphere_distribution(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    def fibonacci_sphere_distribution(self
+                                      ) -> Tuple[np.ndarray, np.ndarray,
+                                                   np.ndarray]:
         """Generate optimal node positions using Fibonacci spiral."""
         n = self.num_nodes
         indices = np.arange(n) + 0.5
@@ -93,7 +97,8 @@ class SpinningGlobeNetwork:
             hoverinfo='skip'
         )
 
-    def create_network_edges(self, node_positions: Tuple[np.ndarray, ...]) -> List[go.Scatter3d]:
+    def create_network_edges(self, node_positions: Tuple[np.ndarray, ...]
+                             ) -> List[go.Scatter3d]:
         """Create edge traces for complete graph connectivity."""
         x_coords, y_coords, z_coords = node_positions
         G = nx.complete_graph(self.num_nodes)
@@ -113,7 +118,10 @@ class SpinningGlobeNetwork:
         return edge_traces
 
     def prepare_hover_information(self) -> List[str]:
-        """Prepare JSON-formatted hover text for each node in a single-line format."""
+        """
+        Prepare JSON-formatted hover text for each node in a single-line
+        format.
+        """
         hover_texts = []
         for node in self.nodes_data:
             hover_data = {
@@ -132,7 +140,8 @@ class SpinningGlobeNetwork:
             hover_texts.append(hover_text)
         return hover_texts
 
-    def create_node_trace(self, node_positions: Tuple[np.ndarray, ...]) -> go.Scatter3d:
+    def create_node_trace(self, node_positions: Tuple[np.ndarray, ...]
+                          ) -> go.Scatter3d:
         """Create the main node scatter trace with larger markers."""
         x_coords, y_coords, z_coords = node_positions
         hover_texts = self.prepare_hover_information()
@@ -159,11 +168,12 @@ class SpinningGlobeNetwork:
         """
         Generate animation frames for camera rotation and node pulsing.
 
-        The frames now only update the node trace (index 1) to avoid injecting empty update
-        dicts for other traces.
+        The frames now only update the node trace (index 1) to avoid
+        injecting empty update dicts for other traces.
         """
         frames = []
-        phases = [2 * np.pi * j / self.num_nodes for j in range(self.num_nodes)]
+        phases = [2 * np.pi * j / self.num_nodes
+                  for j in range(self.num_nodes)]
         for i in range(num_frames):
             angle = 2 * np.pi * i / num_frames
             cam_eye = dict(x=2 * np.cos(angle), y=2 * np.sin(angle), z=0.5)
@@ -195,7 +205,8 @@ class SpinningGlobeNetwork:
                 bgcolor='rgba(0,0,0,0.05)'
             ),
             title=dict(
-                text=f"NEXAPod Network Globe - {self.num_nodes} Compute Nodes",
+                text=f"NEXAPod Network Globe - {self.num_nodes} "
+                     "Compute Nodes",
                 font=dict(size=16, color='#2c3e50'),
                 x=0.5
             ),
@@ -205,12 +216,15 @@ class SpinningGlobeNetwork:
             updatemenus=[{
                 "buttons": [{
                     "args": [None, {"frame": {"duration": 50, "redraw": True},
-                                    "fromcurrent": True, "transition": {"duration": 0}}],
+                                    "fromcurrent": True,
+                                    "transition": {"duration": 0}}],
                     "label": "Play",
                     "method": "animate"
                 }, {
-                    "args": [[None], {"frame": {"duration": 0, "redraw": True},
-                                      "mode": "immediate", "transition": {"duration": 0}}],
+                    "args": [[None], {"frame": {"duration": 0,
+                                                 "redraw": True},
+                                      "mode": "immediate",
+                                      "transition": {"duration": 0}}],
                     "label": "Pause",
                     "method": "animate"
                 }],
@@ -224,7 +238,8 @@ class SpinningGlobeNetwork:
                 "yanchor": "top"
             }],
             annotations=[{
-                'text': 'Fibonacci sphere distribution • Complete graph topology • JSON hover data',
+                'text': 'Fibonacci sphere distribution • Complete graph '
+                        'topology • JSON hover data',
                 'showarrow': False,
                 'xref': 'paper',
                 'yref': 'paper',
@@ -240,10 +255,11 @@ class SpinningGlobeNetwork:
         fig.frames = frames
         return fig
 
+
 class NEXAPodDashboard:
     """
-    Clean, streamlined NEXAPod Dashboard that displays key metrics, data tables, and
-    the 3D live network globe.
+    Clean, streamlined NEXAPod Dashboard that displays key metrics,
+    data tables, and the 3D live network globe.
     """
     def __init__(self):
         self.initialize_session_state()
@@ -290,8 +306,9 @@ class NEXAPodDashboard:
 
     def generate_demo_jobs(self, count: int) -> List[Dict]:
         """Generate demo job data."""
-        job_types = ['protein_folding', 'weather_simulation', 'quantum_computation',
-                     'materials_modeling', 'ml_training', 'molecular_dynamics']
+        job_types = ['protein_folding', 'weather_simulation',
+                     'quantum_computation', 'materials_modeling',
+                     'ml_training', 'molecular_dynamics']
         statuses = ['Queued', 'Running', 'Completed', 'Failed']
         jobs = []
         for i in range(count):
@@ -309,15 +326,19 @@ class NEXAPodDashboard:
             jobs.append(job)
         return jobs
 
+
 def main():
     """Main NEXAPod Dashboard application."""
     dashboard = NEXAPodDashboard()
-    st.markdown('<h1 class="main-header">NEXAPod Live Dashboard</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="subtitle">Distributed Compute Fabric for Scientific Problems</p>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">NEXAPod Live Dashboard</h1>',
+                unsafe_allow_html=True)
+    st.markdown('<p class="subtitle">Distributed Compute Fabric for '
+                'Scientific Problems</p>', unsafe_allow_html=True)
     with st.sidebar:
         st.header("Dashboard Controls")
         st.subheader("Network Configuration")
-        node_count = st.slider("Number of Nodes", min_value=5, max_value=20, value=10)
+        node_count = st.slider("Number of Nodes", min_value=5, max_value=20,
+                               value=10)
         if st.button("Regenerate Network"):
             st.session_state.nodes = dashboard.generate_demo_nodes(node_count)
             st.rerun()
@@ -335,28 +356,47 @@ def main():
         st.subheader("System Status")
         st.write("**Coordinator:** Online")
         st.write("**Database:** Connected")
-        st.write(f"**Last Update:** {st.session_state.last_update.strftime('%H:%M:%S')}")
+        st.write(f"**Last Update:** "
+                 f"{st.session_state.last_update.strftime('%H:%M:%S')}")
         if st.button("Refresh Dashboard"):
             st.session_state.last_update = datetime.now()
             st.rerun()
-    filtered_nodes = [node for node in st.session_state.nodes if node['tier'] in tier_filter and node['status'] in status_filter]
+    filtered_nodes = [
+        node for node in st.session_state.nodes
+        if node['tier'] in tier_filter and node['status'] in status_filter
+    ]
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        active_nodes = len([n for n in filtered_nodes if n['status'] == 'Active'])
-        st.metric("Active Nodes", active_nodes, delta=f"+{np.random.randint(0, 2)}")
+        active_nodes = len([
+            n for n in filtered_nodes if n['status'] == 'Active'
+        ])
+        st.metric("Active Nodes", active_nodes,
+                  delta=f"+{np.random.randint(0, 2)}")
     with col2:
-        running_jobs = len([j for j in st.session_state.jobs if j['status'] == 'Running'])
-        st.metric("Running Jobs", running_jobs, delta=f"+{np.random.randint(-1, 3)}")
+        running_jobs = len([
+            j for j in st.session_state.jobs if j['status'] == 'Running'
+        ])
+        st.metric("Running Jobs", running_jobs,
+                  delta=f"+{np.random.randint(-1, 3)}")
     with col3:
-        total_credits = sum(node['metrics']['credits_earned'] for node in filtered_nodes)
-        st.metric("Total Credits", f"${total_credits:,.0f}", delta=f"+${np.random.randint(100,500)}")
+        total_credits = sum(
+            node['metrics']['credits_earned'] for node in filtered_nodes
+        )
+        st.metric("Total Credits", f"${total_credits:,.0f}",
+                  delta=f"+${np.random.randint(100,500)}")
     with col4:
         utilization = np.random.randint(70, 95)
-        st.metric("Network Utilization", f"{utilization}%", delta=f"{np.random.randint(-3, 5)}%")
+        st.metric("Network Utilization", f"{utilization}%",
+                  delta=f"{np.random.randint(-3, 5)}%")
     st.header("Real-Time Network Globe")
-    st.markdown("<p style='text-align:center; color:#e74c3c;'>Disclaimer: This is demo data only & the globe animation is experimental and may crash.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; color:#e74c3c;'>Disclaimer: "
+                "This is demo data only & the globe animation is experimental "
+                "and may crash.</p>", unsafe_allow_html=True)
     if filtered_nodes:
-        display_nodes = filtered_nodes if len(filtered_nodes) != len(st.session_state.nodes) else st.session_state.nodes[:node_count]
+        display_nodes = (
+            filtered_nodes if len(filtered_nodes) != len(st.session_state.nodes)
+            else st.session_state.nodes[:node_count]
+        )
         globe_network = SpinningGlobeNetwork(display_nodes)
         fig = globe_network.create_visualization()
         config = {
@@ -368,7 +408,8 @@ def main():
             ]
         }
         st.plotly_chart(fig, use_container_width=True, config=config)
-        st.info("Note: The globe animation is experimental and subject to stability issues. This is demo data only.")
+        st.info("Note: The globe animation is experimental and subject to "
+                "stability issues. This is demo data only.")
     else:
         st.warning("No nodes match current filter criteria.")
     col1, col2 = st.columns(2)
@@ -390,7 +431,9 @@ def main():
             st.write("**Node Distribution:**")
             tier_counts = {}
             for node in filtered_nodes:
-                tier_counts[node['tier']] = tier_counts.get(node['tier'], 0) + 1
+                tier_counts[node['tier']] = (
+                    tier_counts.get(node['tier'], 0) + 1
+                )
             for tier, count in tier_counts.items():
                 st.write(f"• {tier}: {count} nodes")
     with col2:
@@ -402,7 +445,10 @@ def main():
                     'ID': job['id'],
                     'Type': job['type'].replace('_', ' ').title(),
                     'Status': job['status'],
-                    'Progress': f"{job['progress']}%" if job['status'] == 'Running' else '—',
+                    'Progress': (
+                        f"{job['progress']}%"
+                        if job['status'] == 'Running' else '—'
+                    ),
                     'Credits': f"${job['credits_allocated']:.0f}",
                     'Time Est.': job.get('estimated_time', '—'),
                     'Submitter': job['submitter']
@@ -411,29 +457,37 @@ def main():
             st.write("**Job Distribution:**")
             status_counts = {}
             for job in st.session_state.jobs:
-                status_counts[job['status']] = status_counts.get(job['status'], 0) + 1
+                status_counts[job['status']] = (
+                    status_counts.get(job['status'], 0) + 1
+                )
             for status, count in status_counts.items():
                 st.write(f"• {status}: {count} jobs")
     st.header("System Performance")
     col1, col2, col3 = st.columns(3)
     with col1:
         st.subheader("Compute Metrics")
-        st.write(f"**Total FLOPS:** {np.random.uniform(500,2000):.1f} TFLOPS")
-        st.write(f"**Average Job Time:** {np.random.randint(45,180)} minutes")
-        st.write(f"**Success Rate:** {np.random.uniform(96,99.5):.1f}%")
+        st.write(f"**Total FLOPS:** "
+                 f"{np.random.uniform(500,2000):.1f} TFLOPS")
+        st.write(f"**Average Job Time:** {np.random.randint(45,180)} "
+                 "minutes")
+        st.write(f"**Success Rate:** "
+                 f"{np.random.uniform(96,99.5):.1f}%")
         st.write(f"**Queue Wait:** {np.random.randint(2,12)} minutes")
     with col2:
         st.subheader("Resource Usage")
         st.write(f"**CPU Utilization:** {np.random.randint(60,85)}%")
         st.write(f"**Memory Usage:** {np.random.randint(55,80)}%")
-        st.write(f"**Network I/O:** {np.random.uniform(15,45):.1f} Gbps")
-        st.write(f"**Storage I/O:** {np.random.uniform(5,25):.1f} GB/s")
+        st.write(f"**Network I/O:** "
+                 f"{np.random.uniform(15,45):.1f} Gbps")
+        st.write(f"**Storage I/O:** "
+                 f"{np.random.uniform(5,25):.1f} GB/s")
     with col3:
         st.subheader("Economic Data")
         st.write(f"**Credits/Hour:** ${np.random.uniform(75,250):.0f}")
         st.write(f"**Daily Volume:** ${np.random.uniform(5000,15000):.0f}")
         st.write(f"**Avg Rate:** ${np.random.uniform(15,35):.2f}/job")
-        st.write(f"**Top Earner:** ${max(n['metrics']['credits_earned'] for n in filtered_nodes):.0f}")
+        st.write(f"**Top Earner:** "
+                 f"${max(n['metrics']['credits_earned'] for n in filtered_nodes):.0f}")
     st.markdown("---")
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -454,6 +508,7 @@ def main():
       </a>
     </div>
     """, unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     main()

@@ -13,6 +13,7 @@ app = Flask(__name__)
 scheduler = Scheduler()
 db = Database()
 
+
 @app.route('/register', methods=['POST'])
 def register():
     """Register a new node with its profile and tier."""
@@ -25,12 +26,14 @@ def register():
     })
     return jsonify({"status": "registered", "node": node.id})
 
+
 @app.route('/submit-job', methods=['POST'])
 def submit_job():
     """Accept a job submission and enqueue it for scheduling."""
     job = request.get_json()
     scheduler.submit_job(job)
     return jsonify({"status": "job submitted", "job_id": job.get('id')})
+
 
 @app.route('/status', methods=['GET'])
 def status():
@@ -39,6 +42,7 @@ def status():
         "nodes": db.get_nodes(),
         "jobs": db.get_jobs()
     })
+
 
 if __name__ == '__main__':
     host = os.getenv('HOST', '0.0.0.0')

@@ -4,10 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add NEXAPod infrastructure components, implement job scheduling, and enhance API functionality">
+    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add NexaPod components, update requirements, and enhance documentation">
+      <change beforePath="$PROJECT_DIR$/.idea/NexaPod.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NexaPod.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/reputation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/reputation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/archiver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/archiver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/contributor_wall_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/contributor_wall_app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/dashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/executor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/input_fetch.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/input_fetch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/ledger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/ledger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/nexapod_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/nexapod_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/profiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/profiles.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +26,19 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -50,6 +70,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
@@ -62,7 +83,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -100,6 +121,7 @@
     <MESSAGE value="Add contributor wall app and update dependencies in requirements" />
     <MESSAGE value="Add Kubernetes manifests, Prometheus integration, and enhance client-server communication" />
     <MESSAGE value="Add NEXAPod infrastructure components, implement job scheduling, and enhance API functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add NEXAPod infrastructure components, implement job scheduling, and enhance API functionality" />
+    <MESSAGE value="Add NexaPod components, update requirements, and enhance documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add NexaPod components, update requirements, and enhance documentation" />
   </component>
 </project>

@@ -23,6 +23,7 @@ class Ledger:
         """Return all recorded transactions."""
         return self.transactions
 
+
 def main():
     """Demo usage of Ledger."""
     ledger = Ledger()
@@ -33,6 +34,7 @@ def main():
     for t in ledger.list_transactions():
         print(f"Amount: {t['amount']}, Description: {t['description']}")
     print("\nCurrent Balance:", ledger.get_balance())
+
 
 if __name__ == "__main__":
     main()

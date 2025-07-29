@@ -4,7 +4,8 @@ import docker
 
 def execute_job(job: dict) -> dict:
     """
-    Pull Docker image, prepare inputs, run container, and return execution result.
+    Pull Docker image, prepare inputs, run container, and return
+    execution result.
     """
     client = docker.from_env()
     image = job['docker_image']

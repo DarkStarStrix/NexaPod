@@ -1,16 +1,36 @@
-import hashlib
-import tarfile
-from database import Database
+import os
+import shutil
 
-def archive_and_sign(job_id: str, output_dir: str) -> tuple:
-    """
-    Archive output directory to tar.gz, compute SHA-256 checksum,
-    record archive in the database, and return archive path and checksum.
-    """
-    tar_path = f"{job_id}.tar.gz"
-    with tarfile.open(tar_path, "w:gz") as tar:
-        tar.add(output_dir, arcname="outputs")
-    checksum = hashlib.sha256(open(tar_path, 'rb').read()).hexdigest()
-    db = Database()
-    db.record_archive(job_id, tar_path, checksum)
-    return tar_path, checksum
+
+class Archiver:
+    def __init__(self, archive_dir='archive'):
+        self.archive_dir = archive_dir
+        if not os.path.exists(self.archive_dir):
+            os.makedirs(self.archive_dir)
+
+    def archive_directory(self, source_dir):
+        """Archives a directory by moving it into the archive directory."""
+        try:
+            # Generate a unique name for the archive directory
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            archive_name = f"{os.path.basename(source_dir)}_{timestamp}"
+            destination_dir = os.path.join(self.archive_dir, archive_name)
+
+            # Move the directory
+            shutil.move(source_dir, destination_dir)
+            print(f"Directory '{source_dir}' archived to '{destination_dir}'")
+            return destination_dir
+        except Exception as e:
+            print(f"Error archiving directory '{source_dir}': {e}")
+            return None
+
+    def restore_directory(self, archive_path, destination_dir):
+        """Restores a directory from the archive."""
+        try:
+            # Move the directory back
+            shutil.move(archive_path, destination_dir)
+            print(f"Directory '{archive_path}' restored to '{destination_dir}'")
+            return destination_dir
+        except Exception as e:
+            print(f"Error restoring directory '{archive_path}': {e}")
+            return None

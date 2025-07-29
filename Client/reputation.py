@@ -1,27 +1,35 @@
 """
-Module for managing user reputation.
+Manages node reputation scores based on performance and reliability.
 """
+import json
+
 
 class ReputationManager:
-    """Handles reputation value and updates."""
-    def __init__(self, initial_value: int = 0):
-        self.reputation = initial_value
+    """Handles loading, updating, and saving node reputation scores."""
 
-    def update_reputation(self, change: int) -> int:
-        """Update reputation by change and return new value."""
-        self.reputation += change
-        return self.reputation
+    def __init__(self, filepath: str = 'reputation.json'):
+        self.filepath = filepath
+        self.scores = self._load()
 
+    def _load(self) -> dict:
+        """Load reputation scores from file."""
+        try:
+            with open(self.filepath, 'r') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return {}
 
-def main():
-    """Demo script for ReputationManager."""
-    manager = ReputationManager()
-    print("Initial reputation:", manager.reputation)
-    changes = [10, -20, 15, -5, 25]
-    for change in changes:
-        new_reputation = manager.update_reputation(change)
-        print(f"Applied change {change}: Reputation is now {new_reputation}")
+    def _save(self):
+        """Save current reputation scores to file."""
+        with open(self.filepath, 'w') as f:
+            json.dump(self.scores, f, indent=2)
 
+    def update_score(self, node_id: str, change: float):
+        """Update a node's score and save."""
+        current_score = self.scores.get(node_id, 1.0)
+        self.scores[node_id] = max(0, current_score + change)
+        self._save()
 
-if __name__ == "__main__":
-    main()
+    def get_score(self, node_id: str) -> float:
+        """Get a node's current score."""
+        return self.scores.get(node_id, 1.0)

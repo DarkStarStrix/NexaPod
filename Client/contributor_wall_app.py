@@ -1,78 +1,165 @@
-import streamlit as st
-import plotly.graph_objects as go
-import pandas as pd
+import tkinter as tk
+import webbrowser
+from PIL import Image, ImageTk
 
-st.set_page_config(
-    page_title="NEXAPod Contributor Wall - Demo",
-    page_icon="👥",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
 
-st.markdown("""
-<style>
-  body { font-family: sans-serif; background: #0c0c0c; color: #e0e0e0; }
-  .header { text-align: center; margin-top: 1rem; }
-  .header h1 { font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #00d4ff, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .disclaimer { text-align: center; padding: 10px; background:#f8d7da; color:#721c24; border:1px solid #f5c6cb; margin: 1rem 0; }
-  .section-title { font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem; }
-  .graph-container { margin-top: 2rem; }
-</style>
-""", unsafe_allow_html=True)
+class ContributorWallApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("NexaPod Contributor Wall")
+        self.root.geometry("1200x800")
+        self.root.configure(bg="#2E2E2E")
 
-# Header and disclaimer.
-st.markdown('<div class="header"><h1>NEXAPod Contributor Wall (Demo)</h1></div>', unsafe_allow_html=True)
-st.markdown('<div class="disclaimer">Disclaimer: This data is for demo purposes only and not live.</div>', unsafe_allow_html=True)
+        self.title_label = tk.Label(
+            root,
+            text="Nexapod Contributor Wall",
+            font=("Helvetica", 24, "bold"),
+            bg="#2E2E2E",
+            fg="#FFFFFF",
+        )
+        self.title_label.pack(pady=20)
 
-# Sample contributor data.
-contributors = [
-    {"Name": "Dr. Sarah Chen", "Compute": "2.4 TFLOPS", "Type": "HPC", "Status": "Active", "Performance": "99.8%", "Avatar": "SC"},
-    {"Name": "Alex Rodriguez", "Compute": "1.8 TFLOPS", "Type": "GPU", "Status": "Active", "Performance": "98.2%", "Avatar": "AR"},
-    {"Name": "Emma Thompson", "Compute": "1.5 TFLOPS", "Type": "GPU", "Status": "Active", "Performance": "97.9%", "Avatar": "ET"},
-    {"Name": "Michael Park", "Compute": "1.2 TFLOPS", "Type": "CPU", "Status": "Active", "Performance": "96.5%", "Avatar": "MP"},
-    {"Name": "Lisa Wang", "Compute": "1.1 TFLOPS", "Type": "GPU", "Status": "Inactive", "Performance": "95.1%", "Avatar": "LW"},
-    {"Name": "David Kumar", "Compute": "980 GFLOPS", "Type": "CPU", "Status": "Active", "Performance": "94.7%", "Avatar": "DK"},
-    {"Name": "Rachel Green", "Compute": "850 GFLOPS", "Type": "GPU", "Status": "Active", "Performance": "93.2%", "Avatar": "RG"},
-    {"Name": "Tom Anderson", "Compute": "720 GFLOPS", "Type": "CPU", "Status": "Inactive", "Performance": "92.8%", "Avatar": "TA"},
-    {"Name": "Maria Santos", "Compute": "650 GFLOPS", "Type": "GPU", "Status": "Active", "Performance": "91.4%", "Avatar": "MS"},
-    {"Name": "James Wilson", "Compute": "580 GFLOPS", "Type": "CPU", "Status": "Active", "Performance": "90.9%", "Avatar": "JW"}
-]
+        self.canvas = tk.Canvas(root, bg="#2E2E2E", highlightthickness=0)
+        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-# Display contributor table.
-st.subheader("Contributor List")
-df_contributors = pd.DataFrame(contributors)
-st.dataframe(df_contributors, use_container_width=True)
+        self.scrollbar = tk.Scrollbar(
+            root, orient=tk.VERTICAL, command=self.canvas.yview
+        )
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
-# Show contributor graph.
-st.subheader("Contributor Graph")
-# Create a simple bar chart, e.g., Compute power (dummy numerical conversion).
-names = [c["Name"] for c in contributors]
-# Convert compute values to numerical approximate (assuming TFLOPS > 1, GFLOPS less than 1)
-compute_values = []
-for c in contributors:
-    value = c["Compute"]
-    if "TFLOPS" in value:
-        compute_values.append(float(value.replace(" TFLOPS", "")) * 1000)
-    else:
-        compute_values.append(float(value.replace(" GFLOPS", "")))
-fig = go.Figure(data=[go.Bar(x=names, y=compute_values, marker_color='rgba(16, 185, 129, 0.7)')])
-fig.update_layout(
-    title="Contributor Compute Power (in GFLOPS)",
-    xaxis_title="Contributor",
-    yaxis_title="Compute (GFLOPS)",
-    template="plotly_dark",
-    margin=dict(t=50, b=50)
-)
-st.plotly_chart(fig, use_container_width=True)
+        self.contributors_frame = tk.Frame(self.canvas, bg="#2E2E2E")
+        self.canvas.create_window(
+            (0, 0), window=self.contributors_frame, anchor=tk.NW
+        )
 
-# Add button to return to main dashboard.
-st.markdown("""
-<div style="text-align:center; margin-top:20px;">
-  <a href="dashboard.py">
-    <button style="font-size:1rem; padding:10px 20px; background-color:#2cbe4e; color:white; border:none; border-radius:5px;">
-      Return to Dashboard
-    </button>
-  </a>
-</div>
-""", unsafe_allow_html=True)
+        self.contributors_data = [
+            {
+                "name": "Kunya",
+                "image_path": "assets/kunya.png",
+                "github_url": "https://github.com/kunya66",
+            },
+            {
+                "name": "ChatGPT",
+                "image_path": "assets/chatgpt.png",
+                "github_url": "https://github.com/chatgpt",
+            },
+            {
+                "name": "Gemini",
+                "image_path": "assets/gemini.png",
+                "github_url": "https://github.com/gemini",
+            },
+            {
+                "name": "Claude",
+                "image_path": "assets/claude.png",
+                "github_url": "https://github.com/claude",
+            },
+            {
+                "name": "Other Contributor 1",
+                "image_path": "assets/default.png",
+                "github_url": "https://github.com/contributor1",
+            },
+            {
+                "name": "Other Contributor 2",
+                "image_path": "assets/default.png",
+                "github_url": "https://github.com/contributor2",
+            },
+            {
+                "name": "Other Contributor 3",
+                "image_path": "assets/default.png",
+                "github_url": "https://github.com/contributor3",
+            },
+            {
+                "name": "Other Contributor 4",
+                "image_path": "assets/default.png",
+                "github_url": "https://github.com/contributor4",
+            },
+            {
+                "name": "Other Contributor 5",
+                "image_path": "assets/default.png",
+                "github_url": "https://github.com/contributor5",
+            },
+            {
+                "name": "Other Contributor 6",
+                "image_path": "assets/default.png",
+                "github_url": "https://github.com/contributor6",
+            },
+        ]
 
+        self.create_contributor_widgets()
+        self.contributors_frame.bind("<Configure>", self.on_frame_configure)
+        self.canvas.bind_all("<MouseWheel>", self.on_mouse_wheel)
+
+    def on_frame_configure(self, event):
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def on_mouse_wheel(self, event):
+        self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+    def create_contributor_widgets(self):
+        for i, contributor in enumerate(self.contributors_data):
+            row, col = divmod(i, 4)
+            contributor_frame = tk.Frame(
+                self.contributors_frame,
+                bg="#3C3C3C",
+                relief=tk.RAISED,
+                borderwidth=2,
+            )
+            contributor_frame.grid(
+                row=row, column=col, padx=20, pady=20, sticky="nsew"
+            )
+
+            try:
+                img = Image.open(contributor["image_path"])
+                img = img.resize((100, 100), Image.Resampling.LANCZOS)
+                photo = ImageTk.PhotoImage(img)
+                image_label = tk.Label(
+                    contributor_frame, image=photo, bg="#3C3C3C"
+                )
+                image_label.image = photo
+                image_label.pack(pady=10)
+            except FileNotFoundError:
+                # Handle case where image is not found
+                placeholder_label = tk.Label(
+                    contributor_frame,
+                    text="Image not found",
+                    bg="#3C3C3C",
+                    fg="#FFFFFF",
+                )
+                placeholder_label.pack(pady=10)
+
+            name_label = tk.Label(
+                contributor_frame,
+                text=contributor["name"],
+                font=("Helvetica", 12, "bold"),
+                bg="#3C3C3C",
+                fg="#FFFFFF",
+            )
+            name_label.pack()
+
+            github_link = tk.Label(
+                contributor_frame,
+                text="GitHub Profile",
+                font=("Helvetica", 10, "underline"),
+                fg="#1E90FF",
+                bg="#3C3C3C",
+                cursor="hand2",
+            )
+            github_link.pack(pady=5)
+            github_link.bind(
+                "<Button-1>",
+                lambda e, url=contributor["github_url"]: self.open_link(url),
+            )
+
+    def open_link(self, url):
+        webbrowser.open_new(url)
+
+
+def main():
+    root = tk.Tk()
+    app = ContributorWallApp(root)
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()

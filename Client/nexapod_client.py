@@ -14,9 +14,18 @@ from profiles import get_node_profile
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.yaml')
 
 # Prometheus metrics for client
-jobs_polled_counter = Counter('nexapod_client_jobs_polled_total', 'Total number of jobs polled from server')
-jobs_executed_success_counter = Counter('nexapod_client_job_success_total', 'Total number of successful job executions')
-jobs_executed_failure_counter = Counter('nexapod_client_job_failure_total', 'Total number of failed job executions')
+jobs_polled_counter = Counter(
+    'nexapod_client_jobs_polled_total',
+    'Total number of jobs polled from server'
+)
+jobs_executed_success_counter = Counter(
+    'nexapod_client_job_success_total',
+    'Total number of successful job executions'
+)
+jobs_executed_failure_counter = Counter(
+    'nexapod_client_job_failure_total',
+    'Total number of failed job executions'
+)
 
 
 def load_config() -> dict:
@@ -28,7 +37,11 @@ def load_config() -> dict:
 def main():
     """Entry point for NEXAPod client node."""
     parser = argparse.ArgumentParser(description='NEXAPod Client Node')
-    parser.add_argument('command', choices=['join', 'run'], help='join: register node, run: poll and execute jobs')
+    parser.add_argument(
+        'command',
+        choices=['join', 'run'],
+        help='join: register node, run: poll and execute jobs'
+    )
     args = parser.parse_args()
 
     config = load_config()
@@ -60,7 +73,11 @@ def main():
         profile = get_node_profile()
         message = json.dumps(profile, sort_keys=True).encode()
         signature_hex = key.sign(message).hex()
-        payload = {**profile, 'public_key': public_key_hex, 'signature': signature_hex}
+        payload = {
+            **profile,
+            'public_key': public_key_hex,
+            'signature': signature_hex
+        }
         client.register_node(payload)
         print('Node registered with coordinator.')
     elif args.command == 'run':

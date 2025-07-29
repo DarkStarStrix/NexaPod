@@ -6,5 +6,8 @@
     </content>
     <orderEntry type="jdk" jdkName="uv (NexaPod) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="three" level="application" />
+    <orderEntry type="library" name="globe.gl" level="application" />
+    <orderEntry type="library" name="three-globe" level="application" />
   </component>
 </module>
