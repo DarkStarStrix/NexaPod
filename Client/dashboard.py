@@ -67,7 +67,8 @@ class SpinningGlobeNetwork:
         self.nodes_data = nodes_data
         self.num_nodes = len(nodes_data)
 
-    def fibonacci_sphere_distribution(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    def fibonacci_sphere_distribution(
+            self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """Generate optimal node positions using Fibonacci spiral."""
         n = self.num_nodes
         indices = np.arange(n) + 0.5
@@ -95,7 +96,8 @@ class SpinningGlobeNetwork:
             hoverinfo='skip'
         )
 
-    def create_network_edges(self, node_positions: Tuple[np.ndarray, ...]) -> List[go.Scatter3d]:
+    def create_network_edges(
+            self, node_positions: Tuple[np.ndarray, ...]) -> List[go.Scatter3d]:
         """Create edge traces for complete graph connectivity."""
         x_coords, y_coords, z_coords = node_positions
         G = nx.complete_graph(self.num_nodes)
@@ -129,7 +131,8 @@ class SpinningGlobeNetwork:
                 'memory_usage': f"{node['metrics']['memory_usage']}%",
                 'jobs_completed': node['metrics']['jobs_completed'],
                 'reputation_score': node['metrics']['reputation_score'],
-                'credits_earned': f"${node['metrics']['credits_earned']:.2f}",
+                'credits_earned':
+                    f"${node['metrics']['credits_earned']:.2f}",
                 'uptime_hours': node['profile']['uptime_hours']
             }
             hover_text = json.dumps(hover_data)
@@ -168,7 +171,8 @@ class SpinningGlobeNetwork:
             angle = 2 * np.pi * i / num_frames
             cam_eye = dict(x=2 * np.cos(angle), y=2 * np.sin(angle), z=0.5)
             node_sizes = [
-                12 + 3 * ((np.sin(2 * np.pi * i / num_frames + phases[j]) + 1) / 2)
+                12 + 3 * ((np.sin(
+                    2 * np.pi * i / num_frames + phases[j]) + 1) / 2)
                 for j in range(self.num_nodes)
             ]
             frame = dict(
@@ -196,7 +200,8 @@ class SpinningGlobeNetwork:
                 bgcolor='rgba(0,0,0,0.05)'
             ),
             title=dict(
-                text=f"NEXAPod Network Globe - {self.num_nodes} Compute Nodes",
+                text=f"NEXAPod Network Globe - {self.num_nodes} "
+                     f"Compute Nodes",
                 font=dict(size=16, color='#2c3e50'),
                 x=0.5
             ),
@@ -212,8 +217,8 @@ class SpinningGlobeNetwork:
                     "method": "animate"
                 }, {
                     "args": [[None], {"frame": {"duration": 0, "redraw": True},
-                                       "mode": "immediate",
-                                       "transition": {"duration": 0}}],
+                                     "mode": "immediate",
+                                     "transition": {"duration": 0}}],
                     "label": "Pause",
                     "method": "animate"
                 }],
@@ -227,7 +232,8 @@ class SpinningGlobeNetwork:
                 "yanchor": "top"
             }],
             annotations=[{
-                'text': 'Fibonacci sphere distribution • Complete graph topology • JSON hover data',
+                'text': 'Fibonacci sphere distribution • Complete graph '
+                        'topology • JSON hover data',
                 'showarrow': False,
                 'xref': 'paper',
                 'yref': 'paper',
@@ -322,8 +328,10 @@ def main():
     """Main NEXAPod Dashboard application."""
     dashboard = NEXAPodDashboard()
 
-    st.markdown('<h1 class="main-header">NEXAPod Live Dashboard</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="subtitle">Distributed Compute Fabric for Scientific Problems</p>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">NEXAPod Live Dashboard</h1>',
+                unsafe_allow_html=True)
+    st.markdown('<p class="subtitle">Distributed Compute Fabric for '
+                'Scientific Problems</p>', unsafe_allow_html=True)
 
     # Sidebar controls
     with st.sidebar:
@@ -382,10 +390,14 @@ def main():
 
     # Network Globe
     st.header("Real-Time Network Globe")
-    st.markdown("<p style='text-align:center; color:#e74c3c;'>Disclaimer: This is demo data only</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; color:#e74c3c;'>Disclaimer: "
+                "This is demo data only</p>", unsafe_allow_html=True)
 
     if filtered_nodes:
-        display_nodes = filtered_nodes if len(filtered_nodes) != len(st.session_state.nodes) else st.session_state.nodes[:node_count]
+        if len(filtered_nodes) != len(st.session_state.nodes):
+            display_nodes = filtered_nodes
+        else:
+            display_nodes = st.session_state.nodes[:node_count]
         globe_network = SpinningGlobeNetwork(display_nodes)
         fig = globe_network.create_visualization()
 
@@ -436,7 +448,8 @@ def main():
                     'ID': job['id'],
                     'Type': job['type'].replace('_', ' ').title(),
                     'Status': job['status'],
-                    'Progress': f"{job['progress']}%" if job['status'] == 'Running' else '—',
+                    'Progress': f"{job['progress']}%"
+                    if job['status'] == 'Running' else '—',
                     'Credits': f"${job['credits_allocated']:.0f}",
                     'Time Est.': job.get('estimated_time', '—'),
                     'Submitter': job['submitter']
@@ -474,7 +487,8 @@ def main():
         st.write(f"**Daily Volume:** ${np.random.uniform(5000,15000):.0f}")
         st.write(f"**Avg Rate:** ${np.random.uniform(15,35):.2f}/job")
         if filtered_nodes:
-            st.write(f"**Top Earner:** ${max(n['metrics']['credits_earned'] for n in filtered_nodes):.0f}")
+            credits = [n['metrics']['credits_earned'] for n in filtered_nodes]
+            st.write(f"**Top Earner:** ${max(credits):.0f}")
 
     # Footer
     st.markdown("---")

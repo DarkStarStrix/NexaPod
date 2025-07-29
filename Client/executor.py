@@ -24,6 +24,6 @@ def execute_job(job: dict) -> dict:
     return {
         'job_id': job_id,
         'output': (output.decode() if isinstance(output, bytes)
-                  else str(output)),
+                   else str(output)),
         'status': 'completed'
     }
