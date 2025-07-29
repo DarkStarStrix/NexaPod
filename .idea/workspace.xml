@@ -4,30 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add &quot;Coming Soon&quot; placeholders, improve code formatting, and enhance contributor wall app">
-      <change afterPath="$PROJECT_DIR$/.flake8" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/lint.sh" afterDir="false" />
+    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Add &quot;Coming Soon&quot; placeholders, improve code formatting, and introduce linting scripts">
       <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/archiver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/archiver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/contributor_wall_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/contributor_wall_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/dashboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/descriptor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/descriptor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/executor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/profiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/profiles.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastruture/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastruture/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastruture/rate_limiter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastruture/rate_limiter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastruture/runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastruture/runner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastruture/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastruture/scheduler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Protocol/incentives/bounties.py" beforeDir="false" afterPath="$PROJECT_DIR$/Protocol/incentives/bounties.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Protocol/incentives/credits.py" beforeDir="false" afterPath="$PROJECT_DIR$/Protocol/incentives/credits.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Protocol/protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/Protocol/protocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Protocol/security/security.py" beforeDir="false" afterPath="$PROJECT_DIR$/Protocol/security/security.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runner/Bio_Runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Runner/Bio_Runner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/reputation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/reputation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,6 +115,7 @@
     <MESSAGE value="Add NEXAPod infrastructure components, implement job scheduling, and enhance API functionality" />
     <MESSAGE value="Add NexaPod components, update requirements, and enhance documentation" />
     <MESSAGE value="Add &quot;Coming Soon&quot; placeholders, improve code formatting, and enhance contributor wall app" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add &quot;Coming Soon&quot; placeholders, improve code formatting, and enhance contributor wall app" />
+    <MESSAGE value="Add &quot;Coming Soon&quot; placeholders, improve code formatting, and introduce linting scripts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add &quot;Coming Soon&quot; placeholders, improve code formatting, and introduce linting scripts" />
   </component>
 </project>

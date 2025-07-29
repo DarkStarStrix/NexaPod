@@ -1,6 +1,20 @@
-# NEXAPod
+<!-- Tags: #DistributedComputing, #ScientificComputing, #HeterogeneousResources, #ScalableArchitecture, #Innovation, #OpenSource -->
 
-*A Distributed Compute Fabric for Scientific Problems*
+# NEXAPod: Distributed Compute Fabric for Scientific Problems
+
+<!-- 
+  NEXAPod seamlessly unites diverse computing resources—from consumer GPUs to high-end clusters—to tackle large-scale scientific challenges. 
+  The project architecturally combines decentralized client nodes with a master server coordinator for dynamic job scheduling, secure task execution, and a robust credit ledger.
+  
+  **Key Concepts:**
+  - **Distributed Compute Fabric:** Harness idle compute power from heterogeneous resources.
+  - **Dynamic Scheduling & Tier Matching:** Align jobs with nodes based on performance, availability, and credit systems.
+  - **Cryptographic Security:** Ensure authenticity with Ed25519 signatures and rigorous validation.
+  - **Scalable & Modular Design:** Start with an MVP using SQLite and evolve to Kubernetes orchestration using Helm.
+  - **Open Collaboration:** Designed openly with clear protocols and easy integration with modern devops tools.
+-->
+
+*Distributed Compute Fabric for Scientific Problems*
 
 ---
 
@@ -134,7 +148,7 @@ nexapod/
 |                      | Hashing                  | `hashlib` (SHA256)                                    |
 | **Orchestration**    | Single-node MVP          | Python scripts + Docker                               |
 |                      | Multi-node (v2)          | Kubernetes (k8s) manifests + Helm charts              |
-| **Credits & ledger** | Credit accounting        | JSON ledger → blockchain smart contracts (v2)         |
+| **Credits & Ledger** | Credit accounting        | JSON ledger → blockchain smart contracts (v2)         |
 | **Monitoring**       | Metrics & logs           | OpenTelemetry / Prometheus / Grafana                  |
 | **Testing**          | Unit & integration tests | pytest, tox                                           |
 
@@ -150,39 +164,35 @@ nexapod/
    - Use `pydantic` models for request/response validation.
 3. **Docker-first**
    - Build small, minimal containers for both client and server.
-   - Use multi-stage builds to keep images lean (only Python runtime & code).
+   - Use multi-stage builds to keep images lean.
 4. **Key Management**
    - Auto-generate an Ed25519 keypair in `scripts/bootstrap_keys.sh`.
-   - Store private keys encrypted on disk (e.g. via OS keyring) in v1.
+   - Store private keys securely.
 5. **Job Descriptor**
-   - Standardize fields: `job_id`, `image`, `requirements`, `input_uri`, `tolerance`, `credit_rate`.
-   - Version your descriptor schema (add a `schema_version` field).
+   - Standardize fields: `job_id`, `image`, `requirements`, `input_uri`, etc.
+   - Version your descriptor schema.
 6. **Warm vs Cold Pools**
-   - Track node state in server’s DB.
-   - Clients poll for work only when “warm.” Cold clients run health-check jobs.
+   - Track node state on the server.
+   - Clients poll only when “warm.”
 7. **Verification & Redundancy**
-   - For MVP, assign 10% of jobs redundantly.
-   - Compare result hashes; flag mismatches for manual review.
+   - Assign a percentage of jobs redundantly.
+   - Compare result hashes; flag discrepancies.
 8. **Credit Calculation**
-   - Base credits on `duration × flops_estimate`.
-   - Maintain a per-node cumulative ledger in the DB.
+   - Base credits on duration and compute estimates.
+   - Maintain a per-node cumulative ledger.
 9. **Logging**
-   - Emit structured logs (JSON) to STDOUT.
-   - Optionally integrate OpenTelemetry for traceability.
+   - Emit structured JSON logs to STDOUT.
+   - Optionally use OpenTelemetry for tracing.
 10. **Testing**
-    - Write mocks for client-server interactions.
-    - Simulate flaky nodes by randomly failing jobs in tests.
+    - Use mocks for client-server interactions.
+    - Simulate flaky nodes in tests.
 11. **Documentation & Onboarding**
-    - Keep `README.md` updated with quick-start:
-      1. `pip install -r requirements.txt`
-      2. `docker-compose up` (MVP)
-      3. `python client/nexapod_client.py join`
-      4. `python server/app.py`
+    - Keep README.md updated with quick-start instructions.
 12. **Roadmap to v2**
-    - Swap SQLite for Postgres + Redis.
-    - Migrate HTTP to gRPC+Protobuf.
-    - Introduce a blockchain ledger for credit/token distribution.
-    - Container-native orchestration on k8s with Helm charts.
+    - Migrate to Postgres + Redis.
+    - Transition to gRPC+Protobuf.
+    - Implement blockchain ledger for credits.
+    - Adopt Kubernetes orchestration via Helm charts.
 
 ---
 
@@ -215,11 +225,9 @@ nexapod/
 
 ---
 
----
-
 ## 10. Contributing
 
-PRs and issues welcome! See [docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md) for guidelines.
+PRs and issues welcome! See [docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
