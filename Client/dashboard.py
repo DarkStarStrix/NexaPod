@@ -171,9 +171,9 @@ class SpinningGlobeNetwork:
             angle = 2 * np.pi * i / num_frames
             cam_eye = dict(x=2 * np.cos(angle), y=2 * np.sin(angle), z=0.5)
             node_sizes = [
-                    12 + 3 * ((np.sin(
-                        2 * np.pi * i / num_frames + phases[j]) + 1) / 2)
-                    for j in range(self.num_nodes)
+                12 + 3 * ((np.sin(
+                    2 * np.pi * i / num_frames + phases[j]) + 1) / 2)
+                for j in range(self.num_nodes)
             ]
             frame = dict(
                 data=[dict(marker=dict(size=node_sizes))],
@@ -330,7 +330,9 @@ class NEXAPodDashboard:
                 'type': job_type,
                 'status': status,
                 'submitter': f"researcher_{chr(97+i%5)}",
-                'progress': int(np.random.randint(0, 100)) if status == 'Running' else (100 if status == 'Completed' else 0),
+                'progress': (int(np.random.randint(0, 100))
+                           if status == 'Running'
+                           else (100 if status == 'Completed' else 0)),
                 'credits_allocated': round(np.random.uniform(50, 500), 2),
                 'estimated_time': f"{np.random.randint(30, 240)} min"
             }
@@ -351,7 +353,8 @@ def main():
     with st.sidebar:
         st.header("Dashboard Controls")
         st.subheader("Network Configuration")
-        node_count = st.slider("Number of Nodes", min_value=5, max_value=20, value=10)
+        node_count = st.slider("Number of Nodes", min_value=5, max_value=20,
+                              value=10)
 
         if st.button("Regenerate Network"):
             st.session_state.nodes = dashboard.generate_demo_nodes(node_count)
@@ -372,7 +375,8 @@ def main():
         st.subheader("System Status")
         st.write("**Coordinator:** Online")
         st.write("**Database:** Connected")
-        st.write(f"**Last Update:** {st.session_state.last_update.strftime('%H:%M:%S')}")
+        last_update_time = st.session_state.last_update.strftime('%H:%M:%S')
+        st.write(f"**Last Update:** {last_update_time}")
 
         if st.button("Refresh Dashboard"):
             st.session_state.last_update = datetime.now()
@@ -388,19 +392,25 @@ def main():
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         active_nodes = len([n for n in filtered_nodes if n['status'] == 'Active'])
-        st.metric("Active Nodes", active_nodes, delta=f"+{np.random.randint(0, 2)}")
+        delta_value = f"+{np.random.randint(0, 2)}"
+        st.metric("Active Nodes", active_nodes, delta=delta_value)
 
     with col2:
-        running_jobs = len([j for j in st.session_state.jobs if j['status'] == 'Running'])
-        st.metric("Running Jobs", running_jobs, delta=f"+{np.random.randint(-1, 3)}")
+        running_jobs = len([j for j in st.session_state.jobs
+                           if j['status'] == 'Running'])
+        delta_value = f"+{np.random.randint(-1, 3)}"
+        st.metric("Running Jobs", running_jobs, delta=delta_value)
 
     with col3:
-        total_credits = sum(node['metrics']['credits_earned'] for node in filtered_nodes)
-        st.metric("Total Credits", f"${total_credits:,.0f}", delta=f"+${np.random.randint(100,500)}")
+        total_credits = sum(node['metrics']['credits_earned']
+                           for node in filtered_nodes)
+        delta_value = f"+${np.random.randint(100,500)}"
+        st.metric("Total Credits", f"${total_credits:,.0f}", delta=delta_value)
 
     with col4:
         utilization = np.random.randint(70, 95)
-        st.metric("Network Utilization", f"{utilization}%", delta=f"{np.random.randint(-3, 5)}%")
+        delta_value = f"{np.random.randint(-3, 5)}%"
+        st.metric("Network Utilization", f"{utilization}%", delta=delta_value)
 
     # Network Globe
     st.header("Real-Time Network Globe")
@@ -449,7 +459,8 @@ def main():
             st.write("**Node Distribution:**")
             tier_counts = {}
             for node in filtered_nodes:
-                tier_counts[node['tier']] = tier_counts.get(node['tier'], 0) + 1
+                tier = node['tier']
+                tier_counts[tier] = tier_counts.get(tier, 0) + 1
             for tier, count in tier_counts.items():
                 st.write(f"• {tier}: {count} nodes")
 
@@ -458,12 +469,13 @@ def main():
         if st.session_state.jobs:
             job_table_data = []
             for job in st.session_state.jobs:
+                progress_text = (f"{job['progress']}%"
+                               if job['status'] == 'Running' else '—')
                 job_table_data.append({
                     'ID': job['id'],
                     'Type': job['type'].replace('_', ' ').title(),
                     'Status': job['status'],
-                    'Progress': f"{job['progress']}%"
-                    if job['status'] == 'Running' else '—',
+                    'Progress': progress_text,
                     'Credits': f"${job['credits_allocated']:.0f}",
                     'Time Est.': job.get('estimated_time', '—'),
                     'Submitter': job['submitter']
@@ -473,7 +485,8 @@ def main():
             st.write("**Job Distribution:**")
             status_counts = {}
             for job in st.session_state.jobs:
-                status_counts[job['status']] = status_counts.get(job['status'], 0) + 1
+                status = job['status']
+                status_counts[status] = status_counts.get(status, 0) + 1
             for status, count in status_counts.items():
                 st.write(f"• {status}: {count} jobs")
 
@@ -483,23 +496,34 @@ def main():
 
     with col1:
         st.subheader("Compute Metrics")
-        st.write(f"**Total FLOPS:** {np.random.uniform(500,2000):.1f} TFLOPS")
-        st.write(f"**Average Job Time:** {np.random.randint(45,180)} minutes")
-        st.write(f"**Success Rate:** {np.random.uniform(96,99.5):.1f}%")
-        st.write(f"**Queue Wait:** {np.random.randint(2,12)} minutes")
+        tflops_value = np.random.uniform(500, 2000)
+        st.write(f"**Total FLOPS:** {tflops_value:.1f} TFLOPS")
+        avg_time = np.random.randint(45, 180)
+        st.write(f"**Average Job Time:** {avg_time} minutes")
+        success_rate = np.random.uniform(96, 99.5)
+        st.write(f"**Success Rate:** {success_rate:.1f}%")
+        queue_wait = np.random.randint(2, 12)
+        st.write(f"**Queue Wait:** {queue_wait} minutes")
 
     with col2:
         st.subheader("Resource Usage")
-        st.write(f"**CPU Utilization:** {np.random.randint(60,85)}%")
-        st.write(f"**Memory Usage:** {np.random.randint(55,80)}%")
-        st.write(f"**Network I/O:** {np.random.uniform(15,45):.1f} Gbps")
-        st.write(f"**Storage I/O:** {np.random.uniform(5,25):.1f} GB/s")
+        cpu_util = np.random.randint(60, 85)
+        st.write(f"**CPU Utilization:** {cpu_util}%")
+        mem_usage = np.random.randint(55, 80)
+        st.write(f"**Memory Usage:** {mem_usage}%")
+        network_io = np.random.uniform(15, 45)
+        st.write(f"**Network I/O:** {network_io:.1f} Gbps")
+        storage_io = np.random.uniform(5, 25)
+        st.write(f"**Storage I/O:** {storage_io:.1f} GB/s")
 
     with col3:
         st.subheader("Economic Data")
-        st.write(f"**Credits/Hour:** ${np.random.uniform(75,250):.0f}")
-        st.write(f"**Daily Volume:** ${np.random.uniform(5000,15000):.0f}")
-        st.write(f"**Avg Rate:** ${np.random.uniform(15,35):.2f}/job")
+        credits_per_hour = np.random.uniform(75, 250)
+        st.write(f"**Credits/Hour:** ${credits_per_hour:.0f}")
+        daily_volume = np.random.uniform(5000, 15000)
+        st.write(f"**Daily Volume:** ${daily_volume:.0f}")
+        avg_rate = np.random.uniform(15, 35)
+        st.write(f"**Avg Rate:** ${avg_rate:.2f}/job")
         if filtered_nodes:
             credits = [n['metrics']['credits_earned'] for n in filtered_nodes]
             st.write(f"**Top Earner:** ${max(credits):.0f}")

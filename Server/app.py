@@ -59,9 +59,12 @@ def create_app() -> FastAPI:
         signature_hex = payload.pop("signature", None)
         public_key_hex = payload.pop("public_key", None)
         if not signature_hex or not public_key_hex:
-            raise HTTPException(status_code=400, detail="Missing signature or public_key")
+            raise HTTPException(
+                status_code=400, detail="Missing signature or public_key"
+            )
         message = json.dumps(payload, sort_keys=True).encode()
-        public_key = Ed25519PublicKey.from_public_bytes(bytes.fromhex(public_key_hex))
+        public_key_bytes = bytes.fromhex(public_key_hex)
+        public_key = Ed25519PublicKey.from_public_bytes(public_key_bytes)
         try:
             public_key.verify(bytes.fromhex(signature_hex), message)
         except Exception:
@@ -81,16 +84,20 @@ def create_app() -> FastAPI:
 
     @app.post("/result")
     async def submit_result(request: Request):
-        """Validate and record a job result, finalize when quorum is reached."""
+        """Validate and record a job result, finalize when the quorum is reached."""
         result = await request.json()
         try:
             valid = validator(result)
         except Exception as e:
             job_result_failure_counter.inc()
-            raise HTTPException(status_code=400, detail=f"Validation error: {e}")
+            raise HTTPException(
+                status_code=400, detail=f"Validation error: {e}"
+            )
         if not valid:
             job_result_failure_counter.inc()
-            raise HTTPException(status_code=400, detail="Result validation failed")
+            raise HTTPException(
+                status_code=400, detail="Result validation failed"
+            )
         db.add_vote(result)
         votes = db.count_votes(result["job_id"], result["sha256"])
         if votes >= quorum:
