@@ -171,9 +171,9 @@ class SpinningGlobeNetwork:
             angle = 2 * np.pi * i / num_frames
             cam_eye = dict(x=2 * np.cos(angle), y=2 * np.sin(angle), z=0.5)
             node_sizes = [
-                12 + 3 * ((np.sin(
-                    2 * np.pi * i / num_frames + phases[j]) + 1) / 2)
-                for j in range(self.num_nodes)
+                    12 + 3 * ((np.sin(
+                        2 * np.pi * i / num_frames + phases[j]) + 1) / 2)
+                    for j in range(self.num_nodes)
             ]
             frame = dict(
                 data=[dict(marker=dict(size=node_sizes))],
@@ -200,8 +200,8 @@ class SpinningGlobeNetwork:
                 bgcolor='rgba(0,0,0,0.05)'
             ),
             title=dict(
-                text=f"NEXAPod Network Globe - {self.num_nodes} "
-                     f"Compute Nodes",
+                text=(f"NEXAPod Network Globe - {self.num_nodes} "
+                      "Compute Nodes"),
                 font=dict(size=16, color='#2c3e50'),
                 x=0.5
             ),
@@ -210,15 +210,25 @@ class SpinningGlobeNetwork:
             margin=dict(t=60, b=10, l=10, r=10),
             updatemenus=[{
                 "buttons": [{
-                    "args": [None, {"frame": {"duration": 50, "redraw": True},
-                                    "fromcurrent": True,
-                                    "transition": {"duration": 0}}],
+                    "args": [
+                        None,
+                        {
+                            "frame": {"duration": 50, "redraw": True},
+                            "fromcurrent": True,
+                            "transition": {"duration": 0}
+                        }
+                    ],
                     "label": "Play",
                     "method": "animate"
                 }, {
-                    "args": [[None], {"frame": {"duration": 0, "redraw": True},
-                                     "mode": "immediate",
-                                     "transition": {"duration": 0}}],
+                    "args": [
+                        [None],
+                        {
+                            "frame": {"duration": 0, "redraw": True},
+                            "mode": "immediate",
+                            "transition": {"duration": 0}
+                        }
+                    ],
                     "label": "Pause",
                     "method": "animate"
                 }],
@@ -232,8 +242,10 @@ class SpinningGlobeNetwork:
                 "yanchor": "top"
             }],
             annotations=[{
-                'text': 'Fibonacci sphere distribution • Complete graph '
-                        'topology • JSON hover data',
+                'text': (
+                    "Fibonacci sphere distribution • Complete graph topology • "
+                    "JSON hover data"
+                ),
                 'showarrow': False,
                 'xref': 'paper',
                 'yref': 'paper',
@@ -268,7 +280,8 @@ class NEXAPodDashboard:
         if 'last_update' not in st.session_state:
             st.session_state.last_update = datetime.now()
 
-    def generate_demo_nodes(self, count: int) -> List[Dict]:
+    @staticmethod
+    def generate_demo_nodes(count: int) -> List[Dict]:
         """Generate realistic demo node data."""
         tiers = ['CPU', 'CONSUMER_GPU', 'HPC']
         statuses = ['Active', 'Busy', 'Maintenance', 'Offline']
@@ -300,7 +313,8 @@ class NEXAPodDashboard:
             nodes.append(node)
         return nodes
 
-    def generate_demo_jobs(self, count: int) -> List[Dict]:
+    @staticmethod
+    def generate_demo_jobs(count: int) -> List[Dict]:
         """Generate demo job data."""
         job_types = ['protein_folding', 'weather_simulation',
                      'quantum_computation', 'materials_modeling',
