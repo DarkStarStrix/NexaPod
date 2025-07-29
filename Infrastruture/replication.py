@@ -152,34 +152,34 @@ class ConsensusValidator:
         """Validate results using majority consensus."""
         if not results:
             raise ValueError("No results to validate")
-
         # Group results by hash
         hash_groups: Dict[str, List[ReplicationResult]] = {}
         for result in results:
             if result.status == ReplicationStatus.COMPLETED and result.result_hash:
                 hash_groups.setdefault(result.result_hash, []).append(result)
-
         if not hash_groups:
             # No successful results
-            failed_result = next((r for r in results if r.status == ReplicationStatus.FAILED), results[0])
+            failed_result = next(
+                (r for r in results if r.status == ReplicationStatus.FAILED),
+                results[0]
+            )
             failed_result.status = ReplicationStatus.FAILED
             return failed_result
-
         # Find consensus
         total_successful = sum(len(group) for group in hash_groups.values())
-        consensus_hash, consensus_results = max(hash_groups.items(), key=lambda x: len(x[1]))
+        consensus_hash, consensus_results = max(
+            hash_groups.items(), key=lambda x: len(x[1])
+        )
         consensus_ratio = len(consensus_results) / total_successful
-
         # Select best result from consensus group
         best_result = min(consensus_results, key=lambda r: r.execution_time)
-
         if consensus_ratio >= self.threshold:
             best_result.status = ReplicationStatus.VERIFIED
-            logger.info(f"Consensus reached for job {best_result.job_id}: {consensus_ratio:.2%}")
         else:
             best_result.status = ReplicationStatus.COMPLETED
-            logger.warning(f"Weak consensus for job {best_result.job_id}: {consensus_ratio:.2%}")
-
+        logger.info(
+            f"Consensus reached for job {best_result.job_id}: {consensus_ratio:.2%}"
+        )
         return best_result
 
 
@@ -205,28 +205,25 @@ class Replicator:
     def select_nodes(self, job: JobDescriptor) -> List[ReplicationNode]:
         """Select optimal nodes for job replication."""
         available_nodes = [n for n in self.nodes if n.is_available]
-
         if len(available_nodes) < job.replication_factor:
-            logger.warning(f"Insufficient nodes for replication factor {job.replication_factor}")
+            logger.warning(
+                f"Insufficient nodes for replication factor {job.replication_factor}"
+            )
             return available_nodes
-
         # Sort by reliability and load
         sorted_nodes = sorted(
             available_nodes,
             key=lambda n: (n.reliability_score, -n.load),
             reverse=True
         )
-
         return sorted_nodes[:job.replication_factor]
 
     def replicate(self, job: JobDescriptor) -> bool:
         """Replicate computation based on job descriptor."""
         logger.info(f"Starting replication for job: {job.id}")
-
         if not job.needs_replication:
             logger.info(f"No replication required for job: {job.id}")
             return True
-
         try:
             if job.replication_strategy == ReplicationStrategy.SIMPLE:
                 return self._simple_replication(job)
@@ -235,9 +232,10 @@ class Replicator:
             elif job.replication_strategy == ReplicationStrategy.REDUNDANT:
                 return self._redundant_replication(job)
             else:
-                logger.error(f"Unsupported replication strategy: {job.replication_strategy}")
+                logger.error(
+                    f"Unsupported replication strategy: {job.replication_strategy}"
+                )
                 return False
-
         except Exception as e:
             logger.error(f"Replication failed for job {job.id}: {e}")
             return False
@@ -280,19 +278,17 @@ class Replicator:
     def _consensus_replication(self, job: JobDescriptor) -> bool:
         """Consensus-based replication strategy."""
         selected_nodes = self.select_nodes(job)
-
         if len(selected_nodes) < 2:
-            logger.warning(f"Insufficient nodes for consensus replication of job {job.id}")
+            logger.warning(
+                f"Insufficient nodes for consensus replication of job {job.id}"
+            )
             return self._simple_replication(job)
-
         try:
             # Execute on all selected nodes concurrently
             async def run_consensus():
                 tasks = [node.execute_job(job) for node in selected_nodes]
                 return await asyncio.gather(*tasks, return_exceptions=True)
-
             results = asyncio.run(run_consensus())
-
             # Filter out exceptions and failed results
             valid_results = [
                 r for r in results
@@ -300,24 +296,22 @@ class Replicator:
                     ReplicationStatus.COMPLETED, ReplicationStatus.FAILED
                 ]
             ]
-
             if not valid_results:
-                logger.error(f"No valid results for consensus replication of job {job.id}")
+                logger.error(
+                    f"No valid results for consensus replication of job {job.id}"
+                )
                 return False
-
             # Validate using consensus
             consensus_result = self.validator.validate_results(valid_results)
             self.replication_history[job.id] = valid_results
-
-            success = consensus_result.status in [ReplicationStatus.COMPLETED, ReplicationStatus.VERIFIED]
-
+            success = consensus_result.status in [
+                ReplicationStatus.COMPLETED, ReplicationStatus.VERIFIED
+            ]
             if success:
                 logger.info(f"Consensus replication successful for job {job.id}")
             else:
                 logger.error(f"Consensus replication failed for job {job.id}")
-
             return success
-
         except Exception as e:
             logger.error(f"Consensus replication failed for job {job.id}: {e}")
             return False
@@ -325,37 +319,36 @@ class Replicator:
     def _redundant_replication(self, job: JobDescriptor) -> bool:
         """Redundant replication strategy - execute on all available nodes."""
         available_nodes = [n for n in self.nodes if n.is_available]
-
         if not available_nodes:
-            logger.error(f"No available nodes for redundant replication of job {job.id}")
+            logger.error(
+                f"No available nodes for redundant replication of job {job.id}"
+            )
             return False
-
         try:
             async def run_redundant():
                 tasks = [node.execute_job(job) for node in available_nodes]
                 return await asyncio.gather(*tasks, return_exceptions=True)
-
             results = asyncio.run(run_redundant())
-
             valid_results = [
                 r for r in results
                 if isinstance(r, ReplicationResult)
             ]
-
             successful_results = [
                 r for r in valid_results
                 if r.status == ReplicationStatus.COMPLETED
             ]
-
             self.replication_history[job.id] = valid_results
-
             if successful_results:
-                logger.info(f"Redundant replication successful for job {job.id}: {len(successful_results)}/{len(valid_results)} succeeded")
+                logger.info(
+                    f"Redundant replication successful for job {job.id}: "
+                    f"{len(successful_results)}/{len(valid_results)} succeeded"
+                )
                 return True
             else:
-                logger.error(f"Redundant replication failed for job {job.id}: no successful executions")
+                logger.error(
+                    f"Redundant replication failed for job {job.id}: no successful executions"
+                )
                 return False
-
         except Exception as e:
             logger.error(f"Redundant replication failed for job {job.id}: {e}")
             return False
@@ -409,22 +402,20 @@ def replicate_job(job: JobDescriptor, replicator: Optional[Replicator] = None):
 def replicate_jobs(jobs: List[JobDescriptor], replicator: Optional[Replicator] = None):
     """Function to handle replication of multiple jobs."""
     logger.info("Starting replication for multiple jobs.")
-
     if replicator is None:
         replicator = Replicator()
         # Add mock nodes
         for i in range(5):
             node = ReplicationNode(f"node_{i}", lambda x: f"result_{i}")
             replicator.add_node(node)
-
     results = []
     for job in jobs:
         result = replicate_job(job, replicator)
         results.append(result)
-
     successful_count = sum(results)
-    logger.info(f"Completed replication for {successful_count}/{len(jobs)} jobs successfully.")
-
+    logger.info(
+        f"Completed replication for {successful_count}/{len(jobs)} jobs successfully."
+    )
     return all(results)
 
 
@@ -484,3 +475,5 @@ if __name__ == "__main__":
 
     # Cleanup
     replicator.cleanup_history()
+    print("Replication history cleaned up.")
+    replicate_data()  # Example data replication call

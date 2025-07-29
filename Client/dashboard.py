@@ -470,7 +470,7 @@ def main():
             job_table_data = []
             for job in st.session_state.jobs:
                 progress_text = (f"{job['progress']}%"
-                               if job['status'] == 'Running' else '—')
+                                 if job['status'] == 'Running' else '—')
                 job_table_data.append({
                     'ID': job['id'],
                     'Type': job['type'].replace('_', ' ').title(),
