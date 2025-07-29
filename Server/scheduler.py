@@ -1,6 +1,9 @@
 """
 Scheduler module for assigning jobs to nodes based on their profile.
 """
+"""
+Scheduler module for assigning jobs to nodes based on their profile.
+"""
 
 import threading
 
@@ -18,7 +21,8 @@ class Scheduler:
         with self.lock:
             profile = self.db.get_node_profile(node_id)
             for job_id, job in self.db.get_pending_jobs():
-                if self._meets_requirements(profile, job.get("requirements", {})):
+                requirements = job.get("requirements", {})
+                if self._meets_requirements(profile, requirements):
                     self.db.assign_job_to_node(job_id, node_id)
                     return job
             return None
