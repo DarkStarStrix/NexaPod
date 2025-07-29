@@ -1,0 +1,11 @@
+FROM python:3.11-slim
+ENV APP_USER=nexapod
+RUN addgroup --system $APP_USER && adduser --system --ingroup $APP_USER $APP_USER
+WORKDIR /app
+COPY ../Client/ /app/
+COPY ../requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+USER $APP_USER
+EXPOSE 8501
+CMD ["streamlit", "run", "dashboard.py", "--server.port=8501", "--server.address=0.0.0.0"]
+
