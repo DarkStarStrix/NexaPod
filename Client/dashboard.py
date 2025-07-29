@@ -329,12 +329,22 @@ class NEXAPodDashboard:
                 'id': f"job_{i:04d}",
                 'type': job_type,
                 'status': status,
-                'submitter': f"researcher_{chr(97+i%5)}",
-                'progress': (int(np.random.randint(0, 100))
-                           if status == 'Running'
-                           else (100 if status == 'Completed' else 0)),
-                'credits_allocated': round(np.random.uniform(50, 500), 2),
-                'estimated_time': f"{np.random.randint(30, 240)} min"
+                'submitter': f"researcher_{chr(97 + i % 5)}",
+                'progress': (
+                    int(np.random.randint(0, 100))
+                    if status == 'Running'
+                    else (
+                        100
+                        if status == 'Completed'
+                        else 0
+                    )
+                ),
+                'credits_allocated': round(
+                    np.random.uniform(50, 500), 2
+                ),
+                'estimated_time': (
+                    f"{np.random.randint(30, 240)} min"
+                )
             }
             jobs.append(job)
         return jobs
@@ -469,8 +479,11 @@ def main():
         if st.session_state.jobs:
             job_table_data = []
             for job in st.session_state.jobs:
-                progress_text = (f"{job['progress']}%"
-                                 if job['status'] == 'Running' else '—')
+                progress_text = (
+                    f"{job['progress']}%"
+                    if job['status'] == 'Running'
+                    else '—'
+                )
                 job_table_data.append({
                     'ID': job['id'],
                     'Type': job['type'].replace('_', ' ').title(),

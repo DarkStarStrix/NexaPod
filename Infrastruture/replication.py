@@ -313,7 +313,10 @@ class Replicator:
                 logger.error(f"Consensus replication failed for job {job.id}")
             return success
         except Exception as e:
-            logger.error(f"Consensus replication failed for job {job.id}: {e}")
+            logger.error(
+                f"Consensus replication failed for job {job.id}: "
+                f"{e}"
+            )
             return False
 
     def _redundant_replication(self, job: JobDescriptor) -> bool:
