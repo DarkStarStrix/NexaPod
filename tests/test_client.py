@@ -20,13 +20,15 @@ def create_test_server():
     def register():
         data = request.get_json()
         # Echo back node_id with 200 OK
-        return jsonify({"status": "registered", "node": data.get("node_id")}), 200
+        return jsonify({"status": "registered",
+                        "node": data.get("node_id")}), 200
 
     @app.route('/submit-job', methods=['POST'])
     def submit_job():
         data = request.get_json()
         # Echo back job submission
-        return jsonify({"status": "job submitted", "job_id": data.get("job_id")}), 200
+        return jsonify({"status": "job submitted",
+                        "job_id": data.get("job_id")}), 200
 
     @app.route('/status', methods=['GET'])
     def status():
@@ -34,11 +36,13 @@ def create_test_server():
 
     return app
 
+
 # Fixture to start the test server in a separate thread
 @pytest.fixture(scope="module", autouse=True)
 def start_test_server():
     app = create_test_server()
-    server_thread = threading.Thread(target=app.run, kwargs={'port': 8000}, daemon=True)
+    server_thread = threading.Thread(target=app.run,
+                                     kwargs={'port': 8000}, daemon=True)
     server_thread.start()
     # Allow server time to start
     time.sleep(1)
@@ -46,24 +50,30 @@ def start_test_server():
     # Normally, teardown logic would go here (if needed)
     # ...existing code...
 
+
 class DummyConfig:
     def __init__(self):
         self.config = {
             'coordinator_url': 'http://localhost:8000',
-            'private_key_path': os.path.expanduser('~/.nexapod/client_ed25519.key'),
+            'private_key_path': os.path.expanduser(
+                '~/.nexapod/client_ed25519.key'),
             'node_id': 'testnode',
             'poll_interval': 1
         }
+
     def __getitem__(self, k):
         return self.config[k]
+
     def get(self, k, default=None):
         return self.config.get(k, default)
+
 
 def test_get_node_profile():
     profile = get_node_profile()
     assert 'cpu' in profile
     assert 'ram_gb' in profile
     assert isinstance(profile['cores'], int)
+
 
 def test_execute_job():
     job = {
@@ -72,9 +82,11 @@ def test_execute_job():
         'input_files': []
     }
     result = execute_job(job)
-    # Expect simulated execution to return a dictionary with 'status' and 'output'
+    # Expect simulated execution to return a dictionary with 'status'
+    # and 'output'
     assert result['status'] == 'completed'
     assert 'output' in result
+
 
 def test_log_result(tmp_path):
     result = {
@@ -90,6 +102,7 @@ def test_log_result(tmp_path):
     assert os.path.exists(log_file)
     # Clean up
     os.remove(log_file)
+
 
 def test_integration():
     """Robust integration test covering node registration, job submission,
@@ -146,7 +159,9 @@ def test_integration():
     # Integration test passes if all responses are 200 OK
     # ...existing code...
 
-@pytest.mark.skip(reason="Integration test that requires external dependencies")
+
+@pytest.mark.skip(reason="Integration test that requires external "
+                         "dependencies")
 def test_coordinator_client():
     config = DummyConfig()
     client = CoordinatorClient(config)
