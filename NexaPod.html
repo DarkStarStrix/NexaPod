@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaPod — Distributed Scientific Intelligence</title>
+  <meta property="og:title" content="NexaPod — Distributed Scientific Intelligence" />
+  <meta property="og:description" content="NexaPod unites idle computers into a global AI engine, accelerating discoveries no single super‑computer could achieve." />
+  <meta property="og:image" content="https://raw.githubusercontent.com/YOUR_GH_USERNAME/YOUR_REPO/main/og-image.png" />
+  <link rel="icon" href="favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preload" href="https://unpkg.com/three-globe/example/img/earth-dark.jpg" as="image">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --accent: #3b82f6;
+      --card: #161b22;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 4rem 1.5rem 3rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: clamp(2.25rem, 6vw, 3.5rem);
+      margin: 0 0 1rem;
+      font-weight: 700;
+    }
+    h2 { font-weight: 600; }
+    p.lead {
+      max-width: 60ch;
+      margin: 0 auto 2rem;
+      font-size: 1.125rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: 9999px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: .8; }
+    .demo-banner {
+      text-align: center;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 229, 100, 0.1);
+      border: 1px solid rgba(255, 229, 100, 0.2);
+      color: #fff8e5;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border-radius: 0.5rem;
+    }
+    .globe-controls {
+      max-width: 800px;
+      margin: 0 auto 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1.5rem;
+    }
+    #city-slider {
+      width: 150px;
+      accent-color: var(--accent);
+    }
+    main { padding: 4rem 1.5rem; max-width: 1100px; margin: auto; }
+    .grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid #30363d;
+      padding: 1.75rem 1.5rem;
+      border-radius: 1rem;
+      transition: transform .25s;
+      content-visibility: auto;
+    }
+    .card:hover { transform: translateY(-4px); }
+    /* Globe */
+    #globe-wrapper {
+      height: 500px;
+      margin: 3rem 0;       /* add bottom margin so main content sits clear */
+      overflow: hidden;     /* prevent globe from spilling over */
+      position: relative;
+      filter: drop-shadow(0 0 20px var(--accent));  /* neon glow */
+      z-index: 1;                /* stay on top */
+      cursor: grab;
+    }
+    #globe-wrapper:active { cursor: grabbing; }
+    footer {
+      text-align:center;
+      padding: 2rem 1.5rem 4rem;
+      font-size: .875rem;
+      color: #8b949e;
+    }
+    a { color: var(--accent); }
+
+    #loading-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(13,17,23,0.8); z-index: 2;
+    }
+    .spinner {
+      width: 60px; height: 60px; border: 6px solid #161b22;
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    /* theme palettes */
+    .light-standard { --bg:#fff;    --fg:#000;    --card:#f5f5f5; --accent:#0070f3; }
+    .dark-standard  { /* defaults in :root */ }
+    .light-cyber    { --bg:#f0f0f0; --fg:#001f3f; --card:#e0e0e0; --accent:#39ff14; }
+    .dark-cyber     { --bg:#0d1117; --fg:#cffcff; --card:#161b22; --accent:#ff00ff; }
+    .clean-modern   { --bg:#f4f4f4; --fg:#333;    --card:#fff;    --accent:#336699; }
+    /* theme selector styling */
+    .theme-select {
+      position:fixed; top:1rem; right:1rem; z-index:3;
+      background:var(--card); color:var(--fg); border:none;
+      padding:.5rem; border-radius:.5rem; font-family:inherit;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NexaPod</h1>
+    <p class="lead">Folding<span style="opacity:.6">@</span>home for the AI era — a permission‑less compute mesh tackling scientific problems too vast for any single lab.</p>
+    <a href="https://github.com/DarkStarStrix/NexaPod" class="btn">🚀  View on GitHub</a>
+  </header>
+
+  <select id="theme-select" class="theme-select" aria-label="Select theme">
+    <option value="dark-standard">Dark Standard</option>
+    <option value="light-standard">Light Standard</option>
+    <option value="light-cyber">Light Cyber</option>
+    <option value="dark-cyber">Dark Cyber</option>
+    <option value="clean-modern">Clean Modern</option>
+  </select>
+
+  <div class="demo-banner">
+    <strong>Note:</strong> This is a demo—nodes and jobs are simulated for launch. The live compute mesh is coming soon!
+  </div>
+
+  <div class="globe-controls">
+    <label for="city-slider">Visible Nodes: <span id="city-count">30</span></label>
+    <input type="range" id="city-slider" min="10" max="50" value="30" title="Adjust visible nodes" />
+  </div>
+
+  <section id="globe-wrapper">
+    <div id="loading-overlay"><div class="spinner"></div></div>
+  </section>
+
+  <main>
+    <h2 style="text-align:center;margin-bottom:2.5rem">Why NexaPod?</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Global Compute Mesh</h3>
+        <p>Idle CPUs & GPUs around the world interlock into a resilient, low‑latency network — scaling effortlessly from laptops to HPC clusters.</p>
+      </div>
+      <div class="card">
+        <h3>Field‑Agnostic Science</h3>
+        <p>From protein folding to climate modeling, submit containerized jobs with well‑defined specs and let NexaPod orchestrate the heavy lifting.</p>
+      </div>
+      <div class="card">
+        <h3>Trustless Verification</h3>
+        <p>Redundant execution + Ed25519 signatures ensure every result is cryptographically verifiable — no central gatekeepers.</p>
+      </div>
+      <div class="card">
+        <h3>Open‑Source & Modular</h3>
+        <p>All core components live on GitHub under permissive licenses. Swap schedulers, databases, or consensus layers without vendor lock in.</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:4rem;text-align:center">Join the Network</h2>
+    <div class="grid" style="margin-top:2rem">
+      <div class="card">
+        <h3>Contributors</h3>
+        <p>Spin up the <code>nexapod-node</code> Docker image in minutes, earn reputation &amp; credits, and visualize your impact on the live globe.</p>
+      </div>
+      <div class="card">
+        <h3>Researchers</h3>
+        <p>Package jobs as OCI‑compliant containers, define resource needs, and broadcast tasks to thousands of volunteer nodes.</p>
+      </div>
+      <div class="card">
+        <h3>Organizations</h3>
+        <p>Run private NexaPod federations behind your firewall for sensitive workloads, then burst to the public mesh when you need scale.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 NexaPod Contributors · Built with ❤️ for open science · <a href="https://github.com/DarkStarStrix/NexaPod#readme">Documentation</a>
+  </footer>
+
+  <noscript>
+    <p style="text-align:center;color:#ff6b6b;">
+      JavaScript is required to view this interactive globe.
+    </p>
+  </noscript>
+
+  <!-- 3D Globe scripts -->
+  <script defer src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+  <script defer src="https://unpkg.com/globe.gl"></script>
+  <script defer>
+    // theme switching persistence
+    const themeSelect = document.getElementById('theme-select');
+    const themes = ['dark-standard','light-standard','light-cyber','dark-cyber','clean-modern'];
+    themeSelect.onchange = () => {
+      themes.forEach(t => document.documentElement.classList.remove(t));
+      const newTheme = themeSelect.value;
+      document.documentElement.classList.add(newTheme);
+      localStorage.theme = newTheme;
+      // Update globe colors on theme change
+      if (window.world) {
+        const atmosphereColors = { 'dark-cyber': '#ff00ff', 'light-cyber': '#39ff14', 'clean-modern': '#336699', 'dark-standard': '#3b82f6', 'light-standard': '#0070f3' };
+        window.world.atmosphereColor(atmosphereColors[newTheme] || '#3b82f6');
+        window.world.labelColor(() => newTheme === 'dark-cyber' ? '#cffcff' : '#88c0d0');
+      }
+    };
+    const saved = localStorage.theme && themes.includes(localStorage.theme) ? localStorage.theme : 'dark-standard';
+    themeSelect.value = saved;
+    document.documentElement.classList.add(saved);
+
+    // initialize globe
+    window.addEventListener('load', () => {
+      /*
+       * HTML 3D Globe Visualization
+       * This interactive globe is powered by the `globe.gl` library, which uses Three.js for 3D rendering with WebGL.
+       * Key features:
+       *   - A dark Earth texture with a theme-aware atmospheric glow.
+       *   - A network of nodes representing major global cities.
+       *   - A "network pulse" effect where animated arcs fly between nodes to simulate data transfer.
+       *   - Nodes pulse asynchronously upon sending or receiving a packet.
+       *   - The globe is interactive, allowing users to rotate and zoom. Nodes highlight on hover.
+      */
+      const world = Globe()
+        .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-dark.jpg')
+        .backgroundColor('rgba(0,0,0,0)')
+        .pointOfView({ lat: 20, lng: 30, altitude: 2.6 })
+        .hexPolygonsData([])
+        .hexPolygonColor(() => '#3b82f6')
+        .labelDotRadius(0.4)
+        .labelColor(() => '#ffffff')
+        .labelText(() => '')
+        (document.querySelector('#globe-wrapper'));
+      world.controls().autoRotate = true;
+      world.controls().autoRotateSpeed = 0.3;
+      window.world = world; // Make world instance globally available for theme updates
+
+      // 1. Expanded list of major cities with job counts for scaling
+      const allCitiesData = [
+        { lat: 40.7128, lng: -74.0060, jobs: 88, label: 'New York' }, { lat: 51.5074, lng: -0.1278, jobs: 95, label: 'London' },
+        { lat: 35.6895, lng: 139.6917, jobs: 120, label: 'Tokyo' }, { lat: -23.5505, lng: -46.6333, jobs: 75, label: 'São Paulo' },
+        { lat: 48.8566, lng: 2.3522, jobs: 60, label: 'Paris' }, { lat: -33.8688, lng: 151.2093, jobs: 55, label: 'Sydney' },
+        { lat: 34.0522, lng: -118.2437, jobs: 90, label: 'Los Angeles' }, { lat: 19.4326, lng: -99.1332, jobs: 40, label: 'Mexico City' },
+        { lat: 28.6139, lng: 77.2090, jobs: 110, label: 'New Delhi' }, { lat: 39.9042, lng: 116.4074, jobs: 130, label: 'Beijing' },
+        { lat: 55.7558, lng: 37.6173, jobs: 65, label: 'Moscow' }, { lat: -34.6037, lng: -58.3816, jobs: 35, label: 'Buenos Aires' },
+        { lat: 1.3521, lng: 103.8198, jobs: 105, label: 'Singapore' }, { lat: 30.0444, lng: 31.2357, jobs: 30, label: 'Cairo' },
+        { lat: 6.5244, lng: 3.3792, jobs: 45, label: 'Lagos' }, { lat: 41.9028, lng: 12.4964, jobs: 50, label: 'Rome' },
+        { lat: 4.7110, lng: -74.0721, jobs: 25, label: 'Bogotá' }, { lat: 25.2048, lng: 55.2708, jobs: 85, label: 'Dubai' },
+        { lat: 37.9838, lng: 23.7275, jobs: 20, label: 'Athens' }, { lat: 52.5200, lng: 13.4050, jobs: 70, label: 'Berlin' },
+        { lat: 59.9139, lng: 10.7522, jobs: 60, label: 'Oslo' }, { lat: 59.3293, lng: 18.0686, jobs: 65, label: 'Stockholm' },
+        { lat: 37.7749, lng: -122.4194, jobs: 115, label: 'San Francisco' }, { lat: 47.6062, lng: -122.3321, jobs: 98, label: 'Seattle' },
+        { lat: 43.6532, lng: -79.3832, jobs: 80, label: 'Toronto' }, { lat: 22.3193, lng: 114.1694, jobs: 92, label: 'Hong Kong' },
+        { lat: 34.6937, lng: 135.5023, jobs: 78, label: 'Osaka' }, { lat: -37.8136, lng: 144.9631, jobs: 58, label: 'Melbourne' },
+        { lat: 52.3676, lng: 4.9041, jobs: 72, label: 'Amsterdam' }, { lat: 41.0082, lng: 28.9784, jobs: 48, label: 'Istanbul' },
+        { lat: 12.9716, lng: 77.5946, jobs: 108, label: 'Bangalore' }, { lat: 31.2304, lng: 121.4737, jobs: 125, label: 'Shanghai' },
+        { lat: -22.9068, lng: -43.1729, jobs: 68, label: 'Rio de Janeiro' }, { lat: 50.0755, lng: 14.4378, jobs: 42, label: 'Prague' },
+        { lat: 48.2082, lng: 16.3738, jobs: 52, label: 'Vienna' }, { lat: 53.3498, lng: -6.2603, jobs: 62, label: 'Dublin' },
+        { lat: 3.1390, lng: 101.6869, jobs: 77, label: 'Kuala Lumpur' }, { lat: 13.7563, lng: 100.5018, jobs: 66, label: 'Bangkok' },
+        { lat: 35.6762, lng: 139.6503, jobs: 118, label: 'Shibuya' }, { lat: 36.1699, lng: -115.1398, jobs: 38, label: 'Las Vegas' },
+        { lat: 29.7604, lng: -95.3698, jobs: 82, label: 'Houston' }, { lat: 41.8781, lng: -87.6298, jobs: 88, label: 'Chicago' },
+        { lat: 33.7490, lng: -84.3880, jobs: 76, label: 'Atlanta' }, { lat: 40.4406, lng: -79.9959, jobs: 54, label: 'Pittsburgh' },
+        { lat: 39.7392, lng: -104.9903, jobs: 64, label: 'Denver' }, { lat: 32.7767, lng: -96.7970, jobs: 84, label: 'Dallas' },
+        { lat: 25.7617, lng: -80.1918, jobs: 74, label: 'Miami' }, { lat: 45.5017, lng: -73.5673, jobs: 79, label: 'Montreal' }
+      ].map(city => ({ ...city, size: 0.5 + city.jobs / 200 }));
+
+      let cities = []; // This will hold the visible subset
+      let networkInterval;
+
+      // 2. Initialize nodes (blue, initial idle)
+      world.pointsData(cities)
+           .pointsTransitionDuration(1000)
+           .pointAltitude(d => d.size * 0.02)
+           .pointColor(() => '#004');  // idle blue
+
+      // 3. Dynamic network effect
+      function sendPacket(fromIdx, toIdx) {
+        // pulse sender immediately
+        cities[fromIdx].status = 'active';
+        world.pointsData(cities)
+             .pointsTransitionDuration(200)
+             .pointAltitude(d => d.size*0.02 + (d.status==='active'?0.03:0))
+             .pointColor(d => d.status==='active'? '#00f' : '#004');
+
+        // mid‐flight, pulse the receiver
+        setTimeout(() => {
+          cities[toIdx].status = 'active';
+          world.pointsData(cities)
+               .pointsTransitionDuration(200)
+               .pointAltitude(d => d.size*0.02 + (d.status==='active'?0.03:0))
+               .pointColor(d => d.status==='active'? '#00f' : '#004');
+          // revert receiver
+          setTimeout(() => {
+            cities[toIdx].status = 'idle';
+            world.pointsData(cities)
+                 .pointsTransitionDuration(200)
+                 .pointAltitude(d => d.size*0.02)
+                 .pointColor(()=>'#004');
+          }, 1000);
+        }, 2500);
+      }
+
+      function updateNetwork() {
+        // reset nodes
+        cities.forEach(c => c.status = 'idle');
+
+        // build one unique random destination per node
+        const dest = [];
+        const arcs = cities.map((c,i) => {
+          // pick a different node
+          let j = Math.floor(Math.random()*cities.length);
+          if (j === i) j = (i + 1) % cities.length;
+          dest[i] = j;
+          return {
+            startLat: c.lat, startLng: c.lng,
+            endLat: cities[j].lat, endLng: cities[j].lng
+          };
+        });
+
+        // draw arcs that fly fully from source→target
+        world.arcsData(arcs)
+             .arcColor(() => '#00f')
+             .arcStroke(1)
+             .arcAltitude(0.6)             // higher arc
+             .arcDashInitialGap(1)         // start fully hidden
+             .arcDashLength(0.1)
+             .arcDashGap(1.05)
+             .arcDashAnimateTime(6000);     // equal to interval
+
+        // launch each packet
+        dest.forEach((to, from) => sendPacket(from, to));
+      }
+
+      function setVisibleCities(count) {
+        // Clear any existing network simulation
+        if (networkInterval) clearInterval(networkInterval);
+
+        // Set the new subset of cities
+        cities = allCitiesData.slice(0, count);
+        cities.forEach(c => c.status = 'idle');
+
+        // Update globe data
+        world.pointsData(cities);
+        world.labelsData(cities);
+
+        // Start new network simulation
+        updateNetwork();
+        networkInterval = setInterval(updateNetwork, 6000);
+      }
+
+      // Slider controls
+      const citySlider = document.getElementById('city-slider');
+      const cityCountEl = document.getElementById('city-count');
+
+      citySlider.addEventListener('input', () => {
+        const count = parseInt(citySlider.value, 10);
+        cityCountEl.textContent = count;
+        setVisibleCities(count);
+      });
+
+      // Initial setup
+      const initialCount = parseInt(citySlider.value, 10);
+      cityCountEl.textContent = initialCount;
+      setVisibleCities(initialCount);
+
+      // 4. Labels with hover interaction
+      world.labelsData(cities)
+           .labelLat(d => d.lat)
+           .labelLng(d => d.lng)
+           .labelText(d => d.label)
+           .labelSize(d => d.hover ? 1.5 : 1)
+           .labelDotRadius(d => d.hover ? 0.3 : 0.2)
+           .labelColor(() => document.documentElement.classList.contains('dark-cyber') ? '#cffcff' : '#88c0d0')
+           .labelResolution(2)
+           .onLabelHover(label => {
+             if (label) {
+               const city = cities.find(c => c.label === label.label);
+               if (city) city.hover = true;
+             } else {
+               cities.forEach(c => c.hover = false);
+             }
+             world.labelsData(cities); // re-render labels
+           });
+
+      // 5. Theme-aware atmosphere
+      const atmosphereColors = {
+        'dark-cyber': '#ff00ff',
+        'light-cyber': '#39ff14',
+        'clean-modern': '#336699',
+        'dark-standard': '#3b82f6',
+        'light-standard': '#0070f3'
+      };
+      const currentTheme = document.documentElement.className.split(' ')[0] || 'dark-standard';
+      world.atmosphereColor(atmosphereColors[currentTheme] || '#3b82f6')
+           .atmosphereAltitude(0.15);
+
+      // remove loading overlay
+      document.getElementById('loading-overlay').remove();
+    });
+  </script>
+
+  <!-- Analytics placeholder -->
+  <script>
+    /* Insert your analytics snippet here (e.g. Google Analytics, Plausible) */
+  </script>
+</body>
+</html>

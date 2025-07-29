@@ -2,7 +2,6 @@
 Module for managing node reputation and credits.
 """
 
-
 class Reputation:
     """Handles updating of node credits."""
     def __init__(self, db, config):
