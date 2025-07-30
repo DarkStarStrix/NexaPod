@@ -7,36 +7,24 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:20.10-dind
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Lint with flake8
-        continue-on-error: true
-        run: |
-          pip install flake8
-          flake8 .
-      - name: Run tests
-        continue-on-error: true
-        run: |
-          pytest --junitxml=reports/results.xml
+
       - name: Build Docker images
-        if: ${{ always() }}
         run: |
-          docker build -t nexapod-server:ci -f Infrastructure/Dockerfile.server .
-          docker build -t nexapod-client:ci -f Infrastructure/Dockerfile.client .
-      - name: Push images (optional)
-        if: ${{ always() && github.event_name == 'push' }}
+          docker build -t nexapod-server:latest -f Infrastruture/Dockerfile.server .
+          docker build -t nexapod-client:latest -f Infrastruture/Dockerfile.client .
+
+      - name: Run containers
         run: |
-          echo "PUSH LOGIC HERE"
+          docker run -d --name nexapod-server -p 8000:8000 nexapod-server:latest
+          docker run -d --name nexapod-client -p 8501:8501 nexapod-client:latest
+
+      - name: Check container status
+        run: |
+          docker ps
+          sleep 10
+          docker logs nexapod-server
+          docker logs nexapod-client
