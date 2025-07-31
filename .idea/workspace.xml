@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Update CI configuration to use a long-lived Deploy Token for GHCR login and add method to retrieve all registered nodes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Refactor CI and Docker configurations to upgrade pip, streamline dependency installation, and add requirements files for client and server" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -167,7 +165,9 @@
     <MESSAGE value="Update CI configuration to use lowercase repository owner in Docker image tags and pull commands" />
     <MESSAGE value="Update CI configuration to use a long-lived Deploy Token for GHCR login and improve Dockerfile paths" />
     <MESSAGE value="Update CI configuration to use a long-lived Deploy Token for GHCR login and add method to retrieve all registered nodes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update CI configuration to use a long-lived Deploy Token for GHCR login and add method to retrieve all registered nodes" />
+    <MESSAGE value="Upgrade pip in Dockerfile and update workspace.xml to reflect recent CI changes" />
+    <MESSAGE value="Refactor CI and Docker configurations to upgrade pip, streamline dependency installation, and add requirements files for client and server" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor CI and Docker configurations to upgrade pip, streamline dependency installation, and add requirements files for client and server" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NexaPod$check_lint.coverage" NAME="check_lint Coverage Results" MODIFIED="1753828085409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
