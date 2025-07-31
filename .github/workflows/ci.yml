@@ -39,10 +39,11 @@ jobs:
 
       - name: Build and push images
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/nexapod-server:latest -f Infrastructure/Dockerfile.server .
-          docker build -t ghcr.io/${{ github.repository_owner }}/nexapod-client:latest -f Infrastructure/Dockerfile.client .
-          docker push ghcr.io/${{ github.repository_owner }}/nexapod-server:latest
-          docker push ghcr.io/${{ github.repository_owner }}/nexapod-client:latest
+          OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          docker build -t ghcr.io/$OWNER_LC/nexapod-server:latest -f Infrastructure/Dockerfile.server .
+          docker build -t ghcr.io/$OWNER_LC/nexapod-client:latest -f Infrastructure/Dockerfile.client .
+          docker push ghcr.io/$OWNER_LC/nexapod-server:latest
+          docker push ghcr.io/$OWNER_LC/nexapod-client:latest
 
   deploy:
     needs: build_and_push
@@ -53,7 +54,9 @@ jobs:
         with:
           host: ${{ secrets.DO_HOST }}
           username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
           script: |
+            OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
             # Log in to GHCR
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
@@ -62,11 +65,11 @@ jobs:
             docker rm nexapod-server || true
             
             # Pull the latest server image
-            docker pull ghcr.io/${{ github.repository_owner }}/nexapod-server:latest
+            docker pull ghcr.io/$OWNER_LC/nexapod-server:latest
             
             # Run the new container
             docker run -d \
               --name nexapod-server \
               --restart always \
               -p 8000:8000 \
-              ghcr.io/${{ github.repository_owner }}/nexapod-server:latest
+              ghcr.io/$OWNER_LC/nexapod-server:latest
