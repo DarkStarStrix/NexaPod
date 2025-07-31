@@ -3,6 +3,16 @@
 # NEXAPod: Distributed Compute Fabric for Scientific Problems
 
 [![CI/CD Pipeline](https://github.com/DarkStarStrix/NexaPod/actions/workflows/ci.yml/badge.svg)](https://github.com/DarkStarStrix/NexaPod/actions/workflows/ci.yml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![Uses uv](https://img.shields.io/badge/package%20manager-uv-ff69b4)](https://github.com/astral-sh/uv)
+[![Issues](https://img.shields.io/github/issues/DarkStarStrix/NexaPod.svg)](https://github.com/DarkStarStrix/NexaPod/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/DarkStarStrix/NexaPod.svg)](https://github.com/DarkStarStrix/NexaPod/pulls)
+[![Last Commit](https://img.shields.io/github/last-commit/DarkStarStrix/NexaPod.svg)](https://github.com/DarkStarStrix/NexaPod/commits/main)
+[![Contributors](https://img.shields.io/github/contributors/DarkStarStrix/NexaPod.svg)](https://github.com/DarkStarStrix/NexaPod/graphs/contributors)
+[![Repo Size](https://img.shields.io/github/repo-size/DarkStarStrix/NexaPod.svg)](https://github.com/DarkStarStrix/NexaPod)
+[![Docker Image](https://img.shields.io/badge/container-GitHub%20Packages-blue)](https://github.com/orgs/DarkStarStrix/packages?repo_name=NexaPod)
+[![Docker Pulls](https://img.shields.io/docker/pulls/your-dockerhub-username/nexapod)](https://hub.docker.com/r/your-dockerhub-username/nexapod)
 
 *NEXAPod seamlessly unites diverse computing resources from consumer GPUs to high-end clusters to tackle large-scale scientific challenges.*
 
@@ -53,14 +63,38 @@ NexaPod aims to be a modern successor. Key differences include:
 
 ---
 
-## 4. CI/CD (Build & Publish)
+## 4. DevOps & Containers
+Automated CI/CD with GitHub Actions (see workflow)
+Containerized builds using uv for Python dependency management and Docker for consistent environments
+Pre-built containers published to GitHub Packages
+Reproducible Python environments (Python 3.10+)
+Apache 2.0 Licensed
+CI/CD (Build & Publish)
+This project uses a robust GitHub Actions workflow for continuous integration and delivery. The pipeline includes:
 
-This project uses a GitHub Actions workflow for continuous integration. The pipeline is defined in `.github/workflows/ci.yml` and consists of two main stages for every push to the `main` branch:
+Test Stage:
 
-1.  **Test:** Runs automated tests to ensure code quality and integration.
-2.  **Build & Push:** Builds the `server` and `client` Docker images and pushes them to GitHub Container Registry (GHCR). This makes the latest client available for public download and the server image ready for manual deployment.
+Runs automated tests for quality and reliability
+Verifies compatibility with Python 3.10+ using uv
+Fails fast on errors to prevent introducing broken code
+Build & Push Stage:
 
-Deployment to a production or staging server is currently a manual process. The Dockerfiles are optimized to use build caching, ensuring that only changed layers are rebuilt, which significantly speeds up the pipeline.
+Builds both server and client Docker images using optimized, multi-stage Dockerfiles
+Uses Docker layer caching to accelerate builds
+Pushes images to GitHub Container Registry (GHCR) for public download and deployment
+Artifact Storage:
+
+Stores build artifacts for traceability and debugging
+Artifacts downloadable from the GitHub Actions UI
+Deployment:
+Deployment to production/staging is currently manual, allowing for controlled and verified rollouts.
+
+Docker Usage
+To run the latest application container:
+
+bash
+docker pull ghcr.io/darkstarstrix/nexapod:latest
+docker run --rm ghcr.io/darkstarstrix/nexapod:latest
 
 ---
 
