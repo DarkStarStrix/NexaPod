@@ -40,6 +40,7 @@ jobs:
       - name: Build and push images
         run: |
           OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          # The '.' at the end of this command sets the build context to the project root.
           docker build -t ghcr.io/$OWNER_LC/nexapod-server:latest -f Infrastructure/Dockerfile.server .
           docker build -t ghcr.io/$OWNER_LC/nexapod-client:latest -f Infrastructure/Dockerfile.client .
           docker push ghcr.io/$OWNER_LC/nexapod-server:latest

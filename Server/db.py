@@ -182,3 +182,22 @@ class DB:
             (node_id, "assigned", job_id)
         )
         self.conn.commit()
+
+    def get_all_nodes(self):
+        """Return a list of all registered nodes."""
+        c = self.conn.cursor()
+        c.execute("SELECT node_id, profile FROM nodes")
+        rows = c.fetchall()
+        return [
+            {
+                "node_id": row[0],
+                "profile": json.loads(row[1]),
+            }
+            for row in rows
+        ]
+
+    def close(self):
+        """Safely closes the database connection."""
+        if self.conn:
+            self.conn.close()
+            self.conn = None

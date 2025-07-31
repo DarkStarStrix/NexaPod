@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Update CI configuration to use lowercase repository owner in Docker image tags and pull commands" />
+    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Update CI configuration to use a long-lived Deploy Token for GHCR login and improve Dockerfile paths">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/db.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,6 +43,7 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SIGN_OFF_COMMIT" value="true" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -162,7 +169,8 @@
     <MESSAGE value="Update CI configuration for Docker build and deployment; fix paths in Dockerfiles and update requirements" />
     <MESSAGE value="Refactor project structure and improve API functionality; rename Infrastruture to Infrastructure, add job and node management endpoints, and enhance Docker configurations" />
     <MESSAGE value="Update CI configuration to use lowercase repository owner in Docker image tags and pull commands" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update CI configuration to use lowercase repository owner in Docker image tags and pull commands" />
+    <MESSAGE value="Update CI configuration to use a long-lived Deploy Token for GHCR login and improve Dockerfile paths" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update CI configuration to use a long-lived Deploy Token for GHCR login and improve Dockerfile paths" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NexaPod$check_lint.coverage" NAME="check_lint Coverage Results" MODIFIED="1753828085409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
