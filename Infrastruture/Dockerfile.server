@@ -2,9 +2,14 @@ FROM python:3.11-slim
 ENV APP_USER=nexapod
 RUN addgroup --system $APP_USER && adduser --system --ingroup $APP_USER $APP_USER
 WORKDIR /app
-COPY Server/ /app/
-COPY requirements.txt /app/
+
+# Copy requirements first to leverage Docker layer caching
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy only the necessary application code for the server
+COPY Infrastructure/ /app/Infrastructure/
+
 USER $APP_USER
 EXPOSE 8000
-CMD ["python", "app.py"]
+CMD ["python", "-m", "Infrastructure.api"]

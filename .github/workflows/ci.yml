@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,24 +7,66 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Build Docker images
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests (placeholder)
         run: |
-          docker build -t nexapod-server:latest -f Infrastruture/Dockerfile.server .
-          docker build -t nexapod-client:latest -f Infrastruture/Dockerfile.client .
+          # Add your test commands here, e.g., pytest
+          echo "No tests configured. Passing by default."
 
-      - name: Run containers
-        run: |
-          docker run -d --name nexapod-server -p 8000:8000 nexapod-server:latest
-          docker run -d --name nexapod-client -p 8501:8501 nexapod-client:latest
+  build_and_push:
+    needs: test
+    runs-on: ubuntu-latest
+    # Only run this job on pushes to the main branch, not on pull requests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
 
-      - name: Check container status
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push images
         run: |
-          docker ps
-          sleep 10
-          docker logs nexapod-server
-          docker logs nexapod-client
+          docker build -t ghcr.io/${{ github.repository_owner }}/nexapod-server:latest -f Infrastructure/Dockerfile.server .
+          docker build -t ghcr.io/${{ github.repository_owner }}/nexapod-client:latest -f Infrastructure/Dockerfile.client .
+          docker push ghcr.io/${{ github.repository_owner }}/nexapod-server:latest
+          docker push ghcr.io/${{ github.repository_owner }}/nexapod-client:latest
+
+  deploy:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          script: |
+            # Log in to GHCR
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            # Stop and remove the old container if it exists
+            docker stop nexapod-server || true
+            docker rm nexapod-server || true
+            
+            # Pull the latest server image
+            docker pull ghcr.io/${{ github.repository_owner }}/nexapod-server:latest
+            
+            # Run the new container
+            docker run -d \
+              --name nexapod-server \
+              --restart always \
+              -p 8000:8000 \
+              ghcr.io/${{ github.repository_owner }}/nexapod-server:latest

@@ -6,3 +6,7 @@ def descriptor():
     """
     from .descriptor import JobDescriptor
     return JobDescriptor
+
+
+def descriptor():
+    return None

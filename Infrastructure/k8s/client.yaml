@@ -18,6 +18,8 @@ spec:
         env:
         - name: COORDINATOR_URL
           value: "http://nexapod-server:8000"
+        ports:
+        - containerPort: 8501
         volumeMounts:
         - name: config
           mountPath: /app/config.yaml
@@ -31,12 +33,12 @@ spec:
             memory: "256Mi"
         livenessProbe:
           exec:
-            command: ["pgrep", "-f", "nexapod_client.py"]
+            command: ["pgrep", "-f", "streamlit"]
           initialDelaySeconds: 10
           periodSeconds: 10
         readinessProbe:
           exec:
-            command: ["pgrep", "-f", "nexapod_client.py"]
+            command: ["pgrep", "-f", "streamlit"]
           initialDelaySeconds: 5
           periodSeconds: 5
       volumes:
@@ -53,5 +55,5 @@ spec:
     app: nexapod-client
   ports:
     - protocol: TCP
-      port: 9000
-      targetPort: 9000
+      port: 8501
+      targetPort: 8501

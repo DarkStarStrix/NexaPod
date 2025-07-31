@@ -2,4 +2,4 @@ db_path: "nexapod.db"
 port: 8000
 log_level: INFO
 quorum: 3
-validator_plugin: "../Infrastruture/output_validator.py"
+validator_plugin: "../Infrastructure/output_validator.py"

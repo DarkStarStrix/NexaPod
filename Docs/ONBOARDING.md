@@ -1,105 +1,74 @@
-# Onboarding & First Contribution
+# NEXAPod Alpha: Contributor Onboarding
 
-Welcome to NexaPod! This guide walks you through the steps to join the compute mesh as a contributor and submit your first job.
+Welcome! This guide explains how to join the NEXAPod compute mesh by running a client "pod" on your local machine.
 
 ## Prerequisites
 
-- Python 3.8+ and pip
-- Docker & Docker Compose (for local dev)
-- kubectl and access to a Kubernetes cluster (for production)
-- Git and a GitHub account
+- **Docker:** You must have Docker installed and running.
+- **A shell environment:** (e.g., Bash, Zsh, PowerShell with Git Bash).
 
-## 1. Fork & Clone Repository
+## Step 1: Install the `nexapod` CLI
 
+The `nexapod` script is the simplest way to interact with the network.
+
+**For Linux/macOS:**
 ```bash
-# Fork https://github.com/your-org/nexapod to your GitHub account
-git clone https://github.com/<your-username>/nexapod.git
-cd nexapod
+# Download the script (replace with the correct raw URL if needed)
+curl -o nexapod https://raw.githubusercontent.com/kunya66/NexaPod/main/nexapod
+# Make it executable
+chmod +x nexapod
+# Move it to a location in your PATH
+sudo mv nexapod /usr/local/bin/
 ```
 
-## 2. Install Dependencies
+**For Windows:**
+1.  Download the `nexapod` script.
+2.  Place it in a directory that is included in your system's `PATH`.
+3.  Ensure you run the commands from a shell that supports bash scripts (like Git Bash).
+
+## Step 2: Configure Your Pod
+
+The pod needs to know which coordinator server to connect to.
+
+1.  Create a directory in your home folder named `.nexapod`:
+    ```bash
+    mkdir -p ~/.nexapod
+    ```
+2.  Inside that directory, create a file named `config.yaml`:
+    ```yaml
+    # File: ~/.nexapod/config.yaml
+    coordinator_url: "http://YOUR_SERVER_IP:8000" # <-- Replace with the public IP of the coordinator
+    poll_interval: 10 # Optional: seconds between polling for new jobs
+    ```
+This directory is securely mounted into the container as read-only.
+
+## Step 3: Pull the Client Image
+
+Download the official, read-only client image from the GitHub Container Registry:
 
 ```bash
-pip install -r requirements.txt
-docker-compose --version
-kubectl version --client
+nexapod --pull
 ```
 
-## 3. Build & Deploy NexaPod
+## Step 4: Launch Your Pod
 
-### a) Docker Compose (Local Dev)
-```bash
-# Build and start server, client, Prometheus, Grafana
-docker-compose up --build -d
-```  
-Services:
-- **nexapod-server** – API, scheduler, DB  
-- **nexapod-client** – runner polling for jobs  
-- **prometheus** – metrics collection  
-- **grafana**  – dashboards
+With configuration complete, start your pod to join the network:
 
-### b) Kubernetes (Production/Staging)
 ```bash
-# Apply core manifests
-kubectl apply -f Infrastruture/k8s/
-# Apply Prometheus scrape config (namespace: monitoring)
-kubectl apply -f Infrastruture/k8s/prometheus-scrape-nexapod.yaml
-# Verify deployments
-kubectl rollout status deployment/nexapod-server
-kubectl rollout status deployment/nexapod-client
+nexapod
 ```
 
-## 4. Register Your Compute Node
+On startup, your pod will automatically:
+1.  Log basic, non-personal system info (OS, CPU, GPU).
+2.  Generate a unique identity hash from its own code.
+3.  Register with the coordinator.
+4.  Begin polling for compute jobs.
 
-On the node machine where you want to run jobs:
+The pod runs in a **sandboxed, read-only environment**. To stop it, press `Ctrl+C`.
 
-```bash
-python Client/nexapod_client.py join
-```
-- Generates (or loads) your Ed25519 key at `~/.nexapod/client_ed25519.key`  
-- Sign and register your hardware profile with the coordinator  
-- Updates `Client/config.yaml` with your `node_id`
+## Step 5: Monitor the Network
 
-## 5. Start the Runner
+- **Dashboard**: The primary way to see your node and others is through the Streamlit dashboard, typically hosted by the coordinator.
+- **Local Logs**: Your terminal will show logs from your running pod.
 
-```bash
-python Client/nexapod_client.py run
-```
-- Polls the server for jobs  
-- Executes **Docker** containers for each job  
-- Signs, logs, and submit results back to the coordinator
-
-## 6. Monitor Your Node
-
-- **Client metrics**: http://<client-host>:9000/metrics  
-- **Server metrics**: http://<server-host>:8000/metrics  
-- **Streamlit dashboard**: `streamlit run Client/dashboard.py`  
-- **Prometheus**: http://localhost:9090  
-- **Grafana**: http://localhost:3000
-
-## 7. Submit Your First Job
-
-As a researcher, submit a sample job:
-
-```bash
-curl -X POST https://<server-host>:8000/jobs \
-  -H "Content-Type: application/json" \
-  -d '{
-    "job_id": "job_001",
-    "docker_image": "python:3.9",
-    "requirements": {"ram_gb": 1.0},
-    "input_files": []
-}'
-```
-
-- Watch your node pick up **job_001**  
-- See execution logs in the client console  
-- Check finalization once quorum of nodes agrees on the result
-
-## 8. Visibility & Next Steps
-
-- View live job graph, node health, and contributor leaderboard on the dashboard  
-- Explore the full API in **API.md**  
-- Join community discussions and file issues on GitHub
-
-Congratulations, you’re now a NexaPod contributor! 🎉
+Congratulations, you are now a contributor to the NEXAPod compute mesh! 🎉

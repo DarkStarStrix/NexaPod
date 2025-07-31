@@ -204,6 +204,8 @@ Untrusted:
 
 ## Installation & Setup
 
+For detailed instructions on how to join the network as a contributor, please see the official **[ONBOARDING.md](ONBOARDING.md)** guide. The primary method is using the `nexapod` CLI tool.
+
 ### Quick Start (Docker Compose)
 ```bash
 # Clone and change directory
@@ -226,22 +228,24 @@ kubectl rollout status deployment/nexapod-client
 
 ## Onboarding & First Contribution
 
-1. Generate or ensure you have an Ed25519 private key:
+The official onboarding process is detailed in **[ONBOARDING.md](ONBOARDING.md)**. The steps below are a technical summary.
+
+1. Install the `nexapod` CLI from the root of this repository.
+2. Configure your coordinator endpoint in `~/.nexapod/config.yaml`.
+3. Pull the latest client image:
    ```bash
-   python Client/nexapod_client.py join
+   nexapod --pull
    ```
-   - This will generate `~/.nexapod/client_ed25519.key` and register your node with the coordinator.
-2. Start the client runner:
+4. Start the client runner:
    ```bash
-   python Client/nexapod_client.py run
+   nexapod
    ```
-3. Monitor your node metrics:
-   - Prometheus scrape at http://<client-host>:9000/metrics
-4. Submit your first job as a researcher:
+5. Monitor your node via the dashboard and local logs.
+6. To submit a job (as a researcher), use the API:
    ```bash
+   # This is a conceptual example. The server needs a mechanism to create jobs.
    curl -X POST http://<coordinator-host>:8000/jobs \
      -H "Content-Type: application/json" \
      -d '{"job_id":"job_001","docker_image":"python:3.9","requirements":{"ram_gb":1.0}}'
    ```
-5. Observe assignment, execution, and quorum finalization in logs and dashboard.
-````
+7. Observe assignment, execution, and finalization in logs and the dashboard.

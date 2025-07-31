@@ -1,4 +1,5 @@
 import json
+import yaml
 from datetime import datetime
 from typing import List, Dict, Tuple
 
@@ -6,6 +7,8 @@ import networkx as nx
 import numpy as np
 import plotly.graph_objects as go
 import streamlit as st
+
+from comms import CoordinatorClient
 
 st.set_page_config(
     page_title="NEXAPod Dashboard",
@@ -272,83 +275,18 @@ class NEXAPodDashboard:
         self.initialize_session_state()
 
     def initialize_session_state(self):
-        """Initialize session state variables."""
+        """Fetch live nodes and jobs from coordinator."""
+        if 'coord' not in st.session_state:
+            cfg = yaml.safe_load(open("config.yaml"))
+            st.session_state.coord = CoordinatorClient({
+                "coordinator_url": cfg["coordinator_url"]
+            })
         if 'nodes' not in st.session_state:
-            st.session_state.nodes = self.generate_demo_nodes(10)
+            st.session_state.nodes = st.session_state.coord.get_nodes()
         if 'jobs' not in st.session_state:
-            st.session_state.jobs = self.generate_demo_jobs(6)
+            st.session_state.jobs = st.session_state.coord.get_jobs_list()
         if 'last_update' not in st.session_state:
             st.session_state.last_update = datetime.now()
-
-    @staticmethod
-    def generate_demo_nodes(count: int) -> List[Dict]:
-        """Generate realistic demo node data."""
-        tiers = ['CPU', 'CONSUMER_GPU', 'HPC']
-        statuses = ['Active', 'Busy', 'Maintenance', 'Offline']
-        regions = ['US-East', 'US-West', 'EU-Central', 'APAC', 'Americas']
-        nodes = []
-
-        for i in range(count):
-            tier = np.random.choice(tiers, p=[0.6, 0.3, 0.1])
-            status = np.random.choice(statuses, p=[0.7, 0.2, 0.07, 0.03])
-            node = {
-                'id': f"node_{i:03d}",
-                'tier': tier,
-                'status': status,
-                'region': np.random.choice(regions),
-                'profile': {
-                    'cpu': f"Intel Xeon E5-{2600 + i*10}",
-                    'cores': int(np.random.randint(8, 32)),
-                    'ram_gb': int(np.random.choice([16, 32, 64, 128])),
-                    'uptime_hours': int(np.random.randint(100, 8000))
-                },
-                'metrics': {
-                    'jobs_completed': int(np.random.randint(50, 800)),
-                    'cpu_usage': int(np.random.randint(20, 85)),
-                    'memory_usage': int(np.random.randint(25, 75)),
-                    'reputation_score': round(np.random.uniform(0.8, 1.0), 3),
-                    'credits_earned': round(np.random.uniform(500, 8000), 2)
-                }
-            }
-            nodes.append(node)
-        return nodes
-
-    @staticmethod
-    def generate_demo_jobs(count: int) -> List[Dict]:
-        """Generate demo job data."""
-        job_types = ['protein_folding', 'weather_simulation',
-                     'quantum_computation', 'materials_modeling',
-                     'ml_training', 'molecular_dynamics']
-        statuses = ['Queued', 'Running', 'Completed', 'Failed']
-        jobs = []
-
-        for i in range(count):
-            job_type = np.random.choice(job_types)
-            status = np.random.choice(statuses, p=[0.2, 0.3, 0.45, 0.05])
-            job = {
-                'id': f"job_{i:04d}",
-                'type': job_type,
-                'status': status,
-                'submitter': f"researcher_{chr(97 + i % 5)}",
-                'progress': (
-                    int(np.random.randint(0, 100))
-                    if status == 'Running'
-                    else (
-                        100
-                        if status == 'Completed'
-                        else 0
-                    )
-                ),
-                'credits_allocated': round(
-                    np.random.uniform(50, 500), 2
-                ),
-                'estimated_time': (
-                    f"{np.random.randint(30, 240)} min"
-                )
-            }
-            jobs.append(job)
-        return jobs
-
 
 def main():
     """Main NEXAPod Dashboard application."""
@@ -367,7 +305,7 @@ def main():
                               value=10)
 
         if st.button("Regenerate Network"):
-            st.session_state.nodes = dashboard.generate_demo_nodes(node_count)
+            st.session_state.nodes = st.session_state.coord.get_nodes()
             st.rerun()
 
         st.subheader("Filters")
@@ -389,6 +327,8 @@ def main():
         st.write(f"**Last Update:** {last_update_time}")
 
         if st.button("Refresh Dashboard"):
+            st.session_state.nodes = st.session_state.coord.get_nodes()
+            st.session_state.jobs = st.session_state.coord.get_jobs_list()
             st.session_state.last_update = datetime.now()
             st.rerun()
 
@@ -424,14 +364,10 @@ def main():
 
     # Network Globe
     st.header("Real-Time Network Globe")
-    st.markdown("<p style='text-align:center; color:#e74c3c;'>Disclaimer: "
-                "This is demo data only</p>", unsafe_allow_html=True)
 
+    # always use real nodes fetched via comms
     if filtered_nodes:
-        if len(filtered_nodes) != len(st.session_state.nodes):
-            display_nodes = filtered_nodes
-        else:
-            display_nodes = st.session_state.nodes[:node_count]
+        display_nodes = filtered_nodes[:node_count]
         globe_network = SpinningGlobeNetwork(display_nodes)
         fig = globe_network.create_visualization()
 

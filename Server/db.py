@@ -157,6 +157,23 @@ class DB:
         rows = c.fetchall()
         return [(job_id, json.loads(job_json)) for job_id, job_json in rows]
 
+    def get_all_jobs(self):
+        """Return a list of all jobs."""
+        c = self.conn.cursor()
+        c.execute(
+            "SELECT job_id, job, assigned_node, status FROM jobs"
+        )
+        rows = c.fetchall()
+        return [
+            {
+                "job_id": row[0],
+                "job": json.loads(row[1]),
+                "assigned_node": row[2],
+                "status": row[3],
+            }
+            for row in rows
+        ]
+
     def assign_job_to_node(self, job_id, node_id):
         """Mark a job as assigned to a specific node."""
         c = self.conn.cursor()

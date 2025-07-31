@@ -1,4 +1,6 @@
 import time
+from typing import Any
+
 import requests
 
 
@@ -17,7 +19,7 @@ class CoordinatorClient:
         else:
             raise Exception(f"Registration failed: {resp.text}")
 
-    def poll_job(self) -> dict:
+    def poll_job(self) -> Any | None:
         """Poll coordinator for a new job."""
         resp = requests.get(
             f"{self.url}/job",
@@ -43,7 +45,7 @@ class CoordinatorClient:
         return resp.json()
 
     def get_status(self) -> dict:
-        """Check node status with coordinator."""
+        """Check the node status with coordinator."""
         resp = requests.get(
             f"{self.url}/status",
             params={'node_id': self.node_id}
@@ -51,6 +53,20 @@ class CoordinatorClient:
         if resp.ok:
             return resp.json()
         raise Exception(f"Status check failed: {resp.text}")
+
+    def get_nodes(self) -> list:
+        """Fetch list of all registered nodes."""
+        resp = requests.get(f"{self.url}/nodes")
+        if resp.ok:
+            return resp.json()
+        raise Exception(f"Failed to fetch nodes: {resp.text}")
+
+    def get_jobs_list(self) -> list:
+        """Fetch list of all jobs in the system."""
+        resp = requests.get(f"{self.url}/jobs")
+        if resp.ok:
+            return resp.json()
+        raise Exception(f"Failed to fetch jobs: {resp.text}")
 
 
 def get_node_profile() -> dict:

@@ -183,49 +183,6 @@ For detailed protocol specifications, see **[PROTOCOL.md](PROTOCOL.md)**.
 6. Result archived with cryptographic proof
 ```
 
----
-
-## Development Phases
-
-### Phase 1: Core Infrastructure ✅
-- [x] Basic node registration and profiling
-- [x] Job queue and scheduler
-- [x] SQLite database backend
-- [x] REST API endpoints
-- [x] Hash validation and redundancy
-- [x] Live dashboard with network visualization
-
-### Phase 2: Field Agnostic Generalization ✅
-- [x] Generalized job descriptor schema
-- [x] Container-based execution sandbox
-- [x] Support for diverse workloads (weather, materials, quantum)
-- [x] Output validation framework
-- [x] Input fetching from S3/IPFS
-- [x] Signed result archives
-
-### Phase 3: Distributed Mesh & Security ✅
-- [x] Ed25519 keypair per node
-- [x] Fully signed log trails
-- [x] P2P communication (libp2p prototype)
-- [x] Job replication and fallback
-- [x] Zero-knowledge proof research
-- [x] Abuse protection and rate limiting
-
-### Phase 4: Incentivization & Reputation ✅
-- [x] Nexa Credits token system
-- [x] Job bounties and sponsorship
-- [x] Reputation tracking
-- [x] Compute marketplace dashboard
-
-### Phase 5: Public Launch (In Progress)
-- [ ] Public onboarding UI
-- [ ] Documentation portal
-- [ ] Scientific problem examples
-- [ ] Community challenge programs
-- [ ] Research publication pipeline
-
----
-
 ## API Reference
 
 For complete API documentation with examples, see **[API.md](API.md)**.
@@ -275,23 +232,11 @@ For detailed security architecture, see **[ARCHITECTURE.md](ARCHITECTURE.md#secu
 - **Hash Verification**: Results validated through SHA-256 comparison
 - **Append-Only Ledger**: Immutable audit trail of all operations
 
-### Trust Mechanisms
-1. **Redundant Execution**: Jobs run on multiple nodes
-2. **Consensus Validation**: Results accepted only with matching hashes
-3. **Reputation System**: Track node reliability over time
-4. **Rate Limiting**: Prevent spam and abuse
-
-### Threat Mitigation
-- **Byzantine Nodes**: Detected through result comparison
-- **Sybil Attacks**: Mitigated by reputation requirements
-- **Data Integrity**: Ensured through cryptographic proofs
-- **Availability**: Maintained through mesh redundancy
-
 ---
 
 ## Installation & Setup
 
-Add detailed K8s and Docker Compose onboarding, plus CLI steps.
+For the primary guide on joining the network, see **[ONBOARDING.md](ONBOARDING.md)**.
 
 ### Quick Start (Docker Compose)
 ```bash
@@ -314,16 +259,12 @@ kubectl rollout status deployment/nexapod-client
 ```
 
 ### Register Your Node (Onboarding)
-1. Ensure you have a private key (generated on first join).
-2. Run the join command on your node machine:
-   ```bash
-   python Client/nexapod_client.py join
-   ```
-3. You should see "Node registered with coordinator." and your `node_id` saved in config.
+The node registration process is handled automatically by the `nexapod` client. Please follow the steps in **[ONBOARDING.md](ONBOARDING.md)** to configure and run the client.
 
 ### Start Polling for Jobs
 ```bash
-python Client/nexapod_client.py run
+# This command starts the client, which polls for jobs.
+nexapod
 ```
 The client will expose metrics on port 9000 (`/metrics`).
 
@@ -336,39 +277,7 @@ The client will expose metrics on port 9000 (`/metrics`).
 
 ## Onboarding & First Contribution
 
-Follow these steps to get started as a compute contributor:
-
-1. Fork the NexaPod repository and clone your fork:
-   ```bash
-git clone https://github.com/<your-username>/nexapod.git
-cd nexapod
-   ```
-2. Install prerequisites:
-   ```bash
-pip install -r requirements.txt
-docker-compose --version
-kubectl version --client
-   ```
-3. Build and deploy the system with Docker Compose or Kubernetes (see above).
-4. Register your compute node:
-   ```bash
-python Client/nexapod_client.py join
-``` 
-   - This generates your Ed25519 key if needed and registers you as a node.
-5. Start your runner:
-   ```bash
-python Client/nexapod_client.py run
-```
-6. Monitor your node:
-   - Check client logs and metrics on http://localhost:9000/metrics
-   - View overall system status in dashboard and Grafana.
-7. Submit your first job (as a researcher):
-   ```bash
-curl -X POST http://localhost:8000/jobs \
-  -H "Content-Type: application/json" \
-  -d '{"job_id":"job_001","docker_image":"python:3.9","requirements":{"ram_gb":1.0}}'
-```
-8. Observe job assignment and execution in logs, then result finalization via quorum on the server.
+Follow the steps in **[ONBOARDING.md](ONBOARDING.md)** to get started as a compute contributor. The process uses the `nexapod` CLI tool to simplify joining the network.
 
 Congratulations, you are now part of the NexaPod compute mesh!
 

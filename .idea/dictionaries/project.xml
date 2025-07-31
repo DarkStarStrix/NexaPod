@@ -3,17 +3,22 @@
     <words>
       <w>boinc</w>
       <w>currentvalue</w>
+      <w>displaylogo</w>
+      <w>ecef</w>
       <w>nexapod</w>
       <w>nframes</w>
       <w>postgre</w>
+      <w>showarrow</w>
       <w>testjob</w>
       <w>testnode</w>
       <w>tflo</w>
+      <w>tflops</w>
       <w>trustless</w>
       <w>unpkg</w>
       <w>usdc</w>
       <w>xanchor</w>
       <w>yanchor</w>
+      <w>yref</w>
     </words>
   </dictionary>
 </component>

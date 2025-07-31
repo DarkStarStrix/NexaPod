@@ -36,6 +36,7 @@ def load_config() -> dict:
 
 def main():
     """Entry point for NEXAPod client node."""
+    global key
     parser = argparse.ArgumentParser(description='NEXAPod Client Node')
     parser.add_argument(
         'command',

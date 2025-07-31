@@ -116,6 +116,16 @@ def create_app() -> FastAPI:
         job_submitted_counter.inc()
         return {"status": "job added"}
 
+    @app.get("/nodes")
+    async def get_all_nodes():
+        """Return a list of all registered nodes for the dashboard."""
+        return db.get_all_nodes()
+
+    @app.get("/jobs/all")
+    async def get_all_jobs():
+        """Return a list of all jobs for the dashboard."""
+        return db.get_all_jobs()
+
     @app.get("/metrics")
     async def metrics():
         """Expose Prometheus metrics endpoint."""
@@ -133,10 +143,12 @@ def create_app() -> FastAPI:
 def main():
     """Run the Uvicorn server."""
     app = create_app()
+    config = load_config()
+    port = int(os.environ.get("PORT", config.get("port", 8000)))
     uvicorn.run(
         app,
         host="0.0.0.0",
-        port=8000
+        port=port
     )
 
 
