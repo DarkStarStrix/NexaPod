@@ -2,7 +2,7 @@
 
 # NEXAPod: Distributed Compute Fabric for Scientific Problems
 
-[![CI](https://github.com/kunya66/NexaPod/actions/workflows/ci.yml/badge.svg)](https://github.com/kunya66/NexaPod/actions/workflows/ci.yml)
+[![CI/CD Pipeline](https://github.com/DarkStarStrix/NexaPod/actions/workflows/ci.yml/badge.svg)](https://github.com/DarkStarStrix/NexaPod/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 *NEXAPod seamlessly unites diverse computing resources—from consumer GPUs to high-end clusters—to tackle large-scale scientific challenges.*
