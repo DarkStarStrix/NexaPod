@@ -25,27 +25,68 @@ jobs:
         run: |
           echo "No tests configured. Passing by default."
 
-  # build_and_push:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #
-  #     - name: Log in to GitHub Container Registry
-  #       uses: docker/login-action@v2
-  #       with:
-  #         registry: ghcr.io
-  #         username: ${{ github.actor }}
-  #         password: ${{ secrets.GITHUB_TOKEN }}
-  #
-  #     - name: Build and push server image with cache
-  #       uses: docker/build-push-action@v4
-  #       with:
-  #         context: .
-  #         file: ./Infrastructure/Dockerfile.server
-  #         push: true
-  #         tags: ghcr.io/${{ github.repository](#)
+  build_and_push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push server image with cache
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Infrastructure/Dockerfile.server
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/nexapod-server:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push client image with cache
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Infrastructure/Dockerfile.client
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/nexapod-client:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+#  deploy:
+#    needs: build_and_push
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Deploy to DigitalOcean
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.DO_HOST }}
+#          username: ${{ secrets.DO_USERNAME }}
+#          key: ${{ secrets.DO_SSH_KEY }}
+#          script: |
+#            OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+#            # Log in to GHCR using a long-lived Deploy Token
+#            echo ${{ secrets.DEPLOY_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+#
+#            # Stop and remove the old container if it exists
+#            docker stop nexapod-server || true
+#            docker rm nexapod-server || true
+#
+#            # Pull the latest server image
+#            docker pull ghcr.io/$OWNER_LC/nexapod-server:latest
+#
+#            # Run the new container
+#            docker run -d \
+#              --name nexapod-server \
+#              --restart always \
+#              -p 8000:8000 \
+#              ghcr.io/$OWNER_LC/nexapod-server:latest
