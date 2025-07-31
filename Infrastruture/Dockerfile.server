@@ -3,8 +3,8 @@ ENV APP_USER=nexapod
 RUN addgroup --system $APP_USER && adduser --system --ingroup $APP_USER $APP_USER
 WORKDIR /app
 
-# Copy requirements first to leverage Docker layer caching
-COPY requirements.txt .
+# Copy server-specific requirements and install them
+COPY ./Server/requirements.txt .
 # Upgrade pip and then install packages
 RUN python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt

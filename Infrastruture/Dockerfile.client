@@ -3,13 +3,17 @@ ENV APP_USER=nexapod
 RUN addgroup --system $APP_USER && adduser --system --ingroup $APP_USER $APP_USER
 WORKDIR /app
 
-# bring in client code, model weights, and runner
-COPY Client/ /app/
-COPY Runner/ /app/        # <— ensure your runner.py lands in /app/
-COPY safe_tensors/ /app/safe_tensors/
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy client-specific requirements and install them
+COPY ./Client/requirements.txt .
+RUN python -m pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY ./Client /app/Client
+COPY ./Runner /app/Runner
+COPY ./safe_tensors /app/safe_tensors
 
 USER $APP_USER
-ENV CLIENT_CONFIG=/app/config.yaml
-CMD ["python", "runner.py"]
+# The client is run via the nexapod CLI, which specifies the command.
+# We can have a default command for dashboard or runner.
+CMD ["python", "-m", "Client.dashboard"]
