@@ -54,24 +54,14 @@ NexaPod aims to be a modern successor. Key differences include:
 
 ---
 
-## 4. Deployment (CI/CD)
+## 4. CI/CD (Build & Publish)
 
-This project uses a GitHub Actions workflow for continuous integration and deployment. The pipeline is defined in `.github/workflows/ci.yml` and consists of three stages:
+This project uses a GitHub Actions workflow for continuous integration. The pipeline is defined in `.github/workflows/ci.yml` and consists of two main stages for every push to the `main` branch:
 
-1.  **Test:** Runs automated tests to ensure code quality.
-2.  **Build & Push:** Builds the `server` and `client` Docker images and pushes them to GitHub Container Registry (GHCR). This makes the client available for public download.
-3.  **Deploy:** Automatically deploys the latest server image to a DigitalOcean VPS.
+1.  **Test:** Runs automated tests to ensure code quality and integration.
+2.  **Build & Push:** Builds the `server` and `client` Docker images and pushes them to GitHub Container Registry (GHCR). This makes the latest client available for public download and the server image ready for manual deployment.
 
-### DigitalOcean Server Setup
-
-To enable automated deployments, you need to set up a DigitalOcean droplet and add the following secrets to your GitHub repository's "Actions secrets" settings:
-
--   `DO_HOST`: The public IP address of your droplet.
--   `DO_USERNAME`: The username for SSH access (e.g., `root`).
--   `DO_SSH_KEY`: The private SSH key used to access your droplet.
--   `DEPLOY_TOKEN`: A GitHub Personal Access Token (classic) with `read:packages` scope. This is used by the server to pull images from GHCR and is more reliable for deployment than the default short-lived token.
-
-The deployment script on the server will handle stopping the old container, pulling the new image, and starting the updated container.
+Deployment to a production or staging server is currently a manual process. The Dockerfiles are optimized to use build caching, ensuring that only changed layers are rebuilt, which significantly speeds up the pipeline.
 
 ---
 
@@ -85,18 +75,28 @@ To contribute your compute power to the public network, please follow the offici
 
 This uses the `nexapod` CLI to securely download and run the client.
 
-### For Developers (Running Locally)
-To run the entire stack (server, client, monitoring) locally for development:
+### For Developers (Running Locally with Docker Compose)
+To run the entire stack (server, client, monitoring) locally using the pre-built images from the registry:
 1.  **Prerequisites:** Docker and Docker Compose.
-2.  **Install Dependencies:**
+2.  **Log in to GHCR (first time only):**
     ```bash
-    pip install -r requirements.txt
+    # Use a Personal Access Token (classic) with read:packages scope.
+    echo "YOUR_PAT_TOKEN" | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
     ```
-3.  **Launch Services:**
+3.  **Pull the latest images:**
     ```bash
-    docker-compose up --build -d
+    docker-compose pull
     ```
-This will start the server, a local client, Prometheus, and Grafana.
+4.  **Launch Services:**
+    ```bash
+    docker-compose up -d
+    ```
+This will start the server, a local client, Prometheus, and Grafana. To stop the services, run `docker-compose down`.
+
+#### Monitoring Dashboard (Local)
+Once the services are running, you can access the monitoring stack:
+-   **Prometheus:** `http://localhost:9090` (View metrics and service discovery)
+-   **Grafana:** `http://localhost:3000` (Create dashboards; default user/pass: `admin`/`admin`)
 
 ---
 
@@ -142,4 +142,4 @@ PRs and issues are welcome! See **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)**
 
 ## 9. License
 
-MIT License. See [LICENSE](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -2,19 +2,15 @@ version: '3.8'
 services:
   nexapod-server:
     restart: always
-    build:
-      context: Infrastructure
-      dockerfile: Dockerfile.server
+    image: ghcr.io/darkstarstrix/nexapod-server:latest
     ports:
       - "8000:8000"
     volumes:
-      - ./Infrastructure/k8s/nexapod-server-config.yaml:/app/config.yaml:ro
+      - ./Server/config.yaml:/app/config.yaml:ro
 
   nexapod-client:
     restart: always
-    build:
-      context: Infrastructure
-      dockerfile: Dockerfile.client
+    image: ghcr.io/darkstarstrix/nexapod-client:latest
     depends_on:
       - nexapod-server
     environment:
@@ -28,10 +24,17 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./Infrastructure/k8s/prometheus-scrape-nexapod.yaml:/etc/prometheus/prometheus.yml:ro
+      - ./Infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
 
   grafana:
     image: grafana/grafana:latest
     restart: always
     ports:
       - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  prometheus_data:
+  grafana_data:

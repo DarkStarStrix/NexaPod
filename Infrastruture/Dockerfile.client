@@ -16,4 +16,7 @@ COPY ./safe_tensors /app/safe_tensors
 USER $APP_USER
 # The client is run via the nexapod CLI, which specifies the command.
 # We can have a default command for dashboard or runner.
-CMD ["python", "-m", "Client.dashboard"]
+EXPOSE 8501
+HEALTHCHECK --interval=15s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:8501/ || exit 1
+CMD ["streamlit", "run", "Client/dashboard.py"]
