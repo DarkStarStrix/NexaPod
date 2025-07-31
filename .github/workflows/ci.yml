@@ -57,8 +57,8 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           script: |
             OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-            # Log in to GHCR
-            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            # Log in to GHCR using a long-lived Deploy Token
+            echo ${{ secrets.DEPLOY_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
             # Stop and remove the old container if it exists
             docker stop nexapod-server || true

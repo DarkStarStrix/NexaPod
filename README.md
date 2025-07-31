@@ -69,7 +69,7 @@ To enable automated deployments, you need to set up a DigitalOcean droplet and a
 -   `DO_HOST`: The public IP address of your droplet.
 -   `DO_USERNAME`: The username for SSH access (e.g., `root`).
 -   `DO_SSH_KEY`: The private SSH key used to access your droplet.
--   `GITHUB_TOKEN`: A GitHub Personal Access Token with `read:packages` and `write:packages` scopes to allow the droplet to pull images from GHCR.
+-   `DEPLOY_TOKEN`: A GitHub Personal Access Token (classic) with `read:packages` scope. This is used by the server to pull images from GHCR and is more reliable for deployment than the default short-lived token.
 
 The deployment script on the server will handle stopping the old container, pulling the new image, and starting the updated container.
 

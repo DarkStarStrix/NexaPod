@@ -4,35 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Update CI configuration for Docker build and deployment; fix paths in Dockerfiles and update requirements">
-      <changelist_data name="Darkstalker" email="allanw.mk@gmail.com" automatic="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/runner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RELEASE_NOTES.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilotDiffState.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/comms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/comms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/dashboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/nexapod_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/nexapod_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Docs/API.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/API.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Docs/ARCHITECTURE.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/ARCHITECTURE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Docs/Doc.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/Doc.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Docs/ONBOARDING.md" beforeDir="false" afterPath="$PROJECT_DIR$/Docs/ONBOARDING.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastructure/k8s/client.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastructure/k8s/client.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastruture/Dockerfile.client" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastruture/Dockerfile.client" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Infrastruture/Dockerfile.server" beforeDir="false" afterPath="$PROJECT_DIR$/Infrastruture/Dockerfile.server" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Server/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nexapod/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/nexapod/__init__.py" afterDir="false" />
-    </list>
+    <list default="true" id="e3e46536-bf33-4ffe-b6c8-14f60b51b62e" name="Changes" comment="Update CI configuration to use lowercase repository owner in Docker image tags and pull commands" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -90,30 +62,30 @@
     <option name="showLibraryContents" value="true" />
     <option name="showScratchesAndConsoles" value="false" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.check_lint.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SHELLCHECK.PATH": "C:\\Users\\kunya\\AppData\\Roaming\\JetBrains\\PyCharm2025.1\\plugins\\Shell Script\\shellcheck.exe",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/kunya/PycharmProjects/Auto_Api",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "terminal",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.check_lint.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\kunya\\AppData\\Roaming\\JetBrains\\PyCharm2025.1\\plugins\\Shell Script\\shellcheck.exe&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kunya/PycharmProjects/Auto_Api&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": []
+  &quot;keyToStringList&quot;: {
+    &quot;stardust.markdown.MarkdownSplitEditorSuppressor:keyList&quot;: []
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="check_lint" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="NexaPod" />
@@ -188,7 +160,9 @@
     <MESSAGE value="Rename Infrastruture to Infrastructure and improve error logging in replication.py" />
     <MESSAGE value="Add Dockerfile for client and server; update CI to build images from the current directory" />
     <MESSAGE value="Update CI configuration for Docker build and deployment; fix paths in Dockerfiles and update requirements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update CI configuration for Docker build and deployment; fix paths in Dockerfiles and update requirements" />
+    <MESSAGE value="Refactor project structure and improve API functionality; rename Infrastruture to Infrastructure, add job and node management endpoints, and enhance Docker configurations" />
+    <MESSAGE value="Update CI configuration to use lowercase repository owner in Docker image tags and pull commands" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update CI configuration to use lowercase repository owner in Docker image tags and pull commands" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NexaPod$check_lint.coverage" NAME="check_lint Coverage Results" MODIFIED="1753828085409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />

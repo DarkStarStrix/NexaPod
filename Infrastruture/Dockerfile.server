@@ -7,9 +7,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy only the necessary application code for the server
-COPY Infrastructure/ /app/Infrastructure/
+# Copy application code
+COPY ./Infrastructure /app/Infrastructure
+COPY ./Server /app/Server
 
 USER $APP_USER
 EXPOSE 8000
-CMD ["python", "-m", "Infrastructure.api"]
+CMD ["python", "-m", "Server.app"]
