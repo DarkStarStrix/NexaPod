@@ -92,9 +92,14 @@ Deployment to production/staging is currently manual, allowing for controlled an
 Docker Usage
 To run the latest application container:
 
+'''
 bash
 docker pull ghcr.io/darkstarstrix/nexapod:latest
+'''
+
+'''
 docker run --rm ghcr.io/darkstarstrix/nexapod:latest
+'''
 
 ---
 
