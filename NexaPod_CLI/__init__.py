@@ -8,5 +8,9 @@ def descriptor():
     return JobDescriptor
 
 
-def descriptor():
-    return None
+def cli():
+    """
+    Runs the CLI application.
+    """
+    from .main import main
+    main()

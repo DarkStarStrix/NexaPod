@@ -1,7 +1,7 @@
 """
 Performance estimation utilities.
 """
-from nexapod.descriptor import JobDescriptor
+from NexaPod_CLI.descriptor import JobDescriptor
 
 
 def estimate_flops(desc: JobDescriptor) -> float:

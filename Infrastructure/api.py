@@ -19,10 +19,10 @@ def register():
     data = request.get_json()
     if not data or 'node_id' not in data or 'profile' not in data:
         return jsonify({"error": "Invalid registration data"}), 400
-
+    
     node_id = data['node_id']
     profile = data['profile']
-
+    
     db.store_node(node_id, json.dumps(profile))
     return jsonify({"status": "registered", "node_id": node_id})
 
@@ -38,7 +38,7 @@ def get_job():
     if job:
         db.store_job(job)
         return jsonify(job)
-
+    
     return jsonify({"status": "no_job_available"})
 
 
@@ -48,7 +48,7 @@ def submit_result():
     data = request.get_json()
     if not data or 'job_id' not in data or 'result' not in data:
         return jsonify({"error": "Invalid result submission"}), 400
-
+    
     db.update_job_result(data['job_id'], json.dumps(data['result']))
     return jsonify({"status": "result_received", "job_id": data['job_id']})
 

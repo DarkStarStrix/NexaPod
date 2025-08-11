@@ -2,7 +2,7 @@
 Container runner using Docker to execute jobs in isolation.
 """
 import docker
-from nexapod.descriptor import JobDescriptor
+from NexaPod_CLI.descriptor import JobDescriptor
 
 
 class ContainerRunner:

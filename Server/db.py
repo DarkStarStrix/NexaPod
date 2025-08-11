@@ -195,7 +195,7 @@ class DB:
             }
             for row in rows
         ]
-
+    
     def close(self):
         """Safely closes the database connection."""
         if self.conn:

@@ -64,53 +64,86 @@ NexaPod aims to be a modern successor. Key differences include:
 ---
 
 ## 4. DevOps & Containers
-Automated CI/CD with GitHub Actions (see workflow)
-Containerized builds using uv for Python dependency management and Docker for consistent environments
-Pre-built containers published to GitHub Packages
-Reproducible Python environments (Python 3.10+)
-Apache 2.0 Licensed
-CI/CD (Build & Publish)
 This project uses a robust GitHub Actions workflow for continuous integration and delivery. The pipeline includes:
+-   **Test Stage:** Runs automated tests for quality and reliability.
+-   **Build & Push Stage:** Builds server and client Docker images and pushes them to GitHub Container Registry (GHCR).
+-   **Artifact Storage:** Stores build artifacts for traceability.
 
-Test Stage:
-
-Runs automated tests for quality and reliability
-Verifies compatibility with Python 3.10+ using uv
-Fails fast on errors to prevent introducing broken code
-Build & Push Stage:
-
-Builds both server and client Docker images using optimized, multi-stage Dockerfiles
-Uses Docker layer caching to accelerate builds
-Pushes images to GitHub Container Registry (GHCR) for public download and deployment
-Artifact Storage:
-
-Stores build artifacts for traceability and debugging
-Artifacts downloadable from the GitHub Actions UI
-Deployment:
 Deployment to production/staging is currently manual, allowing for controlled and verified rollouts.
-
-Docker Usage
-To run the latest application container:
-
-```bash
-docker pull ghcr.io/darkstarstrix/nexapod:latest
-```
-
-```bash
-docker run --rm ghcr.io/darkstarstrix/nexapod:latest
-```
 
 ---
 
 ## 5. Getting Started
 
-There are two main ways to run the project:
+There are two main ways to run the project: using the installed package or running the script directly.
 
-### For Contributors (Joining the Public Mesh)
-To contribute your compute power to the public network, please follow the official guide:
--   **[Docs/ONBOARDING.md](Docs/ONBOARDING.md)**
+### Method 1: Install and Use `nexapod-cli` (Recommended)
 
-This uses the `nexapod` CLI to securely download and run the client.
+This method installs the project as a command-line tool, `nexapod-cli`, which you can run from anywhere.
+
+#### 1. Installation
+
+Open a terminal in the project's root directory and run:
+
+```bash
+pip install -e .
+```
+
+#### 2. Usage
+
+After installation, you can use the `nexapod-cli` command with one of the available subcommands:
+
+**To set up the client:**
+
+```bash
+nexapod-cli setup
+```
+
+**To run a specific job:**
+
+```bash
+nexapod-cli run <your-job-id>
+```
+
+*Example:*
+
+```bash
+nexapod-cli run job-12345
+```
+
+**To start the client worker:**
+
+```bash
+nexapod-cli start
+```
+
+### Method 2: Run the Script Directly (For Development)
+
+This method is useful for development as it runs the CLI without installation.
+
+#### For Bash users (Linux, macOS, Git Bash on Windows):
+
+1.  Make the script executable (only needs to be done once):
+    ```bash
+    chmod +x scripts/NexaPod.sh
+    ```
+2.  Run the script from the project root:
+    ```bash
+    ./scripts/NexaPod.sh setup
+    ./scripts/NexaPod.sh run my-job-123
+    ```
+
+#### For PowerShell users (Windows):
+
+1.  Open a PowerShell terminal. You may need to allow script execution for the current session:
+    ```powershell
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+    ```
+2.  Run the script from the project root:
+    ```powershell
+    .\scripts\NexaPod.ps1 setup
+    .\scripts\NexaPod.ps1 run my-job-123
+    ```
 
 ### For Developers (Running Locally with Docker Compose)
 To run the entire stack (server, client, monitoring) locally using the pre-built images from the registry:
@@ -141,14 +174,13 @@ Once the services are running, you can access the monitoring stack:
 
 ```
 nexapod/
-├── client/           # Worker node agent code
-├── server/           # Coordinator server (API, scheduler)
-├── Infrastructure/   # Dockerfiles and Kubernetes manifests
-├── docs/             # Architecture, API, and Onboarding documentation
-├── scripts/          # Utility scripts
-├── tests/            # Unit and integration tests
-├── .github/          # CI/CD workflows
-├── nexapod           # The user-facing CLI tool
+├── NexaPod_CLI/    # The user-facing CLI tool
+├── client/         # Worker node agent code
+├── Infrastructure/ # Dockerfiles and Kubernetes manifests
+├── docs/           # Architecture, API, and Onboarding documentation
+├── scripts/        # Utility scripts
+├── tests/          # Unit and integration tests
+├── .github/        # CI/CD workflows
 └── docker-compose.yaml # Local development setup
 ```
 
@@ -174,3 +206,5 @@ nexapod/
 ## 8. Contributing
 
 PRs and issues are welcome! See **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)** for detailed guidelines.
+
+---

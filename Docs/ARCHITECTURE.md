@@ -8,40 +8,46 @@ NEXAPod is a distributed compute fabric for scientific workloads. It coordinates
 
 ### High-Level Component Diagram
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        NEXAPod System                           │
-├─────────────────────────────────────────────────────────────────┤
-│  Frontend Layer                                                │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
-│  │   Dashboard     │  │ Contributor Wall│  │   API Client    │ │
-│  │   (Streamlit)   │  │     (HTML)      │  │   (REST/CLI)    │ │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘ │
-├─────────────────────────────────────────────────────────────────┤
-│  API Layer                                                     │
-│  ┌─────────────────────────────────────────────────────────────┐ │
-│  │                    REST API (Flask)                        │ │
-│  │  /register  │  /submit-job  │  /status  │  /credits        │ │
-│  └─────────────────────────────────────────────────────────────┘ │
-├─────────────────────────────────────────────────────────────────┤
-│  Core Engine                                                   │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────┐ │
-│  │  Scheduler  │  │  Validator  │  │   Security  │  │ Ledger  │ │
-│  │   Queue     │  │   Engine    │  │   Manager   │  │ System  │ │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────┘ │
-├─────────────────────────────────────────────────────────────────┤
-│  Data Layer                                                    │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
-│  │   Node DB       │  │    Job DB       │  │   Credit DB     │ │
-│  │   (SQLite)      │  │   (SQLite)      │  │   (SQLite)      │ │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘ │
-├─────────────────────────────────────────────────────────────────┤
-│  Execution Layer                                               │
-│  ┌─────────────────────────────────────────────────────────────┐ │
-│  │                Container Runtime (Docker)                   │ │
-│  │  Input Fetcher │ Job Executor │ Output Archiver │ Logger   │ │
-│  └─────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    %% External Entry Point
+    Users[Users & External Nodes]
+    
+    %% Frontend Layer - Stacked horizontally
+    subgraph Frontend ["Frontend Layer"]
+        direction LR
+        Dashboard[Dashboard<br/>Streamlit] --> Wall[Contributor Wall<br/>HTML/CSS/JS] --> Client[API Client<br/>REST/CLI]
+    end
+    
+    %% API Layer - Single component
+    subgraph API ["API Layer"]
+        Flask[REST API - Flask<br/>register • submit-job • status • credits]
+    end
+    
+    %% Core Engine - Flow between components
+    subgraph Core ["Core Engine"]
+        direction LR
+        Scheduler[Job<br/>Scheduler] --> Validator[Result<br/>Validator] --> Security[Security<br/>Manager] --> Ledger[Credit<br/>Ledger]
+    end
+    
+    %% Data Layer - Connected databases
+    subgraph Data ["Data Layer"]
+        direction LR
+        NodeDB[Node DB<br/>SQLite] --> JobDB[Job DB<br/>SQLite] --> CreditDB[Credit DB<br/>SQLite]
+    end
+    
+    %% Execution Layer - Process flow
+    subgraph Execution ["Execution Layer"]
+        direction LR
+        Docker[Container Runtime<br/>Docker] --> Fetcher[Input<br/>Fetcher] --> Executor[Job<br/>Executor] --> Archiver[Output<br/>Archiver]
+    end
+    
+    %% Vertical connections between layers
+    Users --> Frontend
+    Frontend --> API
+    API --> Core
+    Core --> Data
+    Core --> Execution
 ```
 
 ### Detailed Dataflow

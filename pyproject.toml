@@ -3,7 +3,7 @@ name = "nexapod"
 version = "0.1.0"
 description = "Distributed compute fabric for scientific problems"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 
 dependencies = [
@@ -23,16 +23,20 @@ dependencies = [
   "pydantic==2.11.7",
   "pytest==8.4.1",
   "requests==2.32.4",
+  "rich>=13.0.0",
   "safetensors==0.5.3",
   "streamlit==1.47.0",
   "torch==2.7.1",
-  "uvicorn==0.35.0"
+  "uvicorn==0.35.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/yourusername/nexapod"
 Repository = "https://github.com/yourusername/nexapod"
 Issues = "https://github.com/yourusername/nexapod/issues"
+
+[project.scripts]
+nexapod-cli = "NexaPod_CLI.main:main"
 
 [tool.setuptools]
 
